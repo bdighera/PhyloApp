@@ -10,6 +10,9 @@ __pycache__/
 *.db
 */*.db
 
+#Exec FIles
+execs/
+
 
 #Exclude cache dirs
 .DS_Store
