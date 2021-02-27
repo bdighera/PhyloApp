@@ -11,6 +11,12 @@ __pycache__/
 */*.db
 
 
+#Exclude cache dirs
+.DS_Store
+.idea/
+
+
+
 # Distribution / packaging
 .Python
 build/
