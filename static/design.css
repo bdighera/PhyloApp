@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+.datsetdata1  {
+	margin:auto;
+	line-height: 20px;
+	background-color: #5ABDAC;
+	padding: 20px;
+	width: 270px;
+	border: outset #CCC;	
+	justify-content: center; 
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhyloPy - Ortholog Finding Tool</title>
+
+    <!-- Bootstrap -->
+    <link href="../static/bootstrap-4.4.1.css" rel="stylesheet">
+    <link href="../static/design.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+	 <h1>Ortholog Finding Tool</h1>
+  <div class="container-fluid">
+        <ul id="clothingnav2" class="nav nav-tabs" role="tablist">
+          <li class="nav-item"> <a class="nav-link active" href="#home1" id="hometab1" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a> </li>
+          <li class="nav-item"> <a class="nav-link" href="#paneTwo1" role="tab" id="hatstab1" data-toggle="tab" aria-controls="hats">Database Display</a> </li>
+          <!-- Dropdown -->
+          <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Display Image </a>
+            <div class="dropdown-menu"> <a class="dropdown-item" href="#tabDropDownOne1" role="tab" id="dropdownshoestab1" data-toggle="tab" aria-controls="dropdownShoes">Intron</a> <a class="dropdown-item" href="#tabDropDownTwo1" role="tab" id="dropdownbootstab1" data-toggle="tab" aria-controls="dropdownBoots">Domain</a><a class="dropdown-item" href="#tabDropDownTwo3" role="tab" id="dropdownbootstab3" data-toggle="tab" aria-controls="dropdownBoots">genomicContext</a> </div>
+          </li>
+        </ul>
+        <!-- Content Panel -->
+    <div id="clothingnavcontent1" class="tab-content">
+      <div role="tabpanel" class="tab-pane fade show active" id="home1" aria-labelledby="hometab1">
+       <h2> PhyloPy </h2>
+	<div class="datsetdata1">
+    <form action= "{{ url_for('InitialFigure') }}" method="get" name="Pylo">
+        <input type="text" name="name" id="name" /><br><br>
+
+            <label><input type="checkbox" name="intronsCheckBox" value="checkbox" id="intronsCheckBox">Analyze Introns</label>
+            <label><input type="checkbox" name="genomicContextCheckBox" value="checkbox" id="genomicContextCheckBox">Analyze Genomic Context</label>
+            <label><input type="checkbox" name="domainsCheckBox" value="checkbox" id="domainsCheckBox˚">Analyze Domains</label>
+            <label><input type="radio" name="CollectSeqs" value="radio" id="CollectSeqs">Collect Sequences</label>
+            <label><input type="radio" name="DisplaySeqs" value="radio" id="DisplaySeqs">Display Sequences</label>
+            <input type="file" id="submitFile" name="submitFile" accept="txt">
+            <input type="submit" value="submit" onclick=""/>
+        </form>
+        
+    </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="paneTwo1" aria-labelledby="hatstab1">
+          <p>Database Display goes here</p>
+
+          <script src="../static/getRequest.js">
+          </script>
+      </div>
+	  </div>
+
+ t<div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1" aria-labelledby="dropdownshoestab1">
+            <p>displlay json</p>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1" aria-labelledby="dropdownbootstab1">
+            <p>Display JSON</p>
+          </div>
+			<div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo3" aria-labelledby="dropdownbootstab3">
+            <p>Display JSON</p>
+          </div>
+  </div>
+	  </div>
+
+
+     <script src="../static/getRequest.js"></script>
+  <script src="../static/jquery-3.4.1.min.js"></script>
+  <script src="../static/popper.min.js"></script>
+  <script src="../static/bootstrap-4.4.1.js"></script>
+  </body>
+</html>
