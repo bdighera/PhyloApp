@@ -1,14 +1,28 @@
 <?php 
 include_once('connection.php'); 
-$query="select * from student"; 
-$result=mysql_query($query); 
 ?> 
 <!DOCTYPE html> 
 <html> 
 	<head> 
-		<title> Fetch Data From Database </title> 
+		<title> Sequence Records </title> 
 	</head> 
-	<body> 
+	<body>
+		<?php
+		$sql = "SELECT * FROM sequence records;";
+		$results = mysqli_query($conn, $sql);
+		$resultCheck = mysqli_num_rows($result);
+		if ($resultCheck > 0 ) {
+			while ($row = mysqli_fetch_assoc()) {
+				echo $rows['ProteinID'];
+				echo $rows['CommonName'];
+				echo $rows['ProteinID'];
+				echo $rows['CDSAccession'];
+				echo $rows['GenomicAccession'];
+				echo $rows['GeneID'];
+				echo $rows['Taxonomy'];
+			}
+		}
+		?>
 	<table align="center" border="1px" style="width:1000px; line-height:40px;"> 
 	<tr> 
 		<th colspan="7"><h2> Sequence Records</h2></th> 
@@ -22,21 +36,6 @@ $result=mysql_query($query);
 			  <th> Taxonomy </th>
 			  
 		</tr> 
-		
-		<?php while($rows=mysql_fetch_assoc($result)) 
-		{ 
-		?> 
-		<tr> <td><?php echo $rows['ProteinID']; ?></td> 
-		<td><?php echo $rows['CommonName']; ?></td> 
-		<td><?php echo $rows['ProteinID']; ?></td> 
-		<td><?php echo $rows['CDSAccession']; ?></td>
-		<td><?php echo $rows['GenomicAccession']; ?></td>
-		<td><?php echo $rows['GeneID']; ?></td>
-		<td><?php echo $rows['Taxonomy']; ?></td>
-		</tr> 
-	<?php 
-               } 
-          ?> 
 
 	</table> 
 	</body> 

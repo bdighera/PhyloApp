@@ -1,4 +1,7 @@
 <?php 
-mysql_connect('localhost','root',''); 
-mysql_select_db('demo'); 
+$dbServername = "localhost";
+$dbUsername = "root";
+$dbPassword = "";
+$dbName = "Records";
+$conn = mysqli_connect($dbServername, $dbUsername, $dbUsername, $dbPassowrd, $dbName);	
 ?>
