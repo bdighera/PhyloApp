@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -24,31 +23,31 @@
         <!-- Content Panel -->
     <div id="clothingnavcontent1" class="tab-content">
       <div role="tabpanel" class="tab-pane fade show active" id="home1" aria-labelledby="hometab1">
-       <h2> PhyloPy </h2>
-	<div class="datsetdata1">
-    <form action= "{{ url_for('InitialFigure') }}" method="get" name="Pylo">
-        <input type="text" name="name" id="name" /><br><br>
 
+          <h2> PhyloPy </h2>
+	<div class="datsetdata1">
+    <form action= "{{ url_for('InitialFigure') }}" method="get" name="name">
             <label><input type="checkbox" name="intronsCheckBox" value="checkbox" id="intronsCheckBox">Analyze Introns</label>
             <label><input type="checkbox" name="genomicContextCheckBox" value="checkbox" id="genomicContextCheckBox">Analyze Genomic Context</label>
             <label><input type="checkbox" name="domainsCheckBox" value="checkbox" id="domainsCheckBox˚">Analyze Domains</label>
             <label><input type="radio" name="CollectSeqs" value="radio" id="CollectSeqs">Collect Sequences</label>
             <label><input type="radio" name="DisplaySeqs" value="radio" id="DisplaySeqs">Display Sequences</label>
-            <input type="file" id="submitFile" name="submitFile" accept="txt">
+            <label>Paste Input: <input type="text" name="name" id="name"></label><br><br>
             <input type="submit" value="submit" onclick=""/>
         </form>
         
     </div>
+
+
       </div>
       <div role="tabpanel" class="tab-pane fade" id="paneTwo1" aria-labelledby="hatstab1">
-          <p>Database Display goes here</p>
 
-          <script src="../static/getRequest.js">
-          </script>
+		  <iframe width="1200px" height="1200px" src="http://127.0.0.1:5000/dB" name="Refresh" id="Refresh"></iframe>
+
       </div>
 	  </div>
 
- t<div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1" aria-labelledby="dropdownshoestab1">
+ <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1" aria-labelledby="dropdownshoestab1">
             <p>displlay json</p>
           </div>
           <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1" aria-labelledby="dropdownbootstab1">
@@ -59,8 +58,16 @@
           </div>
   </div>
 
+     <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1" aria-labelledby="dropdownshoestab1">
+            <p>displlay json</p>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1" aria-labelledby="dropdownbootstab1">
+            <p>Display JSON</p>
+          </div>
+            <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo3" aria-labelledby="dropdownbootstab3">
+            <p>Display JSON</p>
+          </div>
 
-     <script src="../static/getRequest.js"></script>
   <script src="../static/jquery-3.4.1.min.js"></script>
   <script src="../static/popper.min.js"></script>
   <script src="../static/bootstrap-4.4.1.js"></script>
