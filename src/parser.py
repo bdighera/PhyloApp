@@ -1,10 +1,11 @@
-import sqlite3, ast, json, argparse
+import sqlite3, ast, json, argparse, pprint
+from flask import jsonify
 from Bio import SeqIO
 
 class argparseJSON():
 
     def __init__(self, seqs):
-        self.seqs = seqs.split(',')
+        self.seqs = seqs.split(' ')
 
     def parseInput(self):
 
@@ -117,8 +118,6 @@ class SQLiteChecker():
         self.records = records
 
     def checkRecords(self):
-
-
         dataList = []
 
         C = self.connect.cursor()
@@ -131,24 +130,6 @@ class SQLiteChecker():
 
             if data != []:
                 dataList.append(data)
-
-            #ToDO: Make a switch for all tables, if uncommented then it will search all tables. Cant have repeats in diff tables tho
-            # #SQL statement getting all of the table names ie. DNAJC, HSP70
-            # C.execute("SELECT name FROM sqlite_master WHERE type='table'")
-            #
-            # for tablename in C.fetchall():
-            #     tablename = tablename[0]
-            #
-            #     #Checking all of the tables for the accession number
-            #     C.execute('SELECT * FROM {t} WHERE ProteinAccession= (?)'''.format(t=tablename), (accession,))
-            #
-            #     #Checking only HSP70s table
-            #     #C.execute('SELECT * FROM HSP70s WHERE ProteinAccession= (?)'''.format(t=tablename), (accession,))
-            #
-            #     data = C.fetchall()
-            #
-            #     if data != []:
-            #         dataList.append(data)
 
         return dataList
 
@@ -163,29 +144,21 @@ def JSONtofile(data, filename):
             json.dump(data[i], outfile)
 
 
-class SQLiteGetAll():
-    def __init__(self, dbfile):
-        self.dbfile = dbfile
+def get_all_users():
 
-    def getAllRecords(self):
-        C = self.connect.cursor()
+    conn = sqlite3.connect('Records.db')
+    conn.row_factory = sqlite3.Row # This enables column access by name: row['column_name']
+    db = conn.cursor()
 
-        C.execute('SELECT * FROM PTBP')
-
-        self.records = C.fetchall()
-
-        return self.records
-
-    def serialize(self):
-        struct = {}
-        struct.update({'proteinAccession':[record[0][1] for record in self.records]})
-        struct.update({'proteinSeq': [record[0][2] for record in self.records]})
-        struct.update({'proteinDescription': [record[0][3] for record in self.records]})
-        struct.update({'geneID': [record[0][11] for record in self.records]})
-        struct.update({'genomicContext': [ast.literal_eval(record[0][12]) for record in self.records]})
-        struct.update({'parentDomains': [ast.literal_eval(record[0][13]) for record in self.records]})
-        struct.update({'introns': [record[0][14] for record in self.records]})
-        struct.update({'exonLength': [record[0][15] for record in self.records]})
-        struct.update({'taxonomy': [record[0][16] for record in self.records]})
-        struct.update({'commonNames': [record[0][17] for record in self.records]})
-        return struct
+    rows = db.execute('''SELECT ProteinAccession,
+                                CommonName,
+                                ProteinID,
+                                ProteinDescription,
+                                CDSAccession,
+                                 GeneID,
+                                 Taxonomy,
+                                 ProteinSequence
+                                   from PTBP''')
+    content = rows.fetchall()
+    conn.close()
+    return content
