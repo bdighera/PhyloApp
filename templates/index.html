@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -12,17 +13,17 @@
   <body>
 	 <h1>Ortholog Finding Tool</h1>
   <div class="container-fluid">
-        <ul id="clothingnav2" class="nav nav-tabs" role="tablist">
-          <li class="nav-item"> <a class="nav-link active" href="#home1" id="hometab1" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a> </li>
-          <li class="nav-item"> <a class="nav-link" href="#paneTwo1" role="tab" id="hatstab1" data-toggle="tab" aria-controls="hats">Database Display</a> </li>
-          <!-- Dropdown -->
-          <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Display Image </a>
-            <div class="dropdown-menu"> <a class="dropdown-item" href="#tabDropDownOne1" role="tab" id="dropdownshoestab1" data-toggle="tab" aria-controls="dropdownShoes">Intron</a> <a class="dropdown-item" href="#tabDropDownTwo1" role="tab" id="dropdownbootstab1" data-toggle="tab" aria-controls="dropdownBoots">Domain</a><a class="dropdown-item" href="#tabDropDownTwo3" role="tab" id="dropdownbootstab3" data-toggle="tab" aria-controls="dropdownBoots">genomicContext</a> </div>
-          </li>
-        </ul>
+         <ul id="clothingnav1" class="nav nav-tabs" role="tablist">
+         <li class="nav-item"> <a class="nav-link active" href="#home1" id="hometab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a> </li>
+         <li class="nav-item"> <a class="nav-link" href="#databasetab" role="tab" id="database" data-toggle="tab" aria-controls="hats">Database</a> </li>
+    <!-- Dropdown -->
+    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Image Display </a>
+      <div class="dropdown-menu"> <a class="dropdown-item" href="#introns" role="tab" id="intron" data-toggle="tab" aria-controls="dropdownShoes">Introns</a> <a class="dropdown-item" href="#genomic" role="tab" id="genomics" data-toggle="tab" aria-controls="dropdownBoots">Genomic Context</a> <a class="dropdown-item" href="#domain" role="tab" id="domains" data-toggle="tab" aria-controls="dropdownBoots">Domains</a> </div>
+    </li>
+  </ul>
         <!-- Content Panel -->
     <div id="clothingnavcontent1" class="tab-content">
-      <div role="tabpanel" class="tab-pane fade show active" id="home1" aria-labelledby="hometab1">
+      <div role="tabpanel" class="tab-pane fade show active" id="home1" aria-labelledby="hometab">
 
           <h2> PhyloPy </h2>
 	<div class="datsetdata1">
@@ -40,33 +41,26 @@
 
 
       </div>
-      <div role="tabpanel" class="tab-pane fade" id="paneTwo1" aria-labelledby="hatstab1">
+      <div role="tabpanel" class="tab-pane fade" id="databasetab" aria-labelledby="database">
 
 		  <iframe width="1200px" height="1200px" src="http://127.0.0.1:5000/dB" name="Refresh" id="Refresh"></iframe>
 
       </div>
+		<div role="tabpanel" class="tab-pane fade" id="introns" aria-labelledby="intron">
+            <div class="graph"><iframe src="intron.html" width="800px" height="550px"></iframe></div>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="genomic" aria-labelledby="genomics">
+            <p>Genomc Context</p>
+          </div>
+			<div role="tabpanel" class="tab-pane fade" id="domain" aria-labelledby="domains">
+            <p>Domains</p>
+          </div>
+		
 	  </div>
 
- <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1" aria-labelledby="dropdownshoestab1">
-            <p>displlay json</p>
-          </div>
-          <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1" aria-labelledby="dropdownbootstab1">
-            <p>Display JSON</p>
-          </div>
-			<div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo3" aria-labelledby="dropdownbootstab3">
-            <p>Display JSON</p>
-          </div>
+ 			
   </div>
 
-     <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1" aria-labelledby="dropdownshoestab1">
-            <p>displlay json</p>
-          </div>
-          <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1" aria-labelledby="dropdownbootstab1">
-            <p>Display JSON</p>
-          </div>
-            <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo3" aria-labelledby="dropdownbootstab3">
-            <p>Display JSON</p>
-          </div>
 
   <script src="../static/jquery-3.4.1.min.js"></script>
   <script src="../static/popper.min.js"></script>
