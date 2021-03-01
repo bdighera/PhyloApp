@@ -9,3 +9,33 @@
 	border: outset #CCC;	
 	justify-content: center; 
 }
+
+.header {
+background-color: black;
+width: auto;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+
+.logo {
+
+	posistion: absolute;
+	margin-bottom: auto; 
+	
+}
+
+label, input {
+  margin: 5px;
+}
+
+label {
+    margin-bottom: 30px;
+}
+
+.form-select {
+	
+	margin-bottom: 10px;
+}

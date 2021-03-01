@@ -4,14 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PhyloPy - Ortholog Finding Tool</title>
+    <title>Phylo App - Ortholog Finding Tool</title>
 
     <!-- Bootstrap -->
     <link href="../static/bootstrap-4.4.1.css" rel="stylesheet">
     <link href="../static/design.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-	 <h1>Ortholog Finding Tool</h1>
+	  <div class="header">
+	 <img class="logo" src="../images/orthologo.png" alt="Ortholog Finding Tool">
+	 </div>
   <div class="container-fluid">
          <ul id="clothingnav1" class="nav nav-tabs" role="tablist">
          <li class="nav-item"> <a class="nav-link active" href="#home1" id="hometab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a> </li>
@@ -25,19 +27,23 @@
     <div id="clothingnavcontent1" class="tab-content">
       <div role="tabpanel" class="tab-pane fade show active" id="home1" aria-labelledby="hometab">
 
-          <h2> PhyloPy </h2>
-	<div class="datsetdata1">
-    <form action= "{{ url_for('InitialFigure') }}" method="get" name="name">
-            <label><input type="checkbox" name="intronsCheckBox" value="checkbox" id="intronsCheckBox">Analyze Introns</label>
-            <label><input type="checkbox" name="genomicContextCheckBox" value="checkbox" id="genomicContextCheckBox">Analyze Genomic Context</label>
-            <label><input type="checkbox" name="domainsCheckBox" value="checkbox" id="domainsCheckBox˚">Analyze Domains</label>
-            <label><input type="radio" name="CollectSeqs" value="radio" id="CollectSeqs">Collect Sequences</label>
-            <label><input type="radio" name="DisplaySeqs" value="radio" id="DisplaySeqs">Display Sequences</label>
+        <h2> Phylo App</h2>
+<div class="datsetdata1">
+  <form action= "{{ url_for('InitialFigure') }}" method="get" name="name">
+	  <select class="form-select">
+  				<option selected>Analyze</option>
+  				<option name="intronsCheckBox" id="intronsCheckBox" value="1">Introns</option>
+  				<option name="genomicContextCheckBox" id="genomicContextCheckBox" value="2">Genomic Contex</option>
+  				<option name="domainsCheckBox" id="domainsCheckBox" value="3">Domains</option>
+             </select>
+	          
+            <label><input type="checkbox" name="CollectSeqs" value="radio" id="CollectSeqs">Collect Sequences</label>
+            <label><input type="checkbox" name="DisplaySeqs" value="radio" id="DisplaySeqs">Display Sequences</label>
             <label>Paste Input: <input type="text" name="name" id="name"></label><br><br>
-            <input type="submit" value="submit" onclick=""/>
+	  		<button type="submit" value="submit" class="btn-primary">Submit</button>
         </form>
         
-    </div>
+  </div>
 
 
       </div>
@@ -47,13 +53,14 @@
 
       </div>
 		<div role="tabpanel" class="tab-pane fade" id="introns" aria-labelledby="intron">
+			<h1> Intron </h1>
             <div class="graph"><iframe src="intron.html" width="600px" height="320px"></iframe></div>
           </div>
           <div role="tabpanel" class="tab-pane fade" id="genomic" aria-labelledby="genomics">
-            <p>Genomc Context</p>
+            <h1>Genomc Context</h1>
           </div>
 			<div role="tabpanel" class="tab-pane fade" id="domain" aria-labelledby="domains">
-            <p>Domains</p>
+            <h1>Domains</h1>
           </div>
 		
 	  </div>
