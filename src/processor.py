@@ -85,7 +85,7 @@ class PhyloTreeConstruction(object):
 
     def constructTreeObj(self):
 
-        tree = treeOBjFileHandler()
+        tree = handler.treeOBjFileHandler()
 
         MSAfilePath = tree.getTreeInputPath()
         unrootedTreePath = tree.getTreeOutputPath()
@@ -136,7 +136,7 @@ class PhyloTreeConstruction(object):
 
         domainColors = self.assignDomainColors(accessionDomains.values())
 
-        domainMotifs = {}
+        domainMotifs = []
 
         # The leaf names contain the description so the accession must be stripped in order to index with protein accessions from db
         leafAccessionExtracted = treeObj.getProteinAccession([leaf for leaf in leafNames])
@@ -152,22 +152,23 @@ class PhyloTreeConstruction(object):
 
             domainColor = [domainColors[domain] for domain in domains]
 
-            leafMotifs = {}
+            leafMotifs = []
 
             for i in range(domainLen):
 
-                leafMotifs[str(uuid.uuid4())]= {'startLocation': int(domainStart[i]),
+                leafMotifs.append({'startLocation': int(domainStart[i]),
                                                 'endLocation': int(domainEnd[i]),
                                                 'shape': '<>',
                                                 'width': None,
                                                 'height': 12,
                                                 'background': 'Black',
-                                                'foreground': domainColor[i]}
+                                                'foreground': domainColor[i],
+                                                'name':domainName[i]})
 
 
-            domainMotifs[leaf]= leafMotifs
+            domainMotifs.append({'domains':leafMotifs, 'name':leaf})
 
-        return domainMotifs
+        return {'Sequences':domainMotifs}
 
     def buildIntrons(self):
 
@@ -202,6 +203,7 @@ class PhyloTreeConstruction(object):
         #The leaf names contain the description so the accession must be stripped in order to index with protein accessions from db
         leafAccessionExtracted = treeObj.getProteinAccession([leaf for leaf in leafNames])
         lengths = []
+        count = 1
         for leaf in leafAccessionExtracted:  # Corrects introns, and builds intron motifs
 
 
@@ -218,7 +220,7 @@ class PhyloTreeConstruction(object):
 
                 exonLength = [math.floor(int(exonLengths[i][0].split('-')[1]) / 3) for i in range(len(exonLengths))]
                 lengths.append(exonLength)
-                recordMotifs = {}
+                recordMotifs = []
 
                 exonLocation, MSASeqlen = IPH.intron_fix(leaf, exonLength)
 
@@ -228,40 +230,41 @@ class PhyloTreeConstruction(object):
 
 
                     if intronPhase == 0:
-                        recordMotifs[str(uuid.uuid4())] = {'startLocation':exonLocation[i] - 1,
-                                             'endLocation':exonLocation[i] + 1,
-                                             'shape':'[]',
-                                             'width':None,
-                                             'height':5,
-                                             'background':'Grey',
-                                             'foreground': 'Grey',
-                                             'realLocation':exonLocation[i]}
+                        recordMotifs.append({'startLocation': exonLocation[i] - 1,
+                                             'endLocation': exonLocation[i] + 1,
+                                             'shape': '[]',
+                                             'width': None,
+                                             'height': 5,
+                                             'background': 'Blue',
+                                             'foreground': 'Blue',
+                                             'realLocation': exonLocation[i]})
 
                     elif intronPhase == 1:
-                        recordMotifs[str(uuid.uuid4())] = {'startLocation': exonLocation[i] - 1,
-                                                           'endLocation': exonLocation[i] + 1,
-                                                           'shape': '[]',
-                                                           'width': None,
-                                                           'height': 5,
-                                                           'background': 'Black',
-                                                           'foreground': 'Black',
-                                                           'realLocation': exonLocation[i]}
+                        recordMotifs.append({'startLocation': exonLocation[i] - 1,
+                                             'endLocation': exonLocation[i] + 1,
+                                             'shape': '[]',
+                                             'width': None,
+                                             'height': 5,
+                                             'background': 'Black',
+                                             'foreground': 'Black',
+                                             'realLocation': exonLocation[i]})
 
 
                     elif intronPhase == 2:
-                        recordMotifs[str(uuid.uuid4())] = {'startLocation': exonLocation[i] - 1,
+                        recordMotifs.append({'startLocation': exonLocation[i] - 1,
                                                            'endLocation': exonLocation[i] + 1,
                                                            'shape': '[]',
                                                            'width': None,
                                                            'height': 5,
-                                                           'background': 'Blue',
-                                                           'foreground': 'Blue',
-                                                           'realLocation': exonLocation[i]}
+                                                           'background': 'Grey',
+                                                           'foreground': 'Grey',
+                                                           'realLocation': exonLocation[i]})
 
-                intronMotifs.append({leaf:recordMotifs})
+                intronMotifs.append({'name':leaf, 'id':'000'+str(count), 'introns':recordMotifs})
+                count +=1
 
 
-        return intronMotifs
+        return {'Sequences':intronMotifs}
 
     def buildGenomicContext(self):
 
