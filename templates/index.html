@@ -54,7 +54,9 @@
       </div>
 		<div role="tabpanel" class="tab-pane fade" id="introns" aria-labelledby="intron">
 			<h1> Intron </h1>
-            <div class="graph"><iframe src="intron.html" width="600px" height="320px"></iframe></div>
+			
+			<div class="graph" id="fig_container">{{ plot|safe }}</div>
+            
           </div>
           <div role="tabpanel" class="tab-pane fade" id="genomic" aria-labelledby="genomics">
             <h1>Genomc Context</h1>
@@ -66,9 +68,8 @@
 	  </div>
 
  			
-  </div>
 
-
+	  </div>
   <script src="../static/jquery-3.4.1.min.js"></script>
   <script src="../static/popper.min.js"></script>
   <script src="../static/bootstrap-4.4.1.js"></script>
