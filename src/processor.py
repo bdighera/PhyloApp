@@ -2,7 +2,7 @@ from Bio.Align.Applications import ClustalOmegaCommandline
 import itertools, os, subprocess, sys, math, dendropy, pprint, ast, uuid
 from randomcolor import RandomColor
 from src import handler
-from ete3 import Tree, TextFace
+from ete3 import Tree
 
 class PhyloTreeConstruction(object):
 
@@ -281,14 +281,6 @@ class PhyloTreeConstruction(object):
             nwkTree = nwkTreeFile.read()
             t = Tree(nwkTree)
             nwkTreeFile.close()
-
-        ts = TreeStyle()
-        ts.title.add_face(
-            TextFace('PhyloPy - Protein Ortholog Finding Tool by Bryan Dighera: Genomic Context',
-                     fsize=16, ), column=0)
-        ts.allow_face_overlap = True
-        ts.show_leaf_name = True
-        ts.show_branch_support = True
 
         leafNames = t.get_leaf_names()
 
