@@ -2,7 +2,7 @@ from Bio.Align.Applications import ClustalOmegaCommandline
 import itertools, os, subprocess, sys, math, dendropy, pprint, ast, uuid
 from randomcolor import RandomColor
 from src import handler
-from ete3 import Tree, TreeStyle, TextFace
+from ete3 import Tree, TextFace
 
 class PhyloTreeConstruction(object):
 
@@ -124,12 +124,6 @@ class PhyloTreeConstruction(object):
             nwkTree = nwkTreeFile.read()
             dt = Tree(nwkTree)
 
-        dts = TreeStyle()
-        dts.title.add_face(TextFace('PhyloPy - Protein Ortholog Finding Tool by Bryan Dighera: Protein Domains', fsize= 16,), column= 0)
-        dts.allow_face_overlap = True
-        dts.show_leaf_name = True
-        dts.show_branch_support = True
-
         leafNames = dt.get_leaf_names()
 
         accessionDomains = {proteinAccessions[i]: parentDomains[i] for i in range(len(leafNames))}
@@ -183,14 +177,6 @@ class PhyloTreeConstruction(object):
             nwkTree = nwkTreeFile.read()
             t = Tree(nwkTree)
             nwkTreeFile.close()
-
-        ts = TreeStyle()
-        ts.title.add_face(
-            TextFace('PhyloPy - Protein Ortholog Finding Tool by Bryan Dighera: Intron Location and Phases',
-                     fsize=16, ), column=0)
-        ts.allow_face_overlap = True
-        ts.show_leaf_name = True
-        ts.show_branch_support = True
 
         leafNames = t.get_leaf_names()
 
