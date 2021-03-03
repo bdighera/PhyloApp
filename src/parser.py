@@ -143,7 +143,6 @@ def JSONtofile(data, filename):
         with open(filename, 'a') as outfile:
             json.dump(data[i], outfile)
 
-
 def get_all_users():
 
     conn = sqlite3.connect('Records.db')
