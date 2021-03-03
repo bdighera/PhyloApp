@@ -11,37 +11,83 @@
     <link href="../static/design.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-	  <div class="header">
-	 <img class="logo" src="../images/orthologo.png" alt="Ortholog Finding Tool">
-	 </div>
-  <div class="container-fluid">
-         <ul id="clothingnav1" class="nav nav-tabs" role="tablist">
-         <li class="nav-item"> <a class="nav-link active" href="#home1" id="hometab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a> </li>
-         <li class="nav-item"> <a class="nav-link" href="#databasetab" role="tab" id="database" data-toggle="tab" aria-controls="hats">Database</a> </li>
+  <div class="header"><img class="logo" src="../static/images/orthologo.png" alt="Ortholog Finding Tool"></div>
+  
+ 
+  <nav class="navbar navbar-expand navbar-dark bg-dark"> <a class="navbar-brand" href="#">Phylo App</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+      <ul class="nav nav-bar mr-auto">
+        <li class="nav-link active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
+        <li class="nav-link"> <a class="nav-link" href="#">Examples</a> </li>
+        
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="submitbtn" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+	  
+	  
+	  
+	
+	<div class="apph2">
+		<h5>Welcome to </h5>
+		<hr class="my-4">
+		<h2> Phylo App</h2>
+		<hr class="my-4">
+		<p>Input data or upload a text file to get started</p>
+	</div>
+  <div class="divtabcontent">
+  <ul id="clothingnav1" class="nav nav-tabs" role="tablist">
+         <li class="nav-item"> <a class="nav-link active" href="#home1" id="hometab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Inputs</a> </li>
+         <li class="nav-item"> <a class="nav-link" href="#databasetab" role="tab" id="database" data-toggle="tab" aria-controls="hats">Database Table</a> </li>
     <!-- Dropdown -->
-    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Image Display </a>
+    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Graph Outputs </a>
       <div class="dropdown-menu"> <a class="dropdown-item" href="#introns" role="tab" id="intron" data-toggle="tab" aria-controls="dropdownShoes">Introns</a> <a class="dropdown-item" href="#genomic" role="tab" id="genomics" data-toggle="tab" aria-controls="dropdownBoots">Genomic Context</a> <a class="dropdown-item" href="#domain" role="tab" id="domains" data-toggle="tab" aria-controls="dropdownBoots">Domains</a> </div>
     </li>
   </ul>
+	  
         <!-- Content Panel -->
     <div id="clothingnavcontent1" class="tab-content">
-      <div role="tabpanel" class="tab-pane fade show active" id="home1" aria-labelledby="hometab">
-
-        <h2> Phylo App</h2>
+      <div role="tabpanel" class="tab-pane fade show active col-xl-8 offset-xl-2" id="home1" aria-labelledby="hometab">
+       
 <div class="datsetdata1">
-  <form action= "{{ url_for('InitialFigure') }}" method="get" name="name">
+	<div id="pageloader">
+   <img src="../static/images/loader-large.gif" alt="processing..." />
+</div>
+  <form id="phylo" action= "{{ url_for('InitialFigure') }}" method="get" name="name">
+	 <label class="labelforms" for="exampleInputuid">Analyze</label>
+	  
+	  <div class="form-group">
+		  
 	  <select class="form-select">
-  				<option selected>Analyze</option>
   				<option name="intronsCheckBox" id="intronsCheckBox" value="1">Introns</option>
   				<option name="genomicContextCheckBox" id="genomicContextCheckBox" value="2">Genomic Contex</option>
   				<option name="domainsCheckBox" id="domainsCheckBox" value="3">Domains</option>
-             </select>
-	          
-            <label><input type="checkbox" name="CollectSeqs" value="radio" id="CollectSeqs">Collect Sequences</label>
-            <label><input type="checkbox" name="DisplaySeqs" value="radio" id="DisplaySeqs">Display Sequences</label>
-            <label>Paste Input: <input type="text" name="name" id="name"></label><br><br>
-	  		<button type="submit" value="submit" class="btn-primary">Submit</button>
-        </form>
+	  </select></div>
+	  			<label class="labelforms">Sequences</label>
+	          <div class="form-group">
+				 <label> Collect</label>
+           <input type="checkbox" name="CollectSeqs" value="radio" id="CollectSeqs">
+				  	 <label> Display </label>
+            <input type="checkbox" name="DisplaySeqs" value="radio" id="DisplaySeqs">
+		 </div>
+	  
+	  <div class="form-group">
+		<label class="labelforms">Inputs</label>
+	  </div>
+	  <div class="form-group">
+		  
+		  <input type="text" name="name" id="name" placeholder="Ex: XP_028685121.1">
+		  	<input type="file" id="file-upload" />
+  			<label class="uploadbtn" for="file-upload">Upload file</label>
+  			<div id="file-upload-filename"></div>
+  		  </div>
+	<div class="form-group">
+	  <button type="submit" onclick="$('#databasetab').trigger('click')" value="submit" class="submitbtn">Submit</button>
+	  </div>
+		</form>
         
   </div>
 
@@ -49,29 +95,66 @@
       </div>
       <div role="tabpanel" class="tab-pane fade" id="databasetab" aria-labelledby="database">
 
-		  <iframe width="1200px" height="1200px" src="http://127.0.0.1:5000/dB" name="Refresh" id="Refresh"></iframe>
+		  <iframe width="100%" height="100%" src="http://127.0.0.1:5000/dB" name="Refresh" id="Refresh"></iframe>
 
       </div>
 		<div role="tabpanel" class="tab-pane fade" id="introns" aria-labelledby="intron">
-			<h1> Intron </h1>
-			
-			<div class="graph" id="fig_container">{{ plot|safe }}</div>
+			<div class="dataoutputdiv">
+				<h2> Introns</h2>
+				<p>Display Output</p>
+			</div>
+			<hr>
+			<div class="graph">
+				{{ plot|safe }}
+			</div>
             
-          </div>
+      </div>
           <div role="tabpanel" class="tab-pane fade" id="genomic" aria-labelledby="genomics">
-            <h1>Genomc Context</h1>
+            <div class="dataoutputdiv">	
+			  
+			  <h2>Genomc Context</h2>
+				<p>Display Output</p>
+				</div>
+			  <hr>
+			<div class="graph" >
+				{{ plot|safe }}
+			</div> 
           </div>
 			<div role="tabpanel" class="tab-pane fade" id="domain" aria-labelledby="domains">
-            <h1>Domains</h1>
+             <div class="dataoutputdiv">
+				<h2>Domains</h2>
+				 <p>Display Output</p>
+				</div>
+			<div class="graph" >
+				{{ plot|safe }}
+			</div>	
+				<hr>
           </div>
 		
-	  </div>
-
- 			
-
-	  </div>
+    </div>
+  </div>
+  <footer class="footer"> 
+		   <h5>Thank you for using</h5>
+		   <h1>Phylo App</h1>
+		   <p>Brought to you by</p>
+		  <div class="nameslides"><div class="animationslide">
+  <div class="slide">
+    <h3>Bryan James Dighera</h3>
+  </div>
+  <div class="slide">
+    <h3>Some Foo</h3>
+  </div>
+  <div class="slide">
+    <h3>RmB</h3>
+</div>
+</div></div>
+	  </footer>
+	  	
+	
+  <script src="../static/fileupload.js"></script>  
   <script src="../static/jquery-3.4.1.min.js"></script>
   <script src="../static/popper.min.js"></script>
   <script src="../static/bootstrap-4.4.1.js"></script>
   </body>
+	
 </html>

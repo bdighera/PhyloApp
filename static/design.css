@@ -1,12 +1,76 @@
 @charset "utf-8";
 
+h1 {
+color: #999999;
+font-family: arial, sans-serif;
+font-size: 16px;
+font-weight: bold;
+margin-top: 0px;
+margin-bottom: 1px;
+}
+h2, .h2 {
+  font-size: 2rem;
+}
+
+h3, .h3 {
+  font-size: 1.75rem;
+}
+
+h4, .h4 {
+  font-size: 1.5rem;
+}
+
+h5, .h5 {
+  font-size: 1.25rem;
+}
+
+h6, .h6 {
+  font-size: 1rem;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6{
+    font-family: 'Corben', Georgia, Times, serif;
+}
+p, div {
+    font-family: 'Nobile', Helvetica, Arial, sans-serif;
+}
+
+#pageloader, .pageloader
+{
+  background: rgba( 255, 255, 255, 0.8 );
+  display: none;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+}
+
+#pageloader, .pageloader img
+{
+  left: 50%;
+  margin-left: -32px;
+  margin-top: -32px;
+  position: absolute;
+  top: 50%;
+}
 .datsetdata1  {
-	margin:auto;
-	line-height: 20px;
-	background-color: #5ABDAC;
-	padding: 20px;
-	width: 270px;
-	border: outset #CCC;	
+	padding: 25px;
+	margin:50px auto;
+	color: white;
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+	min-width: 500px;
+	min-height: 500px;
+	border: 3px outset #000;	
+	justify-content: center; 
+}
+.graph {
+	
+	padding: 25px;
+	margin:50px auto;
+	background-color: white;
+	width: auto;
+	height: auto;
+	border: 3px outset #000;	
 	justify-content: center; 
 }
 
@@ -36,6 +100,196 @@ label {
 }
 
 .form-select {
-	
+	background-color: black;
+	color: white;
 	margin-bottom: 10px;
 }
+
+.form-select:hover {
+	
+	background-color: #107866;
+}
+.divtabcontent {
+	margin: 20px auto;
+	border:4px solid black;
+	min-height: 800px;
+    height: auto;
+    width: 1200px;
+	background-color:#5ABDAC; 
+}
+
+.apph2 {
+margin:10px auto;
+	
+}
+
+.footer {
+    background-color: black;
+	color:white;
+	padding-top: 25px;
+	margin:0px auto;
+		
+}
+
+
+input[type="file"] { 
+  z-index: -1;
+  position: absolute;
+  opacity: 0;
+}
+ 
+input:focus + label {
+  outline: 2px solid;
+}
+
+.dataoutputdiv {
+	
+	background-color: #000000;
+	border: 2px groove black;
+	padding: 5px;
+	color:white;
+	padding-right: 15px;
+	padding-left: 15px;
+
+	
+	
+}
+
+.labelforms {
+	background-color: #107866;
+	border: 2px groove black;
+	padding: 5px;
+	color:white;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.uploadbtn {
+  border: 1px groove #5ABDAC;
+  color: #fff;
+  background-color: #000;
+	padding: 5px;
+}
+
+.uploadbtn:hover {
+  color: #fff;
+  background-color: #107866;
+}
+
+.uploadbtn:focus, .uploadbtn.focus {
+  color: #fff;
+  background-color: #107866;
+  border-color: #107866;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+.uploadbtn.disabled, .uploadbtn:disabled {
+  color: #fff;
+  background-color: #5ABDAC;
+  border-color: #5ABDAC;
+}
+
+.uploadbtn:not(:disabled):not(.disabled):active, .uploadbtn:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #0062cc;
+  border-color: #005cbf;
+}
+
+.uploadbtn:not(:disabled):not(.disabled):active:focus, .uploadbtn:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+
+
+.submitbtn {
+  border: 1px groove #5ABDAC;
+  color: #fff;
+  background-color: #000;
+	padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.submitbtn:hover {
+  color: #fff;
+  background-color: #107866;
+}
+
+.submitbtn:focus, .submitbtn.focus {
+  color: #fff;
+  background-color: #0069d9;
+  border-color: #0062cc;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+.submitbtn.disabled, .submitbtn:disabled {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.submitbtn:not(:disabled):not(.disabled):active, .submitbtn:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #0062cc;
+  border-color: #005cbf;
+}
+
+.submitbtn:not(:disabled):not(.disabled):active:focus, .submitbtn:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+/*TEXTSLIDER*/
+
+/* div container */
+.nameslides {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+/* animate slides pt 1 */
+.animationslide {
+  display: flex;
+  position: relative;
+  top: 0;
+  right: 0;
+}
+
+/* slideshow */
+.slide {
+  box-sizing: border-box;
+  padding: 10px;
+  /* Force all slides to layout horizontally */
+  width: 100%;
+  flex-shrink: 0; 
+}
+
+/* animate slides pt 2*/
+@keyframes slideh {
+  /* shift slides *
+  0% { right: 0; }
+  20% { right: 100%; }
+  40% { right: 200%; }
+  60% { right: 300%; }
+  80% { right: 400%; }
+  100% { right: 0; }*/
+  /* pause slides */
+  0% { right: 0; }
+  15% { right: 0; }
+  20% { right: 100%; }
+  35% { right: 100%; }
+  40% { right: 200%; }
+  55% { right: 200%; }
+  60% { right: 300%; }
+  75% { right: 300%; }
+  80% { right: 400%; }
+  95% { right: 400%; }
+  100% { right: 0; }
+}
+.animationslide { animation: slideh linear 25s infinite; }
+.animationslide:hover { animation-play-state: paused; }
