@@ -1,9 +1,13 @@
-import sqlite3
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Api, Resource
+from flask_restful import Api
 from src import parser, processor
-import psycopg2
+import matplotlib
+import matplotlib.pyplot as plt, mpld3
+import numpy as np
+import pandas as pd
+import json, os
+from pprint import pprint
 
 
 app = Flask(__name__, static_url_path='/static')
@@ -39,7 +43,9 @@ def InitialFigure():
 
 		if request.args.get("DisplaySeqs") == 'radio':
 
-			if request.args.get("intronsCheckBox") == 'checkbox':
+			print(request.args['name'])
+
+			if request.args['name']:
 				args = request.args['name']
 
 				P = parser.argparseJSON(args)
@@ -63,9 +69,39 @@ def InitialFigure():
 					stretch=0
 				)
 				introns = Phylo.buildIntrons()
-				return jsonify(introns)
 
-			elif request.args.get("genomicContextCheckBox") == 'checkbox':
+				# Figure for Displaying Introns
+				df = pd.DataFrame.from_dict(introns)
+
+				Seqs = df['Sequences']
+				labels = [Seqs[i]['name'] for i in range(len(Seqs))]
+				yticks = []
+				y = 10
+
+				fig = plt.figure()
+				for i in range(len(Seqs)):
+					xList = []
+					for j in range(len(Seqs[i]['introns'])):
+						x = Seqs[i]['introns'][j]['realLocation']
+						color = Seqs[i]['introns'][j]['background']
+						# print(x,y)
+						plt.scatter(x, y, color=color, zorder=2, linestyle='-')
+						xList.append(x)
+
+					x1 = max(xList)
+					x2 = 0
+					plt.plot([x1, x2], [y, y], linestyle='solid', zorder=1)
+					yticks.append(y)
+					y += 10
+
+				plt.yticks(yticks, labels=labels)
+				plt.tight_layout()
+				mpld3.fig_to_html(fig=fig)
+				mpld3_html = mpld3.fig_to_html(fig=fig)
+
+				return render_template('index.html', plot=mpld3_html)
+
+			elif  request.args['name']== 'name':
 				args = request.args['name']
 
 				P = parser.argparseJSON(args)
@@ -91,7 +127,7 @@ def InitialFigure():
 				genomicContext = Phylo.buildGenomicContext()
 				return jsonify(genomicContext)
 
-			elif request.args.get("domainsCheckBox") == 'checkbox':
+			elif request.args['name'] == 'name':
 				args = request.args['name']
 
 				P = parser.argparseJSON(args)
@@ -124,17 +160,18 @@ def InitialFigure():
 		else:
 			return{'THIS CODE:IS NOT WORKING'}
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/')
 def index():
-	return render_template('index.html')
+	filename = os.path.join('../','static','images', 'orthologo.png')
+	print(filename)
+	return render_template("index.html", user_image=filename)
+
 
 @app.route('/dB', methods=['GET'])
 def dB():
 	if request.method == 'GET':
 		data = parser.get_all_users()
 		return render_template('records.html', data=data)
-
-
 
 
 if __name__ == '__main__':
