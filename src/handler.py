@@ -96,13 +96,6 @@ class MSAfileHandler():
                                                                                                               '_').replace(
                 'LOW_QUALITY_PROTEIN', '_')
 
-            # accession_search = re.search(accession_pattern, str(item))
-            # accession_number = accession_search.group()
-            #
-            # genus_species_search = re.search(genus_species_pattern, str(item))
-            # genus_species = genus_species_search.group()
-            #
-            # new_msa_input = str('>' + accession_number + '_' + genus_species + '\n' + item.seq + '\n')
             new_msa_input = str('>' + accession_number + '\n' + item.seq + '\n')
             sequence_list.append(new_msa_input)
 

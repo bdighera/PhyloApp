@@ -284,7 +284,7 @@ class PhyloTreeConstruction(object):
 
         leafNames = t.get_leaf_names()
 
-        GCMotifs = {}
+        GCMotifs = []
 
         # The leaf names contain the description so the accession must be stripped in order to index with protein accessions from db
         leafAccessionExtracted = treeObj.getProteinAccession([leaf for leaf in leafNames])
@@ -308,7 +308,7 @@ class PhyloTreeConstruction(object):
                 start_gene_location = [math.floor(record[i]['img_start']-self.stretch) for i in range(len(record))]
                 end_gene_location = [math.floor(record[i]['img_end']-self.stretch) for i in range(len(record))]
 
-                recordMotifs = {}
+                recordMotifs = []
 
                 for i in range(numberofGenes):
 
@@ -317,7 +317,7 @@ class PhyloTreeConstruction(object):
                         if coding_direction[i] == '-' and flip[i] == False:
 
                             if numberofDomains[i] != []:
-                                recordMotifs[str(uuid.uuid4())] = {'startLocation': int(start_gene_location[i]),
+                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
                                                                    'endLocation': int(end_gene_location[i]),
                                                                    'shape': '[]',
                                                                    'width': None,
@@ -325,33 +325,35 @@ class PhyloTreeConstruction(object):
                                                                    'foreground': 'Black',
                                                                    'background': 'White',
                                                                    'direction': '<',
-                                                                   'gene name': geneName[i],
-                                                                   'domainSize': {j[0]: j[1] for j in
-                                                                                  numberofDomains[i]},
-                                                                   'domainColor': {j[0]: GCcolors[j[0]] for j in
-                                                                                   numberofDomains[i]},
-                                                                   'domainName': [j[0] for j in numberofDomains[i]]}
+                                                                   'geneName': geneName[i],
+                                                                     'domains': [{
+                                                                                     'size': {j[0]: j[1] for j in
+                                                                                              numberofDomains[i]},
+                                                                                     'color': {j[0]: GCcolors[j[0]] for j in
+                                                                                               numberofDomains[i]},
+                                                                                     'name': [j[0] for j in numberofDomains[i]]}]})
 
 
 
                             else:
-                                recordMotifs[str(uuid.uuid4())] = {'startLocation': int(start_gene_location[i]),
+                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
                                                              'endLocation': int(end_gene_location[i]),
                                                              'shape': '[]',
                                                              'width': None,
                                                              'height': 12,
                                                              'foreground': 'Black',
                                                              'background': 'White',
-                                                            'direction': '<',
-                                                               'gene name':geneName[i],
-                                                                   'domainSize': None,
-                                                                   'domainColor': None,
-                                                                   'domainName': None}
+                                                                'direction': '<',
+                                                             'geneName': geneName[i],
+                                                             'domains': [{
+                                                                             'size': None,
+                                                                             'color': None,
+                                                                             'name': None}]})
 
                         elif coding_direction[i] == '+' and flip[i] == True:
 
                             if numberofDomains[i] != []:
-                                recordMotifs[str(uuid.uuid4())] = {'startLocation': int(start_gene_location[i]),
+                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
                                                                    'endLocation': int(end_gene_location[i]),
                                                                    'shape': '[]',
                                                                    'width': None,
@@ -359,15 +361,18 @@ class PhyloTreeConstruction(object):
                                                                    'foreground': 'Black',
                                                                    'background': 'White',
                                                                    'direction': '<',
-                                                                   'gene name': geneName[i],
-                                                                   'domainSize': {j[0]:j[1] for j in numberofDomains[i]},
-                                                                   'domainColor':{j[0]:GCcolors[j[0]] for j in numberofDomains[i]},
-                                                                   'domainName':[j[0] for j in numberofDomains[i]]}
+                                                                   'geneName': geneName[i],
+                                                                     'domains': [{
+                                                                                     'size': {j[0]: j[1] for j in
+                                                                                              numberofDomains[i]},
+                                                                                     'color': {j[0]: GCcolors[j[0]] for j in
+                                                                                               numberofDomains[i]},
+                                                                                     'name': [j[0] for j in numberofDomains[i]]}]})
 
 
 
                             else:
-                                recordMotifs[str(uuid.uuid4())] = {'startLocation': int(start_gene_location[i]),
+                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
                                                              'endLocation': int(end_gene_location[i]),
                                                              'shape': '[]',
                                                              'width': None,
@@ -375,81 +380,88 @@ class PhyloTreeConstruction(object):
                                                              'foreground': 'Black',
                                                              'background': 'White',
                                                             'direction': '<',
-                                                               'gene name':geneName[i],
-                                                                   'domainSize': None,
-                                                                   'domainColor': None,
-                                                                   'domainName': None}
+                                                             'geneName': geneName[i],
+                                                             'domains': [{
+                                                                             'size': None,
+                                                                             'color': None,
+                                                                             'name': None}]})
 
                         elif coding_direction[i] == '-' and flip[i] == True:
 
                             if numberofDomains[i] != []:
-                                recordMotifs[str(uuid.uuid4())] = {'startLocation': int(start_gene_location[i]),
+                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
                                                                    'endLocation': int(end_gene_location[i]),
                                                                    'shape': '[]',
                                                                    'width': None,
                                                                    'height': 12,
                                                                    'foreground': 'Black',
                                                                    'background': 'White',
-                                                                   'direction': '<',
-                                                                   'gene name': geneName[i],
-                                                                   'domainSize': {j[0]:j[1] for j in numberofDomains[i]},
-                                                                   'domainColor':{j[0]:GCcolors[j[0]] for j in numberofDomains[i]},
-                                                                   'domainName':[j[0] for j in numberofDomains[i]]}
+                                                                   'direction': '>',
+                                                                   'geneName': geneName[i],
+                                                                     'domains': [{
+                                                                                 'size': {j[0]: j[1] for j in
+                                                                                          numberofDomains[i]},
+                                                                                 'color': {j[0]: GCcolors[j[0]] for j in
+                                                                                           numberofDomains[i]},
+                                                                                 'name': [j[0] for j in numberofDomains[i]]}]})
 
 
 
                             else:
-                                recordMotifs[str(uuid.uuid4())] = {'startLocation': int(start_gene_location[i]),
+                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
                                                              'endLocation': int(end_gene_location[i]),
                                                              'shape': '[]',
                                                              'width': None,
                                                              'height': 12,
                                                              'foreground': 'Black',
                                                              'background': 'White',
-                                                            'direction': '<',
-                                                               'gene name':geneName[i],
-                                                                   'domainSize': None,
-                                                                   'domainColor': None,
-                                                                   'domainName': None}
+                                                            'direction': '>',
+                                                             'geneName': geneName[i],
+                                                             'domains': [{
+                                                                             'size': None,
+                                                                             'color': None,
+                                                                             'name': None}]})
 
                         elif coding_direction[i] == '+' and flip[i] == False:
 
                             if numberofDomains[i] != []:
                                 if numberofDomains[i] != []:
-                                    recordMotifs[str(uuid.uuid4())] = {'startLocation': int(start_gene_location[i]),
+                                    recordMotifs.append({'startLocation': int(start_gene_location[i]),
                                                                        'endLocation': int(end_gene_location[i]),
                                                                        'shape': '[]',
                                                                        'width': None,
                                                                        'height': 12,
                                                                        'foreground': 'Black',
                                                                        'background': 'White',
-                                                                       'direction': '<',
-                                                                       'gene name': geneName[i],
-                                                                       'domainSize': {j[0]: j[1] for j in
-                                                                                      numberofDomains[i]},
-                                                                       'domainColor': {j[0]: GCcolors[j[0]] for j in
-                                                                                       numberofDomains[i]},
-                                                                       'domainName': [j[0] for j in numberofDomains[i]]}
+                                                                       'direction': '>',
+                                                                       'geneName': geneName[i],
+                                                                        'domains':[{
+                                                                                   'size': {j[0]: j[1] for j in
+                                                                                                  numberofDomains[i]},
+                                                                                   'color': {j[0]: GCcolors[j[0]] for j in
+                                                                                                   numberofDomains[i]},
+                                                                                   'name': [j[0] for j in numberofDomains[i]]}]})
 
 
 
                                 else:
-                                    recordMotifs[str(uuid.uuid4())] = {'startLocation': int(start_gene_location[i]),
+                                    recordMotifs.append({'startLocation': int(start_gene_location[i]),
                                                                        'endLocation': int(end_gene_location[i]),
                                                                        'shape': '[]',
                                                                        'width': None,
                                                                        'height': 12,
                                                                        'foreground': 'Black',
                                                                        'background': 'White',
-                                                                       'direction': '<',
-                                                                       'gene name': geneName[i],
-                                                                       'domainSize': None,
-                                                                       'domainColor': None,
-                                                                       'domainName': None}
+                                                                       'direction': '>',
+                                                                        'geneName': geneName[i],
+                                                                        'domains': [{
+                                                                                       'size': None,
+                                                                                       'color': None,
+                                                                                       'name': None}]})
                     else:
-                        recordMotifs[leaf] = None
+                        recordMotifs.append(None)
 
-                GCMotifs[leaf]= recordMotifs
+                GCMotifs.append({'name':leaf, 'motifs':recordMotifs})
 
             except IndexError:
                 print('Genomic Context Index Error at Sequence: %s' % leaf)
