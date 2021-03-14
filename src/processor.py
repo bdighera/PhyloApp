@@ -326,12 +326,12 @@ class PhyloTreeConstruction(object):
                                                                    'background': 'White',
                                                                    'direction': '<',
                                                                    'geneName': geneName[i],
-                                                                     'domains': [{
-                                                                                     'size': {j[0]: j[1] for j in
-                                                                                              numberofDomains[i]},
-                                                                                     'color': {j[0]: GCcolors[j[0]] for j in
-                                                                                               numberofDomains[i]},
-                                                                                     'name': [j[0] for j in numberofDomains[i]]}]})
+                                                                     'domains': [
+                                                                         {'start': str(j[1].split(':')[0].replace('<', '')),
+                                                                          'color': GCcolors[j[0]], 'name': j[0],
+                                                                          'end': str(j[1].split(':')[1].replace('>', ''))}
+
+                                                                         for j in numberofDomains[i]]})
 
 
 
@@ -362,12 +362,12 @@ class PhyloTreeConstruction(object):
                                                                    'background': 'White',
                                                                    'direction': '<',
                                                                    'geneName': geneName[i],
-                                                                     'domains': [{
-                                                                                     'size': {j[0]: j[1] for j in
-                                                                                              numberofDomains[i]},
-                                                                                     'color': {j[0]: GCcolors[j[0]] for j in
-                                                                                               numberofDomains[i]},
-                                                                                     'name': [j[0] for j in numberofDomains[i]]}]})
+                                                                     'domains': [
+                                                                         {'start': str(j[1].split(':')[0].replace('<', '')),
+                                                                          'color': GCcolors[j[0]], 'name': j[0],
+                                                                          'end': str(j[1].split(':')[1].replace('>', ''))}
+
+                                                                         for j in numberofDomains[i]]})
 
 
 
@@ -398,12 +398,12 @@ class PhyloTreeConstruction(object):
                                                                    'background': 'White',
                                                                    'direction': '>',
                                                                    'geneName': geneName[i],
-                                                                     'domains': [{
-                                                                                 'size': {j[0]: j[1] for j in
-                                                                                          numberofDomains[i]},
-                                                                                 'color': {j[0]: GCcolors[j[0]] for j in
-                                                                                           numberofDomains[i]},
-                                                                                 'name': [j[0] for j in numberofDomains[i]]}]})
+                                                                    'domains': [
+                                                                         {'start': str(j[1].split(':')[0].replace('<','')),
+                                                                          'color': GCcolors[j[0]], 'name': j[0],
+                                                                          'end': str(j[1].split(':')[1].replace('>', ''))}
+
+                                                                        for j in numberofDomains[i]]})
 
 
 
@@ -435,12 +435,13 @@ class PhyloTreeConstruction(object):
                                                                        'background': 'White',
                                                                        'direction': '>',
                                                                        'geneName': geneName[i],
-                                                                        'domains':[{
-                                                                                   'size': {j[0]: j[1] for j in
-                                                                                                  numberofDomains[i]},
-                                                                                   'color': {j[0]: GCcolors[j[0]] for j in
-                                                                                                   numberofDomains[i]},
-                                                                                   'name': [j[0] for j in numberofDomains[i]]}]})
+                                                                         'domains': [
+                                                                             {'start': str(j[1].split(':')[0].replace('<', '')),
+                                                                              'color': GCcolors[j[0]], 'name': j[0],
+                                                                              'end': str(j[1].split(':')[1].replace('>', ''))}
+
+                                                                             for j in numberofDomains[i]]})
+
 
 
 
