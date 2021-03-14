@@ -12,7 +12,7 @@ class argparseJSON():
         if self.seqs != None:
             return self.seqs
 
-    def pullDBrecords(self, dbfile= 'Records.db'):
+    def pullDBrecords(self, dbfile= 'Sequences.db'):
         SQL = SQLiteChecker(records= self.seqs, dbfile= dbfile)
 
         self.records = SQL.checkRecords()
@@ -69,7 +69,7 @@ class argparseFile():
             return self.input
 
 
-    def pullDBrecords(self, dbfile= 'Records.db'):
+    def pullDBrecords(self, dbfile= 'Sequences.db'):
         SQL = SQLiteChecker(records= self.input, dbfile= dbfile)
 
         self.records = SQL.checkRecords()
@@ -124,7 +124,7 @@ class SQLiteChecker():
 
         for accession in self.records:
 
-            C.execute('SELECT * FROM PTBP WHERE ProteinAccession= (?)''', (accession,))
+            C.execute('SELECT * FROM Records WHERE ProteinAccession= (?)''', (accession,))
 
             data = C.fetchall()
 
@@ -145,7 +145,7 @@ def JSONtofile(data, filename):
 
 def get_all_users():
 
-    conn = sqlite3.connect('Records.db')
+    conn = sqlite3.connect('Sequences.db')
     conn.row_factory = sqlite3.Row # This enables column access by name: row['column_name']
     db = conn.cursor()
 
@@ -157,7 +157,7 @@ def get_all_users():
                                  GeneID,
                                  Taxonomy,
                                  ProteinSequence
-                                   from PTBP''')
+                                   from Records''')
     content = rows.fetchall()
     conn.close()
     return content

@@ -448,7 +448,7 @@ class GenomicContext():
         return parent_protein_domains
 
 class SQLiteChecker():
-    def __init__(self, proteinAccession, dbfile='Records.db'):
+    def __init__(self, proteinAccession, dbfile='Sequences.db'):
         self.dbfile= dbfile
         self.connect = sqlite3.connect(dbfile)
         self.proteinAccessionList = proteinAccession
@@ -463,7 +463,7 @@ class SQLiteChecker():
 
         for accession in self.proteinAccessionList:
 
-            C.execute('SELECT * FROM PTBP WHERE ProteinAccession= (?)''', (accession,))
+            C.execute('SELECT * FROM Records WHERE ProteinAccession= (?)''', (accession,))
 
             data = C.fetchall()
 
@@ -493,7 +493,7 @@ class SQLiteChecker():
 class SQliteRecordInput():
 
     def __init__(self, Protein, ProteinID, CDS, Genomic, GeneID, GC, Domains, IntronPhase, ExonLength, Taxonomy, CommonName):
-        self.conn = sqlite3.connect('Records.db')
+        self.conn = sqlite3.connect('Sequences.db')
         self.ProteinRecord = Protein
         self.ProteinSeq = str(Protein.seq)
         self.ProteinAccession = Protein.id
