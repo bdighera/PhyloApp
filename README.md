@@ -1,6 +1,7 @@
 # PhyloApp
 Full Stack Web Application for PhyloPy
-###Download PhyloApp Repository
+
+### Download PhyloApp Repository
 ```
 cd desired/clone/path
 git clone https://github.com/bdighera/PhyloApp.git
