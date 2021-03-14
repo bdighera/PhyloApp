@@ -8,7 +8,7 @@ git clone https://github.com/bdighera/PhyloApp.git
 ```
 ### Create python virtual environment
 ```
-virtualenv PhyloEnv --distribute
+python3 -m venv PhyloEnv
 ```
 ### Activate Virtual Environment
 ```
