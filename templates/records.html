@@ -30,9 +30,10 @@
      {% for col in data %}
 		<input type="button" onclick="selectAll()" value="Select All"/>
 		<input type="button" onclick="UnSelectAll()" value="Unselect All"/>
+		<input type="submit" form="proteins" />
          
             <tr>
-                <td><input type="checkbox" name="entries" value="radio">{{col[0]}}</td>
+				<td><form id="proteins" action="pythongoeshere" method="get" name="name" enctype="multipart/form-data"><input type="checkbox" name="entries" value="radio">{{col[0]}}</form></td>
                 <td>{{col[1]}}</td>
                 <td>{{col[2]}}</td>
                 <td>{{col[3]}}</td>
