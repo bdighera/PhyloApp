@@ -70,7 +70,8 @@ coverage.xml
 .pytest_cache/
 .DS_Store
 
-
+#WSGI Files
+*.wsgi
 
 
 # Translations
