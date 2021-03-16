@@ -99,6 +99,13 @@ label {
     margin-bottom: 30px;
 }
 
+td {
+        width: 150px;
+        text-align: center;
+        border: 1px solid black;
+        padding: 5px;
+      }
+
 .form-select {
 	background-color: black;
 	color: white;
