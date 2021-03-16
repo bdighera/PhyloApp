@@ -36,7 +36,8 @@ class IntronFileHandler():
         if int(number_of_introns) > 1:
 
             for exon_bit in introns[:-1]:
-                intron_location = exon_bit.split()[4].split()[0].split('-')
+
+                intron_location = str(exon_bit).split()[4].split()[0].split('-')
                 intron_start = int(intron_location[0])
                 intron_end = int(intron_location[1])
                 intron_phase = (intron_end - intron_start) % 3

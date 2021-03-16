@@ -3,27 +3,27 @@ import subprocess, sqlite3
 from randomcolor import RandomColor
 from time import sleep
 from Bio import SeqIO
-
 from src import handler
+import uuid
 
-def collectSeqs(json):
+def collectSeqs(formInput):
 
     timer = 6
     # sets the timer value between ping requests to the NCBI server
 
     # Iterates through each parsed record in the input file
-    for proteinRecord in json:
+    for accession in formInput:
 
         try:
 
             # Uses the record accession number to check if it is already in the SQL database, if not: continue.
-            SQL = SQLiteChecker(proteinRecord)
+            SQL = SQLiteChecker(accession)
 
             # If accession number is not located in the DB then it will run through the pipeline
             if SQL.checkRecords() != True:
 
                 # Initialize Sequence Collector class with input of the working protein accession record
-                Seq = SequenceCollector(proteinRecord)
+                Seq = SequenceCollector(accession)
 
                 # collects the protein ID for the current working protein
                 # protein ID is needed in order to establish relationship between NCBI databases ie. Gene, Protein, etc.
@@ -62,7 +62,9 @@ def collectSeqs(json):
                 commonName = Seq.collectCommonName(id)
 
                 # Initialize the SQLite class with all of the data for the working protein
-                SQL = SQliteRecordInput(Seq.proteinRecord,
+                SQL = SQliteRecordInput(Seq.proteinSeq,
+                                        Seq.proteinAccession,
+                                        Seq.proteinDescription,
                                         Seq.proteinID,
                                         CDS,
                                         Genomic,
@@ -77,23 +79,26 @@ def collectSeqs(json):
                 # Uploads records to the DB
                 # REMEMBER TO CHANGE THE NAME OF THE TABLE TO REFLECT WHERE YOU WANT THE RECORDS TOGO!
                 SQL.uploadRecords()
+                print('Sequence Uploaded!')
 
             # If protein accession number is in the database then it will skip over and go to the next record
             else:
-                print('Record ' + proteinRecord + ' is already in database. Proceeding to next record')
+                print('Record ' + accession + ' is already in database. Proceeding to next record')
+                pass
 
         # Errors in some of the sequences do occur on the NCBI server end. For this errors the DNAJC_Errors file is populated with those accession #s
         except IndexError:
-            print('Index Error Occurred on: ' + str(proteinRecord))
-            with open('DNAJC_Errors', 'a') as handle:
-                handle.write(str(proteinRecord) + '\n')
-                handle.close()
+            print('Index Error Occurred on: ' + str(accession))
 
 class SequenceCollector():
 
     def __init__(self, proteinRecord):
         self.proteinRecord = proteinRecord
         self.proteinID = ''
+        self.proteinDescription = ''
+        self.proteinName = ''
+        self.proteinSeq = ''
+        self.proteinAccession = ''
 
     def collectProteinIDs(self):
         Entrez.email = 'bdighera@csu.fullerton.edu'
@@ -115,6 +120,12 @@ class SequenceCollector():
         proteinID = self.proteinID
 
         generalEfetch= SeqIO.read(Entrez.efetch(db='protein', id=proteinID, rettype='gb', retmode='text', api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'), 'genbank')
+
+        self.proteinDescription = generalEfetch.description
+        self.proteinName = generalEfetch.name
+        self.proteinSeq = generalEfetch.seq
+        self.proteinAccession = generalEfetch.id
+
 
         Taxonomy = generalEfetch.annotations['taxonomy']
 
@@ -173,7 +184,7 @@ class SequenceCollector():
     def collectProteinDomains(self):
         Entrez.email ='bdighera@csu.fullerton.edu'
 
-        proteinAccession = self.proteinRecord
+        proteinAccession = self.proteinAccession
 
         e_fetch = SeqIO.parse(Entrez.efetch(db='protein', id=proteinAccession, retmax=1000, rettype='gb', retmode='fasta',api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'), 'gb')
 
@@ -492,12 +503,11 @@ class SQLiteChecker():
 
 class SQliteRecordInput():
 
-    def __init__(self, Protein, ProteinID, CDS, Genomic, GeneID, GC, Domains, IntronPhase, ExonLength, Taxonomy, CommonName):
+    def __init__(self, Seq, Accession, Description, ProteinID, CDS, Genomic, GeneID, GC, Domains, IntronPhase, ExonLength, Taxonomy, CommonName):
         self.conn = sqlite3.connect('Sequences.db')
-        self.ProteinRecord = Protein
-        self.ProteinSeq = str(Protein.seq)
-        self.ProteinAccession = Protein.id
-        self.ProteinDescription =Protein.description
+        self.ProteinSeq = str(Seq)
+        self.ProteinAccession = Accession
+        self.ProteinDescription =Description
         self.ProteinID = int(ProteinID)
         self.CDS = CDS
         self.CDSSeq = str(CDS.seq)
@@ -512,7 +522,7 @@ class SQliteRecordInput():
         self.Domains = str(Domains)
         self.Introns = str(IntronPhase)
         self.ExonLength = str(ExonLength)
-        self.uuid = str(uuid4())
+        self.uuid = str(uuid.uuid4())
         self.taxonomy = str(Taxonomy)
         self.CommonName = CommonName
 
@@ -525,7 +535,7 @@ class SQliteRecordInput():
         #                         GenomicSeq TEXT, GenomicDescription TEXT, GeneID INTEGER, GenomicContext TEXT, Introns TEXT, ExonLength TEXT)''')
 
         try:
-            C.execute('''INSERT INTO HSP70s VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',(self.uuid, self.ProteinAccession, self.ProteinSeq, self.ProteinDescription, self.ProteinID,
+            C.execute('''INSERT INTO Records VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',(self.uuid, self.ProteinAccession, self.ProteinSeq, self.ProteinDescription, self.ProteinID,
                                                                                   self.CDSAccession, self.CDSSeq, self.CDSDescription, self.GenomicAccession,
                                                                                   self.GenomicSeq, self.GenomicDescription,
                                                                                   self.GeneID,

@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt, mpld3
 import pandas as pd
 import os, sqlite3
 
-
 from src import parser, processor, collector, sqlite
 
 
@@ -152,11 +151,8 @@ def InitialFigure():
 
 		elif request.args.get("CollectSeqs") == 'radio':
 			args = request.args['name']
-
 			P = parser.argparseJSON(args)
-			input = P.parseInput()
-
-			collector.collectSeqs(input)
+			collector.collectSeqs(P.parseInput())
 
 		else:
 			return{'THIS CODE':'IS NOT WORKING'}

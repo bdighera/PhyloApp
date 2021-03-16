@@ -1,5 +1,4 @@
-import sqlite3, sys
-from uuid import uuid4
+import sqlite3
 
 class Create():
     def __init__(self):
