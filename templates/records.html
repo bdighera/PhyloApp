@@ -27,13 +27,16 @@
     </tr>
     </thead>
     <tbody>
-     {% for col in data %}
-		<input type="button" onclick="selectAll()" value="Select All"/>
+    		<input type="button" onclick="selectAll()" value="Select All"/>
 		<input type="button" onclick="UnSelectAll()" value="Unselect All"/>
-		<input type="submit" form="proteins" />
+		<input type="submit" form="proteins"/>
+            <form id="proteins" action="{{ url_for('InitialFigure') }}" method="post" name="name" enctype="multipart/form-data">
+     {% for col in data %}
          
             <tr>
-				<td><form id="proteins" action="pythongoeshere" method="get" name="name" enctype="multipart/form-data"><input type="checkbox" name="entries" value="radio">{{col[0]}}</form></td>
+            
+
+				<td><label><input type="checkbox" name="entries" value={{col[0]}}>{{col[0]}}</label></td>
                 <td>{{col[1]}}</td>
                 <td>{{col[2]}}</td>
                 <td>{{col[3]}}</td>
@@ -45,6 +48,7 @@
 
             </tr>
         {% endfor %}
+    </form>
     </tbody>
 </table>
 

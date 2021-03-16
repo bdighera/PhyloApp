@@ -35,7 +35,7 @@ class SeqModel(db.Model):
 	taxonomy = db.Column(db.Text)
 	commonName = db.Column(db.Text)
 
-@app.route('/InitialFigure', methods=['GET'])
+@app.route('/InitialFigure', methods=['GET', 'POST'])
 def InitialFigure():
 	if request.method == 'GET':
 
@@ -155,9 +155,12 @@ def InitialFigure():
 			collector.collectSeqs(P.parseInput())
 
 		else:
-			return{'THIS CODE':'IS NOT WORKING'}
+			return {'ERROR':'BROKEN PATH'}
 
-
+	elif request.method == 'POST':
+		print(request.form.getlist('entries'))
+		
+		
 
 @app.route('/')
 def index():
