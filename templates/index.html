@@ -94,49 +94,8 @@
 
       </div>
       <div role="tabpanel" class="tab-pane fade" id="databasetab" aria-labelledby="database">
-<div class="table">
-		  <table>
-  <thead>
 
-    <div style="align-content: center">
-        <button class="btn btn-primary" onClick="window.location.reload();">Refresh Page</button>
-    </div>
-
-    <tr>
-        <th>Protein Accession</th>
-        <th>Common Name</th>
-        <th>Protein ID</th>
-        <th>Protein Description</th>
-        <th>CDS Accession</th>
-        <th>Gene ID</th>
-        <th>Taxonomy</th>
-
-
-
-    </tr>
-    </thead>
-    <tbody>
-     {% for col in data %}
-		<input type="button" onclick="selectAll()" value="Select All"/>
-		<input type="button" onclick="UnSelectAll()" value="Unselect All"/>
-         
-            <tr>
-                <td><input type="checkbox" name="entries" value="radio">{{col[0]}}</td>
-                <td>{{col[1]}}</td>
-                <td>{{col[2]}}</td>
-                <td>{{col[3]}}</td>
-                <td>{{col[4]}}</td>
-                <td>{{col[5]}}</td>
-                <td>{{col[6]}}</td>
-                
-                
-
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-	
-		  </div>
+		  <iframe width="1200px" height="800px" src="http://127.0.0.1:5000/dB" name="Refresh" id="Refresh"></iframe>
 
       </div>
 		<div role="tabpanel" class="tab-pane fade" id="introns" aria-labelledby="intron">
@@ -177,23 +136,6 @@
   <script src="../static/jquery-3.4.1.min.js"></script>
   <script src="../static/popper.min.js"></script>
   <script src="../static/bootstrap-4.4.1.js"></script>
-	  <script type="text/javascript">
-			function selectAll(){
-				var items=document.getElementsByName('entries');
-				for(var i=0; i<items.length; i++){
-					if(items[i].type=='checkbox')
-						items[i].checked=true;
-				}
-			}
-			
-			function UnSelectAll(){
-				var items=document.getElementsByName('entries');
-				for(var i=0; i<items.length; i++){
-					if(items[i].type=='checkbox')
-						items[i].checked=false;
-				}
-			}			
-		</script>
 	  </div>
   </body>
 	

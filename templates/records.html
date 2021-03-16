@@ -6,15 +6,6 @@
 <link href="../static/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<style>
-
- td {
-        width: 150px;
-        text-align: center;
-        border: 1px solid black;
-        padding: 5px;
-      }
-</style>
 <table>
   <thead>
 
@@ -24,6 +15,8 @@
 
     <tr>
         <th>Protein Accession</th>
+<table>
+  <thead>
         <th>Common Name</th>
         <th>Protein ID</th>
         <th>Protein Description</th>
@@ -37,9 +30,11 @@
     </thead>
     <tbody>
      {% for col in data %}
+		<input type="button" onclick="selectAll()" value="Select All"/>
+		<input type="button" onclick="UnSelectAll()" value="Unselect All"/>
          
             <tr>
-                <td><input type="checkbox" name="DisplaySeqs" value="radio" id="DisplaySeqs">{{col[0]}}</td>
+                <td><input type="checkbox" name="entries" value="radio">{{col[0]}}</td>
                 <td>{{col[1]}}</td>
                 <td>{{col[2]}}</td>
                 <td>{{col[3]}}</td>
@@ -53,17 +48,23 @@
         {% endfor %}
     </tbody>
 </table>
+	<script type="text/javascript">
+    function selectAll() {
+        var items = document.getElementsByName('acs');
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].type == 'checkbox')
+                items[i].checked = true;
+        }
+    }
+
+    function UnSelectAll() {
+        var items = document.getElementsByName('acs');
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].type == 'checkbox')
+                items[i].checked = false;
+        }
+    }			
+</script>
 <script type="text/javascript">function refreshiframe() {parent.Refresh.location.href="localhost:/5000"}</script>
 </body>
-<script> $('#selectAll').click(function() {
-   if (this.checked) {
-       $(':checkbox').each(function() {
-           this.checked = true;
-       });
-   } else {
-      $(':checkbox').each(function() {
-           this.checked = false;
-       });
-   } 
-});</script>
 </html>
