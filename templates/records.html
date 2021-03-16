@@ -36,16 +36,18 @@
     </tr>
     </thead>
     <tbody>
-     {% for row in data %}
+     {% for col in data %}
+         
             <tr>
-                <td>{{row[0]}}</td>
-                <td>{{row[1]}}</td>
-                <td>{{row[2]}}</td>
-                <td>{{row[3]}}</td>
-                <td>{{row[4]}}</td>
-                <td>{{row[5]}}</td>
-                <td>{{row[6]}}</td>
-
+                <td><input type="checkbox" name="DisplaySeqs" value="radio" id="DisplaySeqs">{{col[0]}}</td>
+                <td>{{col[1]}}</td>
+                <td>{{col[2]}}</td>
+                <td>{{col[3]}}</td>
+                <td>{{col[4]}}</td>
+                <td>{{col[5]}}</td>
+                <td>{{col[6]}}</td>
+                
+                
 
             </tr>
         {% endfor %}
@@ -53,4 +55,15 @@
 </table>
 <script type="text/javascript">function refreshiframe() {parent.Refresh.location.href="localhost:/5000"}</script>
 </body>
+<script> $('#selectAll').click(function() {
+   if (this.checked) {
+       $(':checkbox').each(function() {
+           this.checked = true;
+       });
+   } else {
+      $(':checkbox').each(function() {
+           this.checked = false;
+       });
+   } 
+});</script>
 </html>
