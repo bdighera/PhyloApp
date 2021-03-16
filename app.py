@@ -158,7 +158,8 @@ def InitialFigure():
 			return {'ERROR':'BROKEN PATH'}
 
 	elif request.method == 'POST':
-		print(request.form.getlist('entries'))
+		seq = (request.form.getlist('entries'))
+		return {'Input Sequences':seq}
 		
 		
 
