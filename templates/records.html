@@ -28,6 +28,8 @@
     </thead>
     <tbody>
      {% for col in data %}
+		<input type="button" onclick="selectAll()" value="Select All"/>
+		<input type="button" onclick="UnSelectAll()" value="Unselect All"/>
          
             <tr>
                 <td><input type="checkbox" name="entries" value="radio">{{col[0]}}</td>
