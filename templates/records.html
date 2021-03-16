@@ -6,7 +6,7 @@
 <link href="../static/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<table>
+		  <table>
   <thead>
 
     <div style="align-content: center">
@@ -15,8 +15,6 @@
 
     <tr>
         <th>Protein Accession</th>
-<table>
-  <thead>
         <th>Common Name</th>
         <th>Protein ID</th>
         <th>Protein Description</th>
@@ -30,8 +28,6 @@
     </thead>
     <tbody>
      {% for col in data %}
-		<input type="button" onclick="selectAll()" value="Select All"/>
-		<input type="button" onclick="UnSelectAll()" value="Unselect All"/>
          
             <tr>
                 <td><input type="checkbox" name="entries" value="radio">{{col[0]}}</td>
@@ -48,9 +44,10 @@
         {% endfor %}
     </tbody>
 </table>
+
 	<script type="text/javascript">
     function selectAll() {
-        var items = document.getElementsByName('acs');
+        var items = document.getElementsByName('entries');
         for (var i = 0; i < items.length; i++) {
             if (items[i].type == 'checkbox')
                 items[i].checked = true;
@@ -58,7 +55,7 @@
     }
 
     function UnSelectAll() {
-        var items = document.getElementsByName('acs');
+        var items = document.getElementsByName('entries');
         for (var i = 0; i < items.length; i++) {
             if (items[i].type == 'checkbox')
                 items[i].checked = false;
