@@ -22,9 +22,9 @@ Env/
 
 #Unnecessary dirs
 src/__pycache__
+execs/
 
-
-# Distribution / packaging
+ Distribution / packaging
 .Python
 build/
 develop-eggs/
