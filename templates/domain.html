@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<style>
+.sequenceNameStyle {
+  display: inline-block;	
+ }
+.sequenceCanvasStyle {
+	display: inline-block;
+}
+
+</style>
+
+<script src="../static/jquery-3.6.0.min.js"></script>
+<script src="../static/domain.js"></script>
+</head>
+
+<body onload="draw();">
+
+<div id="demo">
+<h1>Phylogenetic Data Visualization</h1>
+</div>
+<table id="sequenceTable">
+	<thead>
+		<tr>
+			<th>Delete</th>
+			<th>Sequence</th>
+			<th>Domain</th>
+		</tr>
+	</thead>
+</table>
+<button onclick=postSequences()>Export</button>
+<!--
+<form onsubmit="submitSequences()">
+  <label for="fname">Sequences:</label><br>
+  <input type="text" id="sequences" name="sequences" value="XP_028685121.1 XP_028685120.1 XP_030856577.1"><br>
+  <input type="submit" value="Submit">
+</form>
+-->
+</body>
+</html>
+
+ 
+                                                                 
