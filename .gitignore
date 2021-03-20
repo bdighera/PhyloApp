@@ -22,7 +22,7 @@ Env/
 
 #Unnecessary dirs
 src/__pycache__
-execs/
+execs/tmp/
 
  Distribution / packaging
 .Python

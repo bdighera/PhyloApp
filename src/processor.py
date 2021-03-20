@@ -6,7 +6,7 @@ from ete3 import Tree
 
 class PhyloTreeConstruction(object):
 
-    def __init__(self, proteinAccession, proteinSeq, proteinDescription, GenomicContext, ParentDomains, Introns, ExonLenghts,
+    def __init__(self, proteinAccession, proteinSeq,proteinDescription, GenomicContext, ParentDomains, Introns, ExonLenghts,
 				 commonNames, GeneID, image_scaling, stretch):
         self.proteinAccessions = proteinAccession
         self.proteinSeqs = proteinSeq
@@ -21,7 +21,6 @@ class PhyloTreeConstruction(object):
         self.geneID = GeneID
         self.image_scaling = image_scaling
         self.stretch = stretch
-
 
     def rootedTreeConstruction(self):
 
@@ -204,7 +203,7 @@ class PhyloTreeConstruction(object):
                 intronPhases = ast.literal_eval(intronPhases)
                 exonLengths = ast.literal_eval(exonLengths)
 
-                exonLength = [math.floor(int(exonLengths[i][0].split('-')[1]) / 3) for i in range(len(exonLengths))]
+                exonLength = [math.floor(int(str(exonLengths[i][0]).strip("'").split('-')[1]) / 3) for i in range(len(exonLengths))]
                 lengths.append(exonLength)
                 recordMotifs = []
 
@@ -284,7 +283,7 @@ class PhyloTreeConstruction(object):
 
         leafNames = t.get_leaf_names()
 
-        GCMotifs = []
+        GCMotifs = {'Sequences':[]}
 
         # The leaf names contain the description so the accession must be stripped in order to index with protein accessions from db
         leafAccessionExtracted = treeObj.getProteinAccession([leaf for leaf in leafNames])
@@ -300,6 +299,8 @@ class PhyloTreeConstruction(object):
 
                 coding_direction = [record[i]['coding_direction'] for i in range(len(record))]
                 geneName = [record[i]['gene_name'] for i in range(len(record))]
+                real_start = [record[i]['gene_start_seq'] for i in range(len(record))]
+                real_end = [record[i]['gene_end_seq'] for i in range(len(record))]
                 numberofDomains = [record[i]['domain'] for i in range(len(record))]
 
                 flip = [record[i]['flip'] for i in range(len(record))]
@@ -317,8 +318,11 @@ class PhyloTreeConstruction(object):
                         if coding_direction[i] == '-' and flip[i] == False:
 
                             if numberofDomains[i] != []:
-                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
-                                                                   'endLocation': int(end_gene_location[i]),
+                                recordMotifs.append({'arbitrarystartLocation': int(start_gene_location[i]),
+                                                                   'artitraryendLocation': int(end_gene_location[i]),
+                                                                    'startLocation':real_start[i],
+                                                                    'endLocation': real_end[i],
+                                                                    'length':abs(int(real_start[i])-int(real_end[i])),
                                                                    'shape': '[]',
                                                                    'width': None,
                                                                    'height': 12,
@@ -336,8 +340,11 @@ class PhyloTreeConstruction(object):
 
 
                             else:
-                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
-                                                             'endLocation': int(end_gene_location[i]),
+                                recordMotifs.append({'arbitrarystartLocation': int(start_gene_location[i]),
+                                                     'artitraryendLocation': int(end_gene_location[i]),
+                                                     'startLocation': real_start[i],
+                                                     'endLocation': real_end[i],
+                                                     'length': abs(int(real_start[i]) - int(real_end[i])),
                                                              'shape': '[]',
                                                              'width': None,
                                                              'height': 12,
@@ -353,8 +360,11 @@ class PhyloTreeConstruction(object):
                         elif coding_direction[i] == '+' and flip[i] == True:
 
                             if numberofDomains[i] != []:
-                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
-                                                                   'endLocation': int(end_gene_location[i]),
+                                recordMotifs.append({'arbitrarystartLocation': int(start_gene_location[i]),
+                                                     'artitraryendLocation': int(end_gene_location[i]),
+                                                     'startLocation': real_start[i],
+                                                     'endLocation': real_end[i],
+                                                     'length': abs(int(real_start[i]) - int(real_end[i])),
                                                                    'shape': '[]',
                                                                    'width': None,
                                                                    'height': 12,
@@ -372,8 +382,11 @@ class PhyloTreeConstruction(object):
 
 
                             else:
-                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
-                                                             'endLocation': int(end_gene_location[i]),
+                                recordMotifs.append({'arbitrarystartLocation': int(start_gene_location[i]),
+                                                     'artitraryendLocation': int(end_gene_location[i]),
+                                                     'startLocation': real_start[i],
+                                                     'endLocation': real_end[i],
+                                                     'length': abs(int(real_start[i]) - int(real_end[i])),
                                                              'shape': '[]',
                                                              'width': None,
                                                              'height': 12,
@@ -389,8 +402,11 @@ class PhyloTreeConstruction(object):
                         elif coding_direction[i] == '-' and flip[i] == True:
 
                             if numberofDomains[i] != []:
-                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
-                                                                   'endLocation': int(end_gene_location[i]),
+                                recordMotifs.append({'arbitrarystartLocation': int(start_gene_location[i]),
+                                                     'artitraryendLocation': int(end_gene_location[i]),
+                                                     'startLocation': real_start[i],
+                                                     'endLocation': real_end[i],
+                                                     'length': abs(int(real_start[i]) - int(real_end[i])),
                                                                    'shape': '[]',
                                                                    'width': None,
                                                                    'height': 12,
@@ -408,8 +424,11 @@ class PhyloTreeConstruction(object):
 
 
                             else:
-                                recordMotifs.append({'startLocation': int(start_gene_location[i]),
-                                                             'endLocation': int(end_gene_location[i]),
+                                recordMotifs.append({'arbitrarystartLocation': int(start_gene_location[i]),
+                                                     'artitraryendLocation': int(end_gene_location[i]),
+                                                     'startLocation': real_start[i],
+                                                     'endLocation': real_end[i],
+                                                     'length': abs(int(real_start[i]) - int(real_end[i])),
                                                              'shape': '[]',
                                                              'width': None,
                                                              'height': 12,
@@ -426,8 +445,11 @@ class PhyloTreeConstruction(object):
 
                             if numberofDomains[i] != []:
                                 if numberofDomains[i] != []:
-                                    recordMotifs.append({'startLocation': int(start_gene_location[i]),
-                                                                       'endLocation': int(end_gene_location[i]),
+                                    recordMotifs.append({'arbitrarystartLocation': int(start_gene_location[i]),
+                                                         'artitraryendLocation': int(end_gene_location[i]),
+                                                         'startLocation': real_start[i],
+                                                         'endLocation': real_end[i],
+                                                         'length': abs(int(real_start[i]) - int(real_end[i])),
                                                                        'shape': '[]',
                                                                        'width': None,
                                                                        'height': 12,
@@ -446,8 +468,11 @@ class PhyloTreeConstruction(object):
 
 
                                 else:
-                                    recordMotifs.append({'startLocation': int(start_gene_location[i]),
-                                                                       'endLocation': int(end_gene_location[i]),
+                                    recordMotifs.append({'arbitrarystartLocation': int(start_gene_location[i]),
+                                                         'artitraryendLocation': int(end_gene_location[i]),
+                                                         'startLocation': real_start[i],
+                                                         'endLocation': real_end[i],
+                                                         'length': abs(int(real_start[i]) - int(real_end[i])),
                                                                        'shape': '[]',
                                                                        'width': None,
                                                                        'height': 12,
@@ -462,7 +487,7 @@ class PhyloTreeConstruction(object):
                     else:
                         recordMotifs.append(None)
 
-                GCMotifs.append({'name':leaf, 'motifs':recordMotifs})
+                GCMotifs['Sequences'].append({'name':leaf, 'motifs':recordMotifs})
 
             except IndexError:
                 print('Genomic Context Index Error at Sequence: %s' % leaf)
