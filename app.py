@@ -158,7 +158,9 @@ def InitialFigure():
 			)
 			json = Phylo.buildIntrons()
 			mpld3_html = processor.buildIntronFig(json)
-			return render_template('index.html', plot=mpld3_html)
+			#ToDO: returns the index.html file in the iframe - the image displays in the iframe introns folder
+			return render_template('index.html',plot=mpld3_html)
+
 		elif runtype == 'genomicContext':
 			args = seqs
 

@@ -498,7 +498,6 @@ class PhyloTreeConstruction(object):
 
         return GCMotifs
 
-
 def buildIntronFig(json):
     '''
 

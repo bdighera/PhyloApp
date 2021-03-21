@@ -1,4 +1,4 @@
-import sqlite3, ast, json, argparse, pprint
+import sqlite3, ast, json, argparse, pprint, re
 from flask import jsonify
 from Bio import SeqIO
 
@@ -8,6 +8,11 @@ class argparseJSON():
         self.seqs = seqs
 
     def parseInput(self):
+
+        print(type(self.seqs))
+        if isinstance(self.seqs, str):
+            self.seqs = accessionExtractor(self.seqs)
+            return self.seqs
 
         if self.seqs != None:
             return self.seqs
@@ -161,3 +166,10 @@ def get_all_users():
     content = rows.fetchall()
     conn.close()
     return content
+
+
+def accessionExtractor(search):
+
+    p = re.compile('[NX]P_\d+.\d')
+    accessionList = p.findall(str(search))
+    return accessionList
