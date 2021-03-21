@@ -126,7 +126,6 @@ def InitialFigure():
 
 		else:
 			return '<h1><center>404 ERROR - BROKEN PATH</center></h1>'
-
 	#TODO: Make this the only method once the GET deprecated code above is removed
 	elif request.method == 'POST':
 		#File upload for collection of sequences
@@ -138,12 +137,10 @@ def InitialFigure():
 			P = parser.argparseJSON(args)
 			collector.collectSeqs(P.parseInput())
 
-
 @app.route('/')
 def index():
 	filename = os.path.join('../','static','images', 'orthologo.png')
 	return render_template("index.html", user_image=filename)
-
 
 @app.route('/dB', methods=['GET', 'POST'])
 def dB():
