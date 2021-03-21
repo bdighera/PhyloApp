@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
- <title></title>
-<link href="../static/design.css" rel="stylesheet" type="text/css">
-<link href="../static/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
-</head>
-<body>
+{% extends 'index.html' %}
+{% block dBtable %}
 		  <table>
   <thead>
 
@@ -22,8 +16,6 @@
         <th>Gene ID</th>
         <th>Taxonomy</th>
 
-
-
     </tr>
     </thead>
     <tbody>
@@ -38,8 +30,10 @@
             <input type="file" id="file-upload" form="proteins" name="myfile"/>
   			<label class="dbuploadbtn" for="file-upload">Upload file</label>
                     <input type="submit" form="proteins"/>
-            <form id="proteins" action="{{ url_for('dB') }}" method="post" name="name" enctype="multipart/form-data">
+            <form id="proteins" action="{{ url_for('index') }}" method="post" name="name" enctype="multipart/form-data">
             <input type="file" id="fupload" name="my" form="proteins"/>
+
+
      {% for col in data %}
          
             <tr>
@@ -79,5 +73,4 @@
     }			
 </script>
 <script type="text/javascript">function refreshiframe() {parent.Refresh.location.href="localhost:/5000"}</script>
-</body>
-</html>
+{% endblock %}

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
+from jinja2 import environment
 import os, sqlite3
 
 
@@ -67,7 +68,7 @@ def InitialFigure():
 				json = Phylo.buildIntrons()
 
 				mpld3_html = processor.buildIntronFig(json)
-				return render_template('index.html', plot=mpld3_html)
+				return render_template('intron.html', plot=mpld3_html)
 			elif  request.args['typeofrun'] == 'genomicContext':
 				args = request.args['name']
 
@@ -137,13 +138,9 @@ def InitialFigure():
 			P = parser.argparseJSON(args)
 			collector.collectSeqs(P.parseInput())
 
-@app.route('/')
-def index():
-	filename = os.path.join('../','static','images', 'orthologo.png')
-	return render_template("index.html", user_image=filename)
 
-@app.route('/dB', methods=['GET', 'POST'])
-def dB():
+@app.route('/', methods=['GET', 'POST'])
+def index():
 	if request.method == 'GET':
 		#GET method will happen with the refresh button and will also make new dB + table upon initializing program
 		try:
@@ -156,7 +153,7 @@ def dB():
 			create.NewTable()
 			data = parser.get_all_users()
 			return render_template('records.html', data=data)
-	if request.method == 'POST':
+	elif request.method == 'POST':
 		#POST Job will submit what the user inputs as sequences to submit from dB page
 
 		runtype = request.form.get('typeofrun')
@@ -196,8 +193,9 @@ def dB():
 			)
 			json = Phylo.buildIntrons()
 			mpld3_html = processor.buildIntronFig(json)
+			data = parser.get_all_users()
 			# ToDO: returns the index.html file in the iframe - the image displays in the iframe introns folder
-			return render_template('index.html', plot=mpld3_html)
+			return render_template('intron.html', plot=mpld3_html, data=data)
 		elif runtype == 'genomicContext':
 			args = seqs
 
@@ -248,6 +246,9 @@ def dB():
 			)
 			domains = Phylo.buildDomains()
 			return render_template('index.html', data=domains)
+
+	else:
+		return render_template("index.html", Title='HomePage - PhyloApp')
 
 if __name__ == '__main__':
 	app.run(debug= True)
