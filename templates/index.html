@@ -56,7 +56,7 @@
 	<div id="pageloader">
    <img src="../static/images/loader-large.gif" alt="processing..." />
 </div>
-  <form id="phylo" action= "{{ url_for('InitialFigure') }}" method="get" name="name" enctype="multipart/form-data">
+  <form id="phylo" action= "{{ url_for('InitialFigure') }}" method="post" name="name" enctype="multipart/form-data">
 	 <label class="labelforms" for="exampleInputuid">Analyze</label>
 	  
 	  <div class="form-group">
@@ -69,7 +69,7 @@
 	  			<label class="labelforms">Sequences</label>
 	          <div class="form-group">
 				 <label> Collect</label>
-           <input type="checkbox" name="CollectSeqs" value="radio" id="CollectSeqs">
+           <input type="checkbox" name="CollectSeqs" value="collect" id="CollectSeqs">
 				  	 <label> Display </label>
             <input type="checkbox" name="DisplaySeqs" value="radio" id="DisplaySeqs">
 		 </div>
@@ -80,7 +80,7 @@
 	  <div class="form-group">
 		  
 		  <input type="text" name="name" id="name" placeholder="Ex: XP_028685121.1">
-		  	<input type="file" id="file-upload" />
+		  	<input type="file" id="file-upload" name="myfile"/>
   			<label class="uploadbtn" for="file-upload">Upload file</label>
   			<div id="file-upload-filename"></div>
   		  </div>

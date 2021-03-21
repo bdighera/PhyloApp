@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
-import matplotlib.pyplot as plt, mpld3
-import pandas as pd
 import os, sqlite3
+
 
 from src import parser, processor, collector, sqlite
 
@@ -37,9 +36,9 @@ class SeqModel(db.Model):
 
 @app.route('/InitialFigure', methods=['GET', 'POST'])
 def InitialFigure():
+	# ToDO: This is going to be deprecated when the visualization can only be run from dB page
 	if request.method == 'GET':
 
-		#ToDO: This is going to be deprecated when the visualization can only be run from dB page
 		if request.args.get("DisplaySeqs") == 'radio':
 
 			if request.args['typeofrun'] == 'introns':
@@ -118,7 +117,7 @@ def InitialFigure():
 					stretch=0
 				)
 				domains = Phylo.buildDomains()
-				return jsonify(domains)
+				return render_template('index.html', data=domains)
 
 		elif request.args.get("CollectSeqs") == 'radio':
 			args = request.args['name']
@@ -128,10 +127,52 @@ def InitialFigure():
 		else:
 			return '<h1><center>404 ERROR - BROKEN PATH</center></h1>'
 
+	#TODO: Make this the only method once the GET deprecated code above is removed
 	elif request.method == 'POST':
+		#File upload for collection of sequences
+		seqs = ''
+		if request.files['myfile']:
+			file = request.files['myfile']
+			seqs = str(file.read())
+			args = seqs
+			P = parser.argparseJSON(args)
+			collector.collectSeqs(P.parseInput())
+
+
+@app.route('/')
+def index():
+	filename = os.path.join('../','static','images', 'orthologo.png')
+	return render_template("index.html", user_image=filename)
+
+
+@app.route('/dB', methods=['GET', 'POST'])
+def dB():
+	if request.method == 'GET':
+		#GET method will happen with the refresh button and will also make new dB + table upon initializing program
+		try:
+			data = parser.get_all_users()
+			return render_template('records.html', data=data)
+
+		except sqlite3.OperationalError:
+			os.remove('Sequences.db')
+			create = sqlite.Create()
+			create.NewTable()
+			data = parser.get_all_users()
+			return render_template('records.html', data=data)
+	if request.method == 'POST':
+		#POST Job will submit what the user inputs as sequences to submit from dB page
 
 		runtype = request.form.get('typeofrun')
-		seqs = request.form.getlist('entries')
+		seqs = ''
+		if request.form.getlist('entries'):
+			seqs = request.form.getlist('entries')
+		elif request.files['myfile']:
+			file = request.files['myfile']
+			seqs = str(file.read())
+		elif request.form.getlist('entries') and request.files['myfile']:
+			file = request.files['myfile']
+			db = request.form.getlist('entries')
+			seqs = db + file
 
 		if runtype == 'introns':
 			args = seqs
@@ -158,9 +199,8 @@ def InitialFigure():
 			)
 			json = Phylo.buildIntrons()
 			mpld3_html = processor.buildIntronFig(json)
-			#ToDO: returns the index.html file in the iframe - the image displays in the iframe introns folder
-			return render_template('index.html',plot=mpld3_html)
-
+			# ToDO: returns the index.html file in the iframe - the image displays in the iframe introns folder
+			return render_template('index.html', plot=mpld3_html)
 		elif runtype == 'genomicContext':
 			args = seqs
 
@@ -210,29 +250,7 @@ def InitialFigure():
 				stretch=0
 			)
 			domains = Phylo.buildDomains()
-			return jsonify(domains)
-
-
-@app.route('/')
-def index():
-	filename = os.path.join('../','static','images', 'orthologo.png')
-	return render_template("index.html", user_image=filename)
-
-
-@app.route('/dB', methods=['GET'])
-def dB():
-	if request.method == 'GET':
-		try:
-			data = parser.get_all_users()
-			return render_template('records.html', data=data)
-
-		except sqlite3.OperationalError:
-			os.remove('Sequences.db')
-			create = sqlite.Create()
-			create.NewTable()
-			data = parser.get_all_users()
-			return render_template('records.html', data=data)
-
+			return render_template('index.html', data=domains)
 
 if __name__ == '__main__':
 	app.run(debug= True)
