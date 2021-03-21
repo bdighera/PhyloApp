@@ -65,37 +65,9 @@ def InitialFigure():
 					image_scaling=1,
 					stretch=0
 				)
-				introns = Phylo.buildIntrons()
+				json = Phylo.buildIntrons()
 
-				# Figure for Displaying Introns
-				df = pd.DataFrame.from_dict(introns)
-
-				Seqs = df['Sequences']
-				labels = [Seqs[i]['name'] for i in range(len(Seqs))]
-				yticks = []
-				y = 10
-
-				fig = plt.figure()
-				for i in range(len(Seqs)):
-					xList = []
-					for j in range(len(Seqs[i]['introns'])):
-						x = Seqs[i]['introns'][j]['realLocation']
-						color = Seqs[i]['introns'][j]['background']
-						# print(x,y)
-						plt.scatter(x, y, color=color, zorder=2, linestyle='-')
-						xList.append(x)
-
-					x1 = max(xList)
-					x2 = 0
-					plt.plot([x1, x2], [y, y], linestyle='solid', zorder=1)
-					yticks.append(y)
-					y += 10
-
-				plt.yticks(yticks, labels=labels)
-				plt.tight_layout()
-				mpld3.fig_to_html(fig=fig)
-				mpld3_html = mpld3.fig_to_html(fig=fig)
-
+				mpld3_html = processor.buildIntronFig(json)
 				return render_template('index.html', plot=mpld3_html)
 			elif  request.args['typeofrun'] == 'genomicContext':
 				args = request.args['name']
@@ -184,8 +156,9 @@ def InitialFigure():
 				image_scaling=1,
 				stretch=0
 			)
-			introns = Phylo.buildIntrons()
-			return jsonify(introns)
+			json = Phylo.buildIntrons()
+			mpld3_html = processor.buildIntronFig(json)
+			return render_template('index.html', plot=mpld3_html)
 		elif runtype == 'genomicContext':
 			args = seqs
 
@@ -257,11 +230,6 @@ def dB():
 			create.NewTable()
 			data = parser.get_all_users()
 			return render_template('records.html', data=data)
-
-
-
-
-
 
 
 if __name__ == '__main__':

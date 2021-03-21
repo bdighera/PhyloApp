@@ -1,5 +1,7 @@
 from Bio.Align.Applications import ClustalOmegaCommandline
 import itertools, os, subprocess, sys, math, dendropy, pprint, ast, uuid
+import matplotlib.pyplot as plt, mpld3
+import pandas as pd
 from randomcolor import RandomColor
 from src import handler
 from ete3 import Tree
@@ -495,4 +497,41 @@ class PhyloTreeConstruction(object):
                 pass
 
         return GCMotifs
+
+
+def buildIntronFig(json):
+    '''
+
+    :param json: returned json figure from method build introns of PhyloTreeConstruction Class
+    :return: mpld3 object to be displayed on webpage
+    '''
+    # Figure for Displaying Introns
+    df = pd.DataFrame.from_dict(json)
+
+    Seqs = df['Sequences']
+    labels = [Seqs[i]['name'] for i in range(len(Seqs))]
+    yticks = []
+    y = 10
+
+    fig = plt.figure()
+    for i in range(len(Seqs)):
+        xList = []
+        for j in range(len(Seqs[i]['introns'])):
+            x = Seqs[i]['introns'][j]['realLocation']
+            color = Seqs[i]['introns'][j]['background']
+            # print(x,y)
+            plt.scatter(x, y, color=color, zorder=2, linestyle='-')
+            xList.append(x)
+
+        x1 = max(xList)
+        x2 = 0
+        plt.plot([x1, x2], [y, y], linestyle='solid', zorder=1)
+        yticks.append(y)
+        y += 10
+
+    plt.yticks(yticks, labels=labels)
+    plt.tight_layout()
+    mpld3.fig_to_html(fig=fig)
+    mpld3_html = mpld3.fig_to_html(fig=fig)
+    return mpld3_html
 
