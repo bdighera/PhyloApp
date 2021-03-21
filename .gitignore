@@ -23,6 +23,8 @@ Env/
 #Unnecessary dirs
 src/__pycache__
 execs/tmp/
+execs/
+
 
  Distribution / packaging
 .Python
