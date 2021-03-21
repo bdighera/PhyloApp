@@ -5,7 +5,7 @@ from Bio import SeqIO
 class argparseJSON():
 
     def __init__(self, seqs):
-        self.seqs = seqs.split(' ')
+        self.seqs = seqs
 
     def parseInput(self):
 

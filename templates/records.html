@@ -29,6 +29,11 @@
     <tbody>
     		<input type="button" onclick="selectAll()" value="Select All"/>
 		<input type="button" onclick="UnSelectAll()" value="Unselect All"/>
+            <select form="proteins" class="dbform-select" name="typeofrun" required>
+  				<option value="introns">Introns</option>
+  				<option value="genomicContext">Genomic Context</option>
+  				<option value="domains">Domains</option>
+	  </select>
 		<input type="submit" form="proteins"/>
             <form id="proteins" action="{{ url_for('InitialFigure') }}" method="post" name="name" enctype="multipart/form-data">
      {% for col in data %}

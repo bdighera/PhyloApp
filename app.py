@@ -39,6 +39,7 @@ class SeqModel(db.Model):
 def InitialFigure():
 	if request.method == 'GET':
 
+		#ToDO: This is going to be deprecated when the visualization can only be run from dB page
 		if request.args.get("DisplaySeqs") == 'radio':
 
 			if request.args['typeofrun'] == 'introns':
@@ -96,7 +97,6 @@ def InitialFigure():
 				mpld3_html = mpld3.fig_to_html(fig=fig)
 
 				return render_template('index.html', plot=mpld3_html)
-
 			elif  request.args['typeofrun'] == 'genomicContext':
 				args = request.args['name']
 
@@ -122,7 +122,6 @@ def InitialFigure():
 				)
 				genomicContext = Phylo.buildGenomicContext()
 				return jsonify(genomicContext)
-
 			elif request.args['typeofrun'] == 'domains':
 				args = request.args['name']
 
@@ -155,13 +154,89 @@ def InitialFigure():
 			collector.collectSeqs(P.parseInput())
 
 		else:
-			return {'ERROR':'BROKEN PATH'}
+			return '<h1><center>404 ERROR - BROKEN PATH</center></h1>'
 
 	elif request.method == 'POST':
-		seq = (request.form.getlist('entries'))
-		return {'Input Sequences':seq}
-		
-		
+
+		runtype = request.form.get('typeofrun')
+		seqs = request.form.getlist('entries')
+
+		if runtype == 'introns':
+			args = seqs
+
+			P = parser.argparseJSON(args)
+
+			P.parseInput()
+			P.pullDBrecords()
+			data = P.serialize()
+
+			Phylo = processor.PhyloTreeConstruction(
+
+				proteinAccession=data['proteinAccession'],
+				proteinSeq=data['proteinSeq'],
+				proteinDescription=data['proteinDescription'],
+				GenomicContext=data['genomicContext'],
+				ParentDomains=data['parentDomains'],
+				Introns=data['introns'],
+				ExonLenghts=data['exonLength'],
+				commonNames=data['commonNames'],
+				GeneID=data['geneID'],
+				image_scaling=1,
+				stretch=0
+			)
+			introns = Phylo.buildIntrons()
+			return jsonify(introns)
+		elif runtype == 'genomicContext':
+			args = seqs
+
+			P = parser.argparseJSON(args)
+
+			P.parseInput()
+			P.pullDBrecords()
+			data = P.serialize()
+
+			Phylo = processor.PhyloTreeConstruction(
+
+				proteinAccession=data['proteinAccession'],
+				proteinSeq=data['proteinSeq'],
+				proteinDescription=data['proteinDescription'],
+				GenomicContext=data['genomicContext'],
+				ParentDomains=data['parentDomains'],
+				Introns=data['introns'],
+				ExonLenghts=data['exonLength'],
+				commonNames=data['commonNames'],
+				GeneID=data['geneID'],
+				image_scaling=1,
+				stretch=0
+			)
+			genomicContext = Phylo.buildGenomicContext()
+			return jsonify(genomicContext)
+		elif runtype == 'domains':
+			args = seqs
+
+			P = parser.argparseJSON(args)
+
+			P.parseInput()
+			P.pullDBrecords()
+			data = P.serialize()
+
+			Phylo = processor.PhyloTreeConstruction(
+
+				proteinAccession=data['proteinAccession'],
+				proteinSeq=data['proteinSeq'],
+				proteinDescription=data['proteinDescription'],
+				GenomicContext=data['genomicContext'],
+				ParentDomains=data['parentDomains'],
+				Introns=data['introns'],
+				ExonLenghts=data['exonLength'],
+				commonNames=data['commonNames'],
+				GeneID=data['geneID'],
+				image_scaling=1,
+				stretch=0
+			)
+			domains = Phylo.buildDomains()
+			return jsonify(domains)
+
 
 @app.route('/')
 def index():
