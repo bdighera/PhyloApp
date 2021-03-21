@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
+{% extends 'records.html' %}
+{% block domain %}
 <style>
 .sequenceNameStyle {
   display: inline-block;	
@@ -13,7 +10,7 @@
 
 </style>
 
-<script src="../static/jquery-3.6.0.min.js"></script>
+<script src="../static/jquery-3.4.1.min.js"></script>
 <script src="../static/domain.js"></script>
 </head>
 
@@ -31,16 +28,18 @@
 		</tr>
 	</thead>
 </table>
-<button onclick=postSequences()>Export</button>
-<!--
-<form onsubmit="submitSequences()">
-  <label for="fname">Sequences:</label><br>
-  <input type="text" id="sequences" name="sequences" value="XP_028685121.1 XP_028685120.1 XP_030856577.1"><br>
-  <input type="submit" value="Submit">
-</form>
--->
+<h1>LOCATION</h1>
+<h1>{{ domainData }}</h1>
+<button onclick=sequenceData('({{ domainData | tojson }})')>Export</button>
+
+{#<form onsubmit="submitSequences()">#}
+{#  <label for="fname">Sequences:</label><br>#}
+{#  <input type="text" id="sequences" name="sequences" value="XP_028685121.1 XP_028685120.1 XP_030856577.1"><br>#}
+{#  <input type="submit" value="Submit">#}
+{#</form>#}
+
 </body>
-</html>
+{% endblock %}
 
  
                                                                  

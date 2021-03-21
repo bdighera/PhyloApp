@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, json
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from jinja2 import environment
@@ -245,10 +245,11 @@ def index():
 				stretch=0
 			)
 			domains = Phylo.buildDomains()
-			return render_template('index.html', data=domains)
-
+			data = parser.get_all_users()
+			return render_template('domain.html', domainData=domains, data=data)
 	else:
 		return render_template("index.html", Title='HomePage - PhyloApp')
 
 if __name__ == '__main__':
 	app.run(debug= True)
+
