@@ -247,7 +247,7 @@ class PhyloTreeConstruction(object):
                                                            'foreground': 'Grey',
                                                            'realLocation': exonLocation[i]})
 
-                intronMotifs.append({'name':leaf, 'id':'000'+str(count), 'introns':recordMotifs})
+                intronMotifs.append({'name':leaf, 'id':'000'+str(count), 'introns':recordMotifs, 'len':MSASeqlen})
                 count +=1
 
 
