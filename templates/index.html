@@ -14,7 +14,11 @@
          <li class="nav-item"> <a class="nav-link" href="#databasetab" role="tab" id="database" data-toggle="tab" aria-controls="hats">Database Table</a> </li>
     <!-- Dropdown -->
     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Graph Outputs </a>
-      <div class="dropdown-menu"> <a class="dropdown-item" href="#introns" role="tab" id="intron" data-toggle="tab" aria-controls="dropdownShoes">Introns</a> <a class="dropdown-item" href="#genomics" role="tab" id="genomics" data-toggle="tab" aria-controls="dropdownShoes">Genomic Context</a> <a class="dropdown-item" href="#domain" role="tab" id="domains" data-toggle="tab" aria-controls="dropdownShoes">Domains</a> </div>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="#introns" role="tab" id="intron" data-toggle="tab" aria-controls="dropdownShoes">Introns</a>
+          <a class="dropdown-item" href="#genomics" role="tab" id="genomic" data-toggle="tab" aria-controls="dropdownShoes">Genomic Context</a>
+          <a class="dropdown-item" href="#domain" role="tab" id="domains" data-toggle="tab" aria-controls="dropdownShoes">Domains</a>
+      </div>
     </li>
   </ul>
 
@@ -70,29 +74,17 @@
 
 
       </div>
-		<div role="tabpanel" class="tab-pane fade" id="introns" aria-labelledby="intron">
+        <div role="tabpanel" class="tab-pane fade" id="introns" aria-labelledby="intron">
 			<div class="dataoutputdiv">
 				<h2> Introns</h2>
 				<p>Display Output</p>
 			</div>
 			<hr>
-			<div class="graph">
+			<div class="container">
 				{% block intron %}
                     {% endblock %}
 			</div>
 		</div>
-
-    <div role="tabpanel" class="tab-pane fade" id="genomics" aria-labelledby="genomics">
-			<div class="dataoutputdiv">
-				<h2> Genomic Context</h2>
-				<p>Display Output</p>
-			</div>
-        <hr>
-			<div class="container">
-                <h1>PlaceHolder</h1>
-
-			</div>
-    </div>
 
 	<div role="tabpanel" class="tab-pane fade" id="domain" aria-labelledby="domain">
 			<div class="dataoutputdiv">
@@ -103,6 +95,18 @@
 			<div class="container">
 				{% block domain %}
                     {% endblock %}
+			</div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="genomics" aria-labelledby="genomic">
+			<div class="dataoutputdiv">
+				<h2> Genomic Context</h2>
+				<p>Display Output</p>
+			</div>
+        <hr>
+			<div class="container">
+                <h1>{{ genomic }}</h1>
+
 			</div>
     </div>
     </div>

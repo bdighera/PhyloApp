@@ -24,7 +24,7 @@ Env/
 src/__pycache__
 execs/tmp/
 execs/
-
+execs/*
 
  Distribution / packaging
 .Python

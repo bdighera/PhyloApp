@@ -30,8 +30,8 @@
 </table>
 <h1>LOCATION</h1>
 <h1>{{ domainData }}</h1>
-<script>src=sequenceData({{ domainData }})</script>
-<button onclick=sequenceData('({{ domainData | tojson }})')>Export</button>
+<script>src=sequenceData({{ domainData | tojson }})</script>
+{#<button onclick=sequenceData('({{ domainData | tojson }})')>Export</button>#}
 
 {#<form onsubmit="submitSequences()">#}
 {#  <label for="fname">Sequences:</label><br>#}
