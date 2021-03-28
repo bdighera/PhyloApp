@@ -210,6 +210,7 @@ class PhyloTreeConstruction(object):
                 recordMotifs = []
 
                 exonLocation, MSASeqlen = IPH.intron_fix(leaf, exonLength)
+                print(MSASeqlen)
 
                 for i in range(len(exonLocation)):
 
@@ -247,7 +248,7 @@ class PhyloTreeConstruction(object):
                                                            'foreground': 'Grey',
                                                            'realLocation': exonLocation[i]})
 
-                intronMotifs.append({'name':leaf, 'id':'000'+str(count), 'introns':recordMotifs})
+                intronMotifs.append({'name':leaf, 'id':'000'+str(count), 'introns':recordMotifs, 'len':MSASeqlen})
                 count +=1
 
 
