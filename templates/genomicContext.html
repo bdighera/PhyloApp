@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<style>
+.sequence {
+	display:flex;
+	flex-direction:row; 
+}
+.reverseSequence {
+	display:flex;
+	flex-direction:row-reverse;
+	justify-content: flex-end;
+}
+.rowDiv {
+	display:flex;
+	flex-direction:row;
+}
+</style>
+
+<script src="../static/jquery-3.6.0.min.js"></script>
+<script src="../static/genomicContext.js"></script>
+</head>
+
+<body onload=";">
+
+<div id="demo">
+<h1>Phylogenetic Data Visualization</h1>
+</div>
+<table id="sequenceTable">
+	<!--<thead>
+		<tr>
+			<th>Sequence</th>
+			<th>Genomic Context</th>
+		</tr>
+	</thead>-->
+</table>
+<button onclick=postSequences()>Export</button>
+<!--
+<form onsubmit="submitSequences()">
+  <label for="fname">Sequences:</label><br>
+  <input type="text" id="sequences" name="sequences" value="XP_028685121.1 XP_028685120.1 XP_030856577.1"><br>
+  <input type="submit" value="Submit">
+</form>
+-->
+</body>
+</html>
+
