@@ -135,6 +135,7 @@ def InitialFigure():
 			file = request.files['myfile']
 			seqs = str(file.read())
 			args = seqs
+			print(args)
 			P = parser.argparseJSON(args)
 			collector.collectSeqs(P.parseInput())
 
@@ -196,7 +197,7 @@ def index():
 			mpld3_html = processor.buildIntronFig(json)
 			data = parser.get_all_users()
 			# ToDO: returns the index.html file in the iframe - the image displays in the iframe introns folder
-			return render_template('records.html', plot=mpld3_html, data=data)
+			return render_template('index.html', plot=mpld3_html, data=data)
 		elif runtype == 'genomicContext':
 			args = seqs
 
