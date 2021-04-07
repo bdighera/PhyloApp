@@ -122,7 +122,6 @@ class treeOBjFileHandler():
     def getRootedTreePath(self):
         return os.path.join('execs','tmp', "rooted_tree.nwk")
 
-
     def getProteinAccession(self, descriptionRecords):
         # This method will use regular expression take the input of a list of protein descriptions and remove the accession number
         '''

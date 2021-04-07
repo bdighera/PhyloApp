@@ -72,9 +72,8 @@ class PhyloTreeConstruction(object):
         with open(in_file, 'a') as msaprotein_writeFile:
 
             for i in range(len(protein_description)):
-
-
-                protein = '\n'+ '>' + str(protein_description[i]) + str(common_names[i]).replace(' ', '_') + '\n' + str(protein_sequence[i])
+                descLine = str('>'+self.proteinAccessions[i]+'_'+self.proteinDescs[i]+'_'+self.commonNames[i])
+                protein = '\n'+ str(descLine.replace(' ','_')) + '\n' + str(protein_sequence[i])
                 msaprotein_writeFile.write(protein)
                 self.msa.append(str(protein_sequence[i]))
 
@@ -185,7 +184,6 @@ class PhyloTreeConstruction(object):
 
         dummyIntronMotif = [[0, 400, "-", None, 12, "Black", "Black", None]]
         intronMotifs = []
-
 
         #The leaf names contain the description so the accession must be stripped in order to index with protein accessions from db
         leafAccessionExtracted = treeObj.getProteinAccession([leaf for leaf in leafNames])
@@ -532,6 +530,13 @@ def buildIntronFig(json):
     plt.yticks(yticks, labels=labels)
     plt.tight_layout()
     mpld3.fig_to_html(fig=fig)
+    mpld3.save_html(fig=fig, fileobj=open('templates/intron.html', 'w'))
+    with open('templates/intron.html', 'r+') as handle:
+        lines = handle.readlines()
+        print(lines)
+        lines = lines[0].replace('/n', "{%  extends 'records.html' %}")
+        #lines = lines[1].replace('/n', "{% block introns %}")
+        handle.write(lines)
     mpld3_html = mpld3.fig_to_html(fig=fig)
     return mpld3_html
 

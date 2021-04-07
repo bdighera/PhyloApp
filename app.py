@@ -176,6 +176,7 @@ def index():
 			P.parseInput()
 			P.pullDBrecords()
 			data = P.serialize()
+			
 
 			Phylo = processor.PhyloTreeConstruction(
 
@@ -195,7 +196,7 @@ def index():
 			mpld3_html = processor.buildIntronFig(json)
 			data = parser.get_all_users()
 			# ToDO: returns the index.html file in the iframe - the image displays in the iframe introns folder
-			return render_template('intron.html', plot=mpld3_html, data=data)
+			return render_template('records.html', plot=mpld3_html, data=data)
 		elif runtype == 'genomicContext':
 			args = seqs
 

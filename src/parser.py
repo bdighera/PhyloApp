@@ -8,8 +8,6 @@ class argparseJSON():
         self.seqs = seqs
 
     def parseInput(self):
-
-        print(type(self.seqs))
         if isinstance(self.seqs, str):
             self.seqs = accessionExtractor(self.seqs)
             return self.seqs
