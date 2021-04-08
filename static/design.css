@@ -34,6 +34,12 @@ h1, h2, h3, h4, h5, h6,
 p, div {
     font-family: 'Nobile', Helvetica, Arial, sans-serif;
 }
+table {
+  border-spacing: 0.5rem;
+}
+td {
+  padding: 0.5rem;
+}
 
 .datsetdata1  {
 	padding: 25px;
@@ -237,6 +243,8 @@ input:focus + label {
 .show > .btn-primary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 }
+
+
 /*TEXTSLIDER*/
 
 /* div container */

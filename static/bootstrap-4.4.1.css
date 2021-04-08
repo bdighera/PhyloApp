@@ -201,9 +201,6 @@ svg {
   vertical-align: middle;
 }
 
-table {
-  border-collapse: collapse;
-}
 
 caption {
   padding-top: 0.75rem;
@@ -213,9 +210,6 @@ caption {
   caption-side: bottom;
 }
 
-th {
-  text-align: inherit;
-}
 
 label {
   display: inline-block;
