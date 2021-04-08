@@ -124,7 +124,7 @@ def InitialFigure():
 	# 		args = request.args['name']
 	# 		P = parser.argparseJSON(args)
 	# 		collector.collectSeqs(P.parseInput())
-    # 
+    # hh
 	# 	else:
 	# 		return '<h1><center>404 ERROR - BROKEN PATH</center></h1>'
 	#TODO: Make this the only method once the GET deprecated code above is removed
@@ -151,7 +151,6 @@ def index():
 			return render_template('records.html', data=data)
 
 		except sqlite3.OperationalError:
-			os.remove('Sequences.db')
 			create = sqlite.Create()
 			create.NewTable()
 			data = parser.get_all_users()

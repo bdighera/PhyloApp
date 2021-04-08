@@ -57,6 +57,19 @@
   <script src="../static/jquery-3.4.1.min.js"></script>
   <script src="../static/popper.min.js"></script>
   <script src="../static/bootstrap-4.4.1.js"></script>
+ <!-- Goes in the <head> or in a seperate script -->
+<script type="text/javascript">
+    var theSubmitButton = document.getElementById('formSubmit');
+
+    theSubmitButton.onclick = function() {
+        var theFormItself = 
+            document.getElementById('phylo');
+        theFormItself.style.display = 'none';
+        var loading = 
+            document.getElementById('loading');  
+        loading.style.display = 'block';          
+    }
+</script>
   </body>
 
 </html>

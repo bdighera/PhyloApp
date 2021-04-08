@@ -27,9 +27,6 @@
       <div role="tabpanel" class="tab-pane fade show active col-xl-8 offset-xl-2" id="home1" aria-labelledby="hometab">
 
 <div class="datsetdata1">
-	<div id="pageloader">
-   <img src="../static/images/loader-large.gif" alt="processing..." />
-</div>
   <form id="phylo" action= "{{ url_for('InitialFigure') }}" method="get" name="name" enctype="multipart/form-data">
 	 <label class="labelforms" for="exampleInputuid">Analyze</label>
 
@@ -59,9 +56,10 @@
   			<div id="file-upload-filename"></div>
   		  </div>
 	<div class="form-group">
-	  <button type="submit" onclick="$('#databasetab').trigger('click')" value="submit" class="submitbtn">Submit</button>
+	  <button id="formSubmit" type="submit" onclick="$('#databasetab').trigger('click')" value="submit" class="submitbtn">Submit</button>
 	  </div>
 		</form>
+		 <div class="loading" id="loading" style="display:none;"><img src="..\static\images\sequence.gif" alt="" /><img src="..\static\images\dnaloader.gif" alt="" /><p>This could take a while...</p></div>
 
   </div>
 

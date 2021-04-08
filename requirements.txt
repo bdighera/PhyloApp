@@ -1,4 +1,3 @@
--f /usr/share/pip-wheels
 aniso8601==9.0.1
 attrs==20.3.0
 bio==0.3.0
