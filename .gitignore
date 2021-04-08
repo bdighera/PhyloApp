@@ -5,6 +5,7 @@ __pycache__/
 
 
 #Virtual Environments
+Python/
 venv/
 PhyloEnv/
 Env/
