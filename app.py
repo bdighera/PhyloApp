@@ -38,107 +38,109 @@ class SeqModel(db.Model):
 @app.route('/InitialFigure', methods=['GET', 'POST'])
 def InitialFigure():
 	# ToDO: This is going to be deprecated when the visualization can only be run from dB page
-	if request.method == 'GET':
-
-		if request.args.get("DisplaySeqs") == 'radio':
-
-			if request.args['typeofrun'] == 'introns':
-				args = request.args['name']
-
-				P = parser.argparseJSON(args)
-
-				P.parseInput()
-				P.pullDBrecords()
-				data = P.serialize()
-
-				Phylo = processor.PhyloTreeConstruction(
-
-					proteinAccession=data['proteinAccession'],
-					proteinSeq=data['proteinSeq'],
-					proteinDescription=data['proteinDescription'],
-					GenomicContext=data['genomicContext'],
-					ParentDomains=data['parentDomains'],
-					Introns=data['introns'],
-					ExonLenghts=data['exonLength'],
-					commonNames=data['commonNames'],
-					GeneID=data['geneID'],
-					image_scaling=1,
-					stretch=0
-				)
-				json = Phylo.buildIntrons()
-
-				mpld3_html = processor.buildIntronFig(json)
-				return render_template('intron.html', plot=mpld3_html)
-			elif  request.args['typeofrun'] == 'genomicContext':
-				args = request.args['name']
-
-				P = parser.argparseJSON(args)
-
-				P.parseInput()
-				P.pullDBrecords()
-				data = P.serialize()
-
-				Phylo = processor.PhyloTreeConstruction(
-
-					proteinAccession=data['proteinAccession'],
-					proteinSeq=data['proteinSeq'],
-					proteinDescription=data['proteinDescription'],
-					GenomicContext=data['genomicContext'],
-					ParentDomains=data['parentDomains'],
-					Introns=data['introns'],
-					ExonLenghts=data['exonLength'],
-					commonNames=data['commonNames'],
-					GeneID=data['geneID'],
-					image_scaling=1,
-					stretch=0
-				)
-				genomicContext = Phylo.buildGenomicContext()
-				return jsonify(genomicContext)
-			elif request.args['typeofrun'] == 'domains':
-				args = request.args['name']
-
-				P = parser.argparseJSON(args)
-
-				P.parseInput()
-				P.pullDBrecords()
-				data = P.serialize()
-
-				Phylo = processor.PhyloTreeConstruction(
-
-					proteinAccession=data['proteinAccession'],
-					proteinSeq=data['proteinSeq'],
-					proteinDescription=data['proteinDescription'],
-					GenomicContext=data['genomicContext'],
-					ParentDomains=data['parentDomains'],
-					Introns=data['introns'],
-					ExonLenghts=data['exonLength'],
-					commonNames=data['commonNames'],
-					GeneID=data['geneID'],
-					image_scaling=1,
-					stretch=0
-				)
-				domains = Phylo.buildDomains()
-				return render_template('index.html', data=domains)
-
-		elif request.args.get("CollectSeqs") == 'radio':
-			args = request.args['name']
-			P = parser.argparseJSON(args)
-			collector.collectSeqs(P.parseInput())
-
-		else:
-			return '<h1><center>404 ERROR - BROKEN PATH</center></h1>'
+	# if request.method == 'GET':
+    # 
+	# 	if request.args.get("DisplaySeqs") == 'radio':
+    # 
+	# 		if request.args['typeofrun'] == 'introns':
+	# 			args = request.args['name']
+    # 
+	# 			P = parser.argparseJSON(args)
+    # 
+	# 			P.parseInput()
+	# 			P.pullDBrecords()
+	# 			data = P.serialize()
+    # 
+	# 			Phylo = processor.PhyloTreeConstruction(
+    # 
+	# 				proteinAccession=data['proteinAccession'],
+	# 				proteinSeq=data['proteinSeq'],
+	# 				proteinDescription=data['proteinDescription'],
+	# 				GenomicContext=data['genomicContext'],
+	# 				ParentDomains=data['parentDomains'],
+	# 				Introns=data['introns'],
+	# 				ExonLenghts=data['exonLength'],
+	# 				commonNames=data['commonNames'],
+	# 				GeneID=data['geneID'],
+	# 				image_scaling=1,
+	# 				stretch=0
+	# 			)
+	# 			json = Phylo.buildIntrons()
+    # 
+	# 			mpld3_html = processor.buildIntronFig(json)
+	# 			return render_template('intron.html', plot=mpld3_html)
+	# 		elif  request.args['typeofrun'] == 'genomicContext':
+	# 			args = request.args['name']
+    # 
+	# 			P = parser.argparseJSON(args)
+    # 
+	# 			P.parseInput()
+	# 			P.pullDBrecords()
+	# 			data = P.serialize()
+    # 
+	# 			Phylo = processor.PhyloTreeConstruction(
+    # 
+	# 				proteinAccession=data['proteinAccession'],
+	# 				proteinSeq=data['proteinSeq'],
+	# 				proteinDescription=data['proteinDescription'],
+	# 				GenomicContext=data['genomicContext'],
+	# 				ParentDomains=data['parentDomains'],
+	# 				Introns=data['introns'],
+	# 				ExonLenghts=data['exonLength'],
+	# 				commonNames=data['commonNames'],
+	# 				GeneID=data['geneID'],
+	# 				image_scaling=1,
+	# 				stretch=0
+	# 			)
+	# 			genomicContext = Phylo.buildGenomicContext()
+	# 			return jsonify(genomicContext)
+	# 		elif request.args['typeofrun'] == 'domains':
+	# 			args = request.args['name']
+    # 
+	# 			P = parser.argparseJSON(args)
+    # 
+	# 			P.parseInput()
+	# 			P.pullDBrecords()
+	# 			data = P.serialize()
+    # 
+	# 			Phylo = processor.PhyloTreeConstruction(
+    # 
+	# 				proteinAccession=data['proteinAccession'],
+	# 				proteinSeq=data['proteinSeq'],
+	# 				proteinDescription=data['proteinDescription'],
+	# 				GenomicContext=data['genomicContext'],
+	# 				ParentDomains=data['parentDomains'],
+	# 				Introns=data['introns'],
+	# 				ExonLenghts=data['exonLength'],
+	# 				commonNames=data['commonNames'],
+	# 				GeneID=data['geneID'],
+	# 				image_scaling=1,
+	# 				stretch=0
+	# 			)
+	# 			domains = Phylo.buildDomains()
+	# 			return render_template('index.html', data=domains)
+    # 
+	# 	elif request.args.get("CollectSeqs") == 'radio':
+	# 		args = request.args['name']
+	# 		P = parser.argparseJSON(args)
+	# 		collector.collectSeqs(P.parseInput())
+    # 
+	# 	else:
+	# 		return '<h1><center>404 ERROR - BROKEN PATH</center></h1>'
 	#TODO: Make this the only method once the GET deprecated code above is removed
-	elif request.method == 'POST':
+	#ToDO: Intron collection is going to be knocked out for beta testing on Mac systems
+	
+	if request.method == 'GET':
 		#File upload for collection of sequences
 		seqs = ''
-		if request.files['myfile']:
-			file = request.files['myfile']
-			seqs = str(file.read())
-			args = seqs
-			print(args)
+		if request.args.get("CollectSeqs") == 'collect':
+			args = request.args['name']
+			print('running the following sequences: %s' % str(args))
 			P = parser.argparseJSON(args)
 			collector.collectSeqs(P.parseInput())
-
+			return '<h1>COMPLETE</h1>'
+	else:
+		return '<h1>ERROR</h1>'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

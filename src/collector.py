@@ -104,8 +104,8 @@ class SequenceCollector():
         Entrez.email = 'bdighera@csu.fullerton.edu'
 
         proteinAccession = self.proteinRecord
-
-        eSearch = Entrez.esearch(db='protein',term= proteinAccession, rettype='gb', api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008' )
+        print(proteinAccession)
+        eSearch = Entrez.esearch(db='protein',term= proteinAccession, rettype='gb', api_key='8f07f1fa1ec8252ef42382cb722e1749b608' )
         result = Entrez.read(eSearch, validate=False)
 
         proteinID = result['IdList'][0]
@@ -119,7 +119,7 @@ class SequenceCollector():
 
         proteinID = self.proteinID
 
-        generalEfetch= SeqIO.read(Entrez.efetch(db='protein', id=proteinID, rettype='gb', retmode='text', api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'), 'genbank')
+        generalEfetch= SeqIO.read(Entrez.efetch(db='protein', id=proteinID, rettype='gb', retmode='text', api_key='8f07f1fa1ec8252ef42382cb722e1749b608'), 'genbank')
 
         self.proteinDescription = generalEfetch.description
         self.proteinName = generalEfetch.name
@@ -134,7 +134,7 @@ class SequenceCollector():
         accession, codingRegion = result.split(':')
         startseq, endseq = codingRegion.split('..')
 
-        recordEfetch = SeqIO.read(Entrez.efetch(db='nuccore', id=accession, seq_start=startseq, seq_top=endseq, rettype='fasta', api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'), 'fasta')
+        recordEfetch = SeqIO.read(Entrez.efetch(db='nuccore', id=accession, seq_start=startseq, seq_top=endseq, rettype='fasta', api_key='8f07f1fa1ec8252ef42382cb722e1749b608'), 'fasta')
 
         return recordEfetch, Taxonomy
 
@@ -143,16 +143,16 @@ class SequenceCollector():
 
         proteinID = self.proteinID
 
-        elinkResult = Entrez.read(Entrez.elink(db='gene', dbfrom='protein', id=proteinID, api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'))
+        elinkResult = Entrez.read(Entrez.elink(db='gene', dbfrom='protein', id=proteinID, api_key='8f07f1fa1ec8252ef42382cb722e1749b608'))
         geneID = elinkResult[0]['LinkSetDb'][0]['Link'][0]['Id']
 
-        generalEfetch= Entrez.read(Entrez.efetch(db='gene', id=geneID, rettype='fasta', retmode='xml', api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'), validate=False)
+        generalEfetch= Entrez.read(Entrez.efetch(db='gene', id=geneID, rettype='fasta', retmode='xml', api_key='8f07f1fa1ec8252ef42382cb722e1749b608'), validate=False)
 
         accession = generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_accession'] + '.' + generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_version']
         startseq = generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_seqs'][0]['Seq-loc_int']['Seq-interval']['Seq-interval_from']
         endseq = generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_seqs'][0]['Seq-loc_int']['Seq-interval']['Seq-interval_to']
 
-        genomeEfetch = SeqIO.read(Entrez.efetch(db='nuccore', id=accession, seq_start=int(startseq), seq_stop=int(endseq), rettype='fasta', api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'),'fasta')
+        genomeEfetch = SeqIO.read(Entrez.efetch(db='nuccore', id=accession, seq_start=int(startseq), seq_stop=int(endseq), rettype='fasta', api_key='8f07f1fa1ec8252ef42382cb722e1749b608'),'fasta')
 
         return genomeEfetch, geneID
 
@@ -174,19 +174,22 @@ class SequenceCollector():
 
         IntronCalculatorExec = I.getSpideyPath()
 
-        intronProcessoutput = subprocess.Popen([IntronCalculatorExec,
-                                           "-i", GenomicfilePath,
-                                           "-m", CDSfilePath,
-                                           "-p", "1"], stdout=subprocess.PIPE)
-
-        return I.spideyOutputParser(intronProcessoutput.stdout.readlines())
+        #ToDO: This is removed for beta testing
+        # intronProcessoutput = subprocess.Popen([IntronCalculatorExec,
+        #                                    "-i", GenomicfilePath,
+        #                                    "-m", CDSfilePath,
+        #                                    "-p", "1"], stdout=subprocess.PIPE)
+        # 
+        # return I.spideyOutputParser(intronProcessoutput.stdout.readlines())
+        
+        return 'NONE'
 
     def collectProteinDomains(self):
         Entrez.email ='bdighera@csu.fullerton.edu'
 
         proteinAccession = self.proteinAccession
 
-        e_fetch = SeqIO.parse(Entrez.efetch(db='protein', id=proteinAccession, retmax=1000, rettype='gb', retmode='fasta',api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'), 'gb')
+        e_fetch = SeqIO.parse(Entrez.efetch(db='protein', id=proteinAccession, retmax=1000, rettype='gb', retmode='fasta',api_key='8f07f1fa1ec8252ef42382cb722e1749b608'), 'gb')
 
         resultFeatures = [result.features for result in e_fetch][0]
 
@@ -210,12 +213,12 @@ class SequenceCollector():
 
             elinkResult = Entrez.read(
                 Entrez.elink(db='taxonomy', dbfrom='protein', id=id,
-                             api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'))
+                             api_key='8f07f1fa1ec8252ef42382cb722e1749b608'))
 
             tax_id = elinkResult[0]['LinkSetDb'][0]['Link'][0]['Id']
 
             taxonomy = Entrez.read(
-                Entrez.efetch(db='taxonomy', id=tax_id, api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'))
+                Entrez.efetch(db='taxonomy', id=tax_id, api_key='8f07f1fa1ec8252ef42382cb722e1749b608'))
 
             GenBankCommonName = taxonomy[0]['OtherNames']['GenbankCommonName']
             return GenBankCommonName
@@ -283,7 +286,7 @@ class GenomicContext():
                                                            seq_stop=endseq,
                                                            rettype='gb',
                                                            retmode='xml', validate=False,
-                                                           api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'))
+                                                           api_key='8f07f1fa1ec8252ef42382cb722e1749b608'))
 
         return GCfetch
 
@@ -390,7 +393,7 @@ class GenomicContext():
 
         e_fetch = SeqIO.parse(
             Entrez.efetch(db='protein', id="%s" % gc_accession, retmax=1000, rettype='gb', retmode='fasta',
-                          api_key='f2eb6999bb3e481c8e781ad06e4b20b6a008'), 'gb')
+                          api_key='8f07f1fa1ec8252ef42382cb722e1749b608'), 'gb')
 
         for seq_record in e_fetch:
             domain_list = []
