@@ -132,13 +132,17 @@ def InitialFigure():
 	
 	if request.method == 'GET':
 		#File upload for collection of sequences
-		seqs = ''
 		if request.args.get("CollectSeqs") == 'collect':
 			args = request.args['name']
 			print('running the following sequences: %s' % str(args))
 			P = parser.argparseJSON(args)
-			collector.collectSeqs(P.parseInput())
-			return '<h1>COMPLETE</h1>'
+			seqList = P.parseInput()
+			for seq in seqList:
+				status = collector.collectSeqs([seq])
+				print(status)
+
+			data = parser.get_all_users()
+			return render_template('index.html', data=data )
 	else:
 		return '<h1>ERROR</h1>'
 

@@ -115,7 +115,7 @@ class argparseFile():
             'tree']
 
 class SQLiteChecker():
-    def __init__(self, records, dbfile):
+    def __init__(self, records, dbfile='Sequences.db'):
         self.dbfile= dbfile
         self.connect = sqlite3.connect(dbfile)
         self.records = records
@@ -135,6 +135,21 @@ class SQLiteChecker():
                 dataList.append(data)
 
         return dataList
+
+    def validateRecords(self):
+
+        C = self.connect.cursor()
+
+        for accession in self.records:
+
+            C.execute('SELECT * FROM Records WHERE ProteinAccession= (?)''', (accession,))
+
+            data = C.fetchall()
+
+            if not data:
+                return False
+            else:
+                return True
 
 def JSONtofile(data, filename):
     #clear previous output from file
