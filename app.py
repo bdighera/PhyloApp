@@ -142,7 +142,7 @@ def InitialFigure():
 				print(status)
 
 			data = parser.get_all_users()
-			return render_template('index.html', data=data )
+			return render_template('records.html', data=data )
 	else:
 		return '<h1>ERROR</h1>'
 
