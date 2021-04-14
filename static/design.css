@@ -41,6 +41,8 @@ td {
   padding: 0.5rem;
 }
 
+
+
 .datsetdata1  {
 	padding: 25px;
 	margin:50px auto;
@@ -103,6 +105,8 @@ td {
         text-align: center;
         border: 1px solid black;
         padding: 5px;
+		
+		
       }
 
 .form-select {
@@ -160,7 +164,8 @@ input:focus + label {
 .labelforms {
 	background-color: #fff;
 	border: 2px groove black;
-	padding: 5px;
+	padding: -20px;
+	margin: -20px;
 	color:#000;
 	padding-right: 15px;
 	padding-left: 15px;
