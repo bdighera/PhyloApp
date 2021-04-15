@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html>
-
+{% extends 'records.html' %}
+{% block genomicContext %}
 <head>
 
 <style>
@@ -19,7 +18,7 @@
 }
 </style>
 
-<script src="../static/jquery-3.6.0.min.js"></script>
+<script src="../static/jquery-3.4.1.min.js"></script>
 <script src="../static/genomicContext.js"></script>
 </head>
 
@@ -38,6 +37,8 @@
 </table>
 <table id="legend">
 </table>
+<h1>{{ gcData }}</h1>
+<script>src=sequenceData({{ gcData | tojson }})</script>
 <button id="exportButton">Export</button>
 <!--
 <form onsubmit="submitSequences()">
@@ -47,7 +48,7 @@
 </form>
 -->
 </body>
-</html>
+{% endblock %}
 
  
                                                                  

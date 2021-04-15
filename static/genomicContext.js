@@ -33,11 +33,11 @@ var motifList = [];
 
 var lastDomain = [];
 var stuff;
-$.get( "http://localhost:5000/genomicContext", function( data ) {
-	$( ".result" ).html( data );
-	stuff = data;
-	sequenceData(data);		
-});
+// $.get( "http://localhost:5000/genomicContext.html", function( data ) {
+// 	$( ".result" ).html( data );
+// 	stuff = data;
+// 	sequenceData(data);
+// });
 
 class DomainColor {
 	constructor(domainName, domainColor, motifId) {

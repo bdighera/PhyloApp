@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, json
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from jinja2 import environment
+from flask_cors import CORS
 import os, sqlite3
 
 
@@ -12,7 +13,6 @@ app = Flask(__name__, static_url_path='/static')
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Sequences.db'
 db = SQLAlchemy(app)
-
 class SeqModel(db.Model):
 
 	__tablename__ = 'Records'
@@ -34,6 +34,7 @@ class SeqModel(db.Model):
 	exonLength = db.Column(db.Text)
 	taxonomy = db.Column(db.Text)
 	commonName = db.Column(db.Text)
+
 
 @app.route('/InitialFigure', methods=['GET', 'POST'])
 def InitialFigure():
@@ -227,7 +228,8 @@ def index():
 				stretch=0
 			)
 			genomicContext = Phylo.buildGenomicContext()
-			return jsonify(genomicContext)
+			data = parser.get_all_users()
+			return render_template('genomicContext.html', data=data, gcData= genomicContext)
 		elif runtype == 'domains':
 			args = seqs
 
