@@ -1,53 +1,12 @@
 {% extends 'records.html' %}
 {% block genomicContext %}
-<head>
+    <script src="../static/genomicContext.js"></script>
+<div>
+<h1>{{ gcData | tojson }}</h1>
 
-<style>
-.sequence {
-	display:flex;
-	flex-direction:row; 
-}
-.reverseSequence {
-	display:flex;
-	flex-direction:row-reverse;
-	justify-content: flex-end;
-}
-.rowDiv {
-	display:flex;
-	flex-direction:row;
-}
-</style>
-
-<script src="../static/jquery-3.4.1.min.js"></script>
-<script src="../static/genomicContext.js"></script>
-</head>
-
-<body onload=";">
-
-<div id="demo">
-<h1>Phylogenetic Data Visualization</h1>
+<script>src=DisplayFunct({{ gcData | tojson }})</script>
 </div>
-<table id="sequenceTable">
-	<!--<thead>
-		<tr>
-			<th>Sequence</th>
-			<th>Genomic Context</th>
-		</tr>
-	</thead>-->
-</table>
-<table id="legend">
-</table>
-<h1>{{ gcData }}</h1>
-<script>src=sequenceData({{ gcData | tojson }})</script>
-<button id="exportButton">Export</button>
-<!--
-<form onsubmit="submitSequences()">
-  <label for="fname">Sequences:</label><br>
-  <input type="text" id="sequences" name="sequences" value="XP_028685121.1 XP_028685120.1 XP_030856577.1"><br>
-  <input type="submit" value="Submit">
-</form>
--->
-</body>
+
 {% endblock %}
 
  

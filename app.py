@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, jsonify, json
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from jinja2 import environment
-from flask_cors import CORS
 import os, sqlite3
 
 

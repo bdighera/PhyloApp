@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<style>
-.sequenceNameStyle {
-  display: inline-block;	
- }
-.sequenceCanvasStyle {
-	display: inline-block;
-}
-
-</style>
-
-<script src="../static/jquery-3.4.1.min.js"></script>
-<script src="../static/domain.js"></script>
-
-
-</head>
-
-<body onload="draw();">
-
+{% extends 'records.html' %}
+{% block domain %}
+    <script src="../static/domain.js"></script>
 <div id="demo">
 <h1>Phylogenetic Data Visualization</h1>
 </div>
@@ -33,7 +13,9 @@
 		</tr>
 	</thead>
 </table>
-<button onclick=postSequences()>Export</button>
+<h1>{{ domainData }}</h1>
+<script>src=sequenceData({{ domainData | tojson }})</script>
+<button onclick=postSequences({{ domainData | tojson }})>Export</button>
 <!--
 <form onsubmit="submitSequences()">
   <label for="fname">Sequences:</label><br>
@@ -41,8 +23,7 @@
   <input type="submit" value="Submit">
 </form>
 -->
-</body>
-</html>
+{% endblock %}
 
  
                                                                  

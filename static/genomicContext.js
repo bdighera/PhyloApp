@@ -1,4 +1,3 @@
-$(document).ready(function(){ 
 
 var deletedSequences = [];
 
@@ -371,7 +370,7 @@ class emptyDivNode extends divNode {
 	}
 }
 
-function sequenceData(data) {
+function DisplayFunct(data) {
 	let sequences = data.Sequences;
 	var sequenceId = 0;
 	for(let sequence of sequences) {
@@ -432,4 +431,3 @@ function postSequences() {
 	alert(deletedSequences);
 }
 
-});
