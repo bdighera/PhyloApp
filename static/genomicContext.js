@@ -1,7 +1,8 @@
+$(document).ready(function(){
+
 
 var deletedSequences = [];
 
-var domainHeight = 48;
 var domainHeight = 48;
 var domainTop = 1;
 var domainStart = 26;
@@ -31,8 +32,8 @@ var allDomains = [];
 var motifList = [];
 
 var lastDomain = [];
-var stuff;
-// $.get( "http://localhost:5000/genomicContext.html", function( data ) {
+// var stuff;
+// $.get( "http://localhost:5000/genomicContext.html", function( gcData ) {
 // 	$( ".result" ).html( data );
 // 	stuff = data;
 // 	sequenceData(data);
@@ -430,4 +431,4 @@ function changeColor(newColor, domains) {
 function postSequences() {
 	alert(deletedSequences);
 }
-
+});

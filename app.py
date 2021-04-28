@@ -12,6 +12,7 @@ app = Flask(__name__, static_url_path='/static')
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Sequences.db'
 db = SQLAlchemy(app)
+
 class SeqModel(db.Model):
 
 	__tablename__ = 'Records'
@@ -34,115 +35,23 @@ class SeqModel(db.Model):
 	taxonomy = db.Column(db.Text)
 	commonName = db.Column(db.Text)
 
-
 @app.route('/InitialFigure', methods=['GET', 'POST'])
 def InitialFigure():
-	# ToDO: This is going to be deprecated when the visualization can only be run from dB page
-	# if request.method == 'GET':
-    # 
-	# 	if request.args.get("DisplaySeqs") == 'radio':
-    # 
-	# 		if request.args['typeofrun'] == 'introns':
-	# 			args = request.args['name']
-    # 
-	# 			P = parser.argparseJSON(args)
-    # 
-	# 			P.parseInput()
-	# 			P.pullDBrecords()
-	# 			data = P.serialize()
-    # 
-	# 			Phylo = processor.PhyloTreeConstruction(
-    # 
-	# 				proteinAccession=data['proteinAccession'],
-	# 				proteinSeq=data['proteinSeq'],
-	# 				proteinDescription=data['proteinDescription'],
-	# 				GenomicContext=data['genomicContext'],
-	# 				ParentDomains=data['parentDomains'],
-	# 				Introns=data['introns'],
-	# 				ExonLenghts=data['exonLength'],
-	# 				commonNames=data['commonNames'],
-	# 				GeneID=data['geneID'],
-	# 				image_scaling=1,
-	# 				stretch=0
-	# 			)
-	# 			json = Phylo.buildIntrons()
-    # 
-	# 			mpld3_html = processor.buildIntronFig(json)
-	# 			return render_template('intron.html', plot=mpld3_html)
-	# 		elif  request.args['typeofrun'] == 'genomicContext':
-	# 			args = request.args['name']
-    # 
-	# 			P = parser.argparseJSON(args)
-    # 
-	# 			P.parseInput()
-	# 			P.pullDBrecords()
-	# 			data = P.serialize()
-    # 
-	# 			Phylo = processor.PhyloTreeConstruction(
-    # 
-	# 				proteinAccession=data['proteinAccession'],
-	# 				proteinSeq=data['proteinSeq'],
-	# 				proteinDescription=data['proteinDescription'],
-	# 				GenomicContext=data['genomicContext'],
-	# 				ParentDomains=data['parentDomains'],
-	# 				Introns=data['introns'],
-	# 				ExonLenghts=data['exonLength'],
-	# 				commonNames=data['commonNames'],
-	# 				GeneID=data['geneID'],
-	# 				image_scaling=1,
-	# 				stretch=0
-	# 			)
-	# 			genomicContext = Phylo.buildGenomicContext()
-	# 			return jsonify(genomicContext)
-	# 		elif request.args['typeofrun'] == 'domains':
-	# 			args = request.args['name']
-    # 
-	# 			P = parser.argparseJSON(args)
-    # 
-	# 			P.parseInput()
-	# 			P.pullDBrecords()
-	# 			data = P.serialize()
-    # 
-	# 			Phylo = processor.PhyloTreeConstruction(
-    # 
-	# 				proteinAccession=data['proteinAccession'],
-	# 				proteinSeq=data['proteinSeq'],
-	# 				proteinDescription=data['proteinDescription'],
-	# 				GenomicContext=data['genomicContext'],
-	# 				ParentDomains=data['parentDomains'],
-	# 				Introns=data['introns'],
-	# 				ExonLenghts=data['exonLength'],
-	# 				commonNames=data['commonNames'],
-	# 				GeneID=data['geneID'],
-	# 				image_scaling=1,
-	# 				stretch=0
-	# 			)
-	# 			domains = Phylo.buildDomains()
-	# 			return render_template('index.html', data=domains)
-    # 
-	# 	elif request.args.get("CollectSeqs") == 'radio':
-	# 		args = request.args['name']
-	# 		P = parser.argparseJSON(args)
-	# 		collector.collectSeqs(P.parseInput())
-    # hh
-	# 	else:
-	# 		return '<h1><center>404 ERROR - BROKEN PATH</center></h1>'
-	#TODO: Make this the only method once the GET deprecated code above is removed
 	#ToDO: Intron collection is going to be knocked out for beta testing on Mac systems
-	
-	if request.method == 'GET':
-		#File upload for collection of sequences
-		if request.args.get("CollectSeqs") == 'collect':
-			args = request.args['name']
-			print('running the following sequences: %s' % str(args))
-			P = parser.argparseJSON(args)
-			seqList = P.parseInput()
-			for seq in seqList:
-				status = collector.collectSeqs([seq])
-				print(status)
 
-			data = parser.get_all_users()
-			return render_template('records.html', data=data )
+	if request.method == 'GET':
+
+		#File upload for collection of sequences
+		args = request.args['name']
+		print('running the following sequences: %s' % str(args))
+		P = parser.argparseJSON(args)
+		seqList = P.parseInput()
+		for seq in seqList:
+			status = collector.collectSeqs([seq])
+			print(status)
+
+		data = parser.get_all_users()
+		return render_template('records.html', data=data )
 	else:
 		return '<h1>ERROR</h1>'
 
@@ -227,8 +136,7 @@ def index():
 				stretch=0
 			)
 			genomicContext = Phylo.buildGenomicContext()
-			data = parser.get_all_users()
-			return render_template('genomicContext.html', data=data, gcData= genomicContext)
+			return jsonify(genomicContext)
 		elif runtype == 'domains':
 			args = seqs
 

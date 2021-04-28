@@ -301,24 +301,3 @@ input:focus + label {
 }
 .animationslide { animation: slideh linear 25s infinite; }
 .animationslide:hover { animation-play-state: paused; }
-
-.sequence {
-	display:flex;
-	flex-direction:row;
-}
-.reverseSequence {
-	display:flex;
-	flex-direction:row-reverse;
-	justify-content: flex-end;
-}
-.rowDiv {
-	display:flex;
-	flex-direction:row;
-}
-
-.sequenceNameStyle {
-  display: inline-block;
- }
-.sequenceCanvasStyle {
-	display: inline-block;
-}

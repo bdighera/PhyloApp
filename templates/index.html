@@ -30,7 +30,7 @@
 	</div>
   <form style="form" id="phylo" action= "{{ url_for('InitialFigure') }}" method="get" name="name" enctype="multipart/form-data">
   
-	  			<label class="labelforms"> <h1> Ortho Log Finding Tool</h1><hr><p>Input your selections or upload a file!<p> </label>
+	  			<label class="labelforms"> <h1> Ortho Log Finding Tool</h1><hr><p>Input your selections or upload a file!</p> </label>
 
 	  <div class="form-group">
 		<label class="labelforms">Protein FASTA Inputs</label>
@@ -46,7 +46,7 @@
 	  <button id="formSubmit" type="submit" onclick="$('#databasetab').trigger('click')" value="submit" class="submitbtn">Submit</button>
 	  </div>
 		</form>
-		 <div class="loading" id="loading" style="display:none;"><img src="..\static\images\sequence.gif" alt="" /><img src="..\static\images\dnaloader.gif" alt="" /><p>This could take a while...</p></div>
+		 <div class="loading" id="loading" style="display:none"><img src="../static/images/sequence.gif" alt="" /><img src="../static/images/dnaloader.gif" alt="" /><p>This could take a while...</p></div>
 
   </div>
 
@@ -89,8 +89,7 @@
 			</div>
         <hr>
 			<div class="container">
-                {% block genomicContext %}
-                    {% endblock %}
+                <h1>{{ genomic }}</h1>
 
 			</div>
     </div>
