@@ -1,8 +1,4 @@
-$(document).ready(function(){
-
-
 var deletedSequences = [];
-
 var domainHeight = 48;
 var domainTop = 1;
 var domainStart = 26;
@@ -15,29 +11,38 @@ var motifBottom = 50;
 var motifHeight = 50;
 var motifWidth = 250;
 var arrowWidth = 25;
-
-var allNodes = [];
-
-var genomicContextTable = document.getElementById('sequenceTable');
-var genomicContextDiv = document.getElementById('demo');
-var legendTable = document.getElementById('legend');
-
-var exportButton = document.getElementById('exportButton');
-//TODO: Need to get the export button working.
 var domainCount = 0;
 var legend = [];
 var domains = [];
 var allDomains = [];
 
-var motifList = [];
+var newData;
+$.get( "http://localhost:5000/genomicContext", function( data ) {
+	$( ".result" ).html( data );
+	newData = data;
+	sequenceData(data);		
+});
 
-var lastDomain = [];
-// var stuff;
-// $.get( "http://localhost:5000/genomicContext.html", function( gcData ) {
-// 	$( ".result" ).html( data );
-// 	stuff = data;
-// 	sequenceData(data);
-// });
+function postSequences() {
+    let postData = '';
+    alert("yeet");
+    for(let sequence of deletedSequences){
+        postData += sequence + ' ';
+    }
+    alert(deletedSequences);
+    $.post("http://localhost:5000/genomicContext", {'deleted_sequences':postData});
+}
+
+function sequenceData(data) {
+	let sequences = data.Sequences;
+	var sequenceId = 0;
+	for(let sequence of sequences) {
+    var newSequence = new Sequence(sequence, sequenceId);
+		sequenceId += 1;
+	}
+	displayLegend();
+}
+
 
 class DomainColor {
 	constructor(domainName, domainColor, motifId) {
@@ -66,7 +71,6 @@ class Domain {
 	}
 
 	addColor(){
-		lastDomain = this.domainId;
 		let fullId = [this.sequenceId, this.motifId, this.domainId];
 		if(domains.includes(this.name, 0)) {
 			var thing = legend.find( ({name}) => name === this.name);
@@ -83,8 +87,8 @@ class Sequence {
     this.id = id;
 		this.sequenceName = data.name;
 		this.motifs = data.motifs;
-    this.divNodes = [];
-    this.divNodesOrder = "forward";
+
+    var genomicContextTable = document.getElementById('sequenceTable');
 
     this.sequenceRow = genomicContextTable.insertRow();
     
@@ -93,9 +97,7 @@ class Sequence {
     this.sequenceDiv.className = "sequence";
 
     this.addOptions();
-  
-    this.addSequence();  
-
+    this.addSequence(); 
 	  this.sequenceCell.appendChild(this.sequenceDiv);	
 	}
 
@@ -124,14 +126,13 @@ class Sequence {
     this.sequenceCell = this.sequenceRow.insertCell(); 
 	  var motifId = 0;
 	  for(let motif of this.motifs) {
-      let newMotif = new motifDivNode(this.sequenceDiv, motifId, motif, this.id, this.sequenceName);
+      let newMotif = new MotifDivNode(this.sequenceDiv, motifId, motif, this.id, this.sequenceName);
 		  motifId += 1;
 	  }
 
- 	  var motifOrder = this.divNodes;
     let maxOrder = motifId*2;
-    let startDiv = new emptyDivNode(this.sequenceDiv, 0, maxOrder);
-    let endDiv = new emptyDivNode(this.sequenceDiv, maxOrder, maxOrder);
+    let startDiv = new EmptyDivNode(this.sequenceDiv, 0, maxOrder);
+    let endDiv = new EmptyDivNode(this.sequenceDiv, maxOrder, maxOrder);
   }
 }
 
@@ -230,10 +231,10 @@ function onClickDelete() {
 	}
 }
 
-class divNode {
+class DivNode {
 	constructor(order, sequence) {
     this.div = document.createElement("div");
-    this.div.style.width = "250";//motifEnd;
+    this.div.style.width = "250";
     this.order = parseInt(order);
 		this.div.style.order = parseInt(order);
 		this.sequence = sequence;
@@ -252,7 +253,7 @@ class divNode {
 	}
 }
 
-class motifDivNode extends divNode {
+class MotifDivNode extends DivNode {
 	constructor(sequence, order, motif, sequenceId, sequenceName) {
 		super(sequence, order);
 	
@@ -299,7 +300,7 @@ class motifDivNode extends divNode {
 	}
 }
 
-class emptyDivNode extends divNode {
+class EmptyDivNode extends DivNode {
 	constructor(sequence, order, maxOrder) {
 		super(sequence, order);   
     this.sequence = sequence;
@@ -332,7 +333,7 @@ class emptyDivNode extends divNode {
     this.addDivButton.type = "button";
     this.addDivButton.value = "+";
     this.addDivButton.addEventListener('click', ()=>{
-      let newNode = new emptyDivNode(sequence, parseInt(this.div.style.order), this.maxOrder)
+      let newNode = new EmptyDivNode(sequence, parseInt(this.div.style.order), this.maxOrder)
     });
     this.div.appendChild(this.addDivButton);
 
@@ -346,10 +347,6 @@ class emptyDivNode extends divNode {
 
     sequence.appendChild(this.div);
 	}
-
-  addNewThing() {  
-      let newNode = new emptyDivNode(sequence, this.order)
-  }
 
 	moveLeft(){
     let otherNode = this.sequence.childNodes[this.order];
@@ -371,18 +368,9 @@ class emptyDivNode extends divNode {
 	}
 }
 
-function DisplayFunct(data) {
-	let sequences = data.Sequences;
-	var sequenceId = 0;
-	for(let sequence of sequences) {
-    var newSequence = new Sequence(sequence, sequenceId);
-		sequenceId += 1;
-	}
-	displayLegend();
-}
-
 function displayLegend() {
 	for(let item of legend) {
+    var legendTable = document.getElementById('legend');
 		let legendRow = legendTable.insertRow();
 
 		let legendNameCell = legendRow.insertCell();
@@ -421,9 +409,9 @@ function displayLegend() {
 
 function changeColor(newColor, domains) {
 	for(let domain of domains) {
-		let motif = stuff.Sequences[domain[0]].motifs[domain[1]];
-		let motifId = stuff.Sequences[domain[0]].name + stuff.Sequences[domain[0]].motifs[domain[1]].geneName;
-		stuff.Sequences[domain[0]].motifs[domain[1]].domains[domain[2]].color = newColor;
+		let motif = newData.Sequences[domain[0]].motifs[domain[1]];
+		let motifId = newData.Sequences[domain[0]].name + newData.Sequences[domain[0]].motifs[domain[1]].geneName;
+		newData.Sequences[domain[0]].motifs[domain[1]].domains[domain[2]].color = newColor;
 		editMotif(motifId, motif, domain);
   }
 }
@@ -431,4 +419,3 @@ function changeColor(newColor, domains) {
 function postSequences() {
 	alert(deletedSequences);
 }
-});
