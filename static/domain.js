@@ -1,11 +1,12 @@
 var deletedSequences = [];
 let height = 12;
 
-let postData = '';
-    for(let sequence of deletedSequences){
-        postData += sequence + ' ';
-    }
-    alert(deletedSequences);
+function postSequences() {
+  let postData = '';
+  for(let sequence of deletedSequences){
+      postData += sequence + ' ';
+  }
+  alert(deletedSequences);
 }
 
 function sequenceData(data) {
