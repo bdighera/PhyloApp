@@ -1,10 +1,8 @@
 var deletedSequences = [];
 
-$.get( "http://localhost:5000/domains", function( data ) {
+$.get( "http://localhost:5000/domain", function( data ) {
     $( ".result" ).html( data );
-
     sequenceData(data);
-
 });
 
 function postSequences() {
@@ -13,7 +11,7 @@ function postSequences() {
         postData += sequence + ' ';
     }
     alert(deletedSequences);
-    $.post("http://localhost:5000/domains", {'deleted_sequences':postData});
+    $.post("http://localhost:5000/domain", {'deleted_sequences':postData});
 }
 
 function sequenceData(data) {
@@ -28,7 +26,6 @@ function sequenceData(data) {
         }
       }
     }
-    //var deletedSequences = [];
 
     for(let sequence of sequences){
         names = names + sequence.name + " ";
@@ -38,12 +35,6 @@ function sequenceData(data) {
         let nameCell = seqRow.insertCell();
         let domainCell = seqRow.insertCell();
 
-        //var midHeight = sequence.domains[0].height/2;
-        //var midWidth = sequence.domains[0].startLocation + ((sequence.domains[0].endLocation - sequence.domains[0].startLocation)/2);
-        //var startLocation = sequence.domains[0].startLocation;
-        //var endLocation = sequence.domains[0].endLocation;
-        //var height = sequence.domains[0].height;
-
         let deleteCheck = document.createElement('input');
         deleteCheck.type = "checkbox";
         deleteCheck.value = sequence.name;
@@ -51,14 +42,12 @@ function sequenceData(data) {
         deleteCheck.addEventListener('change', function() {
             if(this.checked) {
                 deletedSequences.push(deleteCheck.value);
-                alert(deletedSequences);
                 document.getElementById(deleteCheck.value + 'canvas').style.opacity = "0.25";
             } else {
                 let deletedLocation = deletedSequences.indexOf(deleteCheck.value);
                 if (deletedLocation > -1) {
                     deletedSequences.splice(deletedLocation, 1);
                 }
-                alert(deletedSequences);
                 document.getElementById(deleteCheck.value + 'canvas').style.opacity = "1.00";
             }
         });
@@ -80,7 +69,6 @@ function sequenceData(data) {
         nameCanvas.className = "sequenceCanvasStyle";
         domainCell.appendChild(nameCanvas);
 
-        //let canvas = document.getElementById(nameCanvas.id);
         if (nameCanvas.getContext) {
             var ctx = nameCanvas.getContext('2d');
             for(let domain of sequence.domains) {
