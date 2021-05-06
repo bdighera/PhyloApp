@@ -2,9 +2,22 @@
 {% block genomicContext %}
     <script src="../static/genomicContext.js"></script>
 <div>
-<h1>{{ gcData | tojson }}</h1>
+<table id="sequenceTable">
 
-<script>src=DisplayFunct({{ gcData | tojson }})</script>
+
+</table>
+ <table id="legend">
+
+
+</table>
+<script>
+
+    data ={{ gcData | tojson }};
+    newData=data;
+    sequenceData(data)
+
+
+</script>
 </div>
 
 {% endblock %}

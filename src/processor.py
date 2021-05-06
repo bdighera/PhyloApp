@@ -533,7 +533,6 @@ def buildIntronFig(json):
     mpld3.save_html(fig=fig, fileobj=open('templates/intron.html', 'w'))
     with open('templates/intron.html', 'r+') as handle:
         lines = handle.readlines()
-        print(lines)
         lines = lines[0].replace('/n', "{%  extends 'records.html' %}")
         #lines = lines[1].replace('/n', "{% block introns %}")
         handle.write(lines)

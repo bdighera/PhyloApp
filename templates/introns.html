@@ -1,0 +1,23 @@
+{% extends 'records.html' %}
+{% block introns %}
+<head>
+<style>
+  .sequenceNameStyle {
+    display: inline-block;
+   }
+  .sequenceCanvasStyle {
+    display: inline-block;
+  }
+</style>
+<script src="../static/jquery-3.6.0.min.js"></script>
+<script src="../static/intron.js"></script>
+</head>
+<body>
+<div id="demo">
+  <h1>Phylogenetic Data Visualization</h1>
+</div>
+<table id="sequenceTable">
+</table>
+<script>sequenceData({{ intronData | tojson }})</script>
+</body>
+{% endblock %}

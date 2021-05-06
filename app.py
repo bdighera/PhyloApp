@@ -108,10 +108,9 @@ def index():
 				stretch=0
 			)
 			json = Phylo.buildIntrons()
-			mpld3_html = processor.buildIntronFig(json)
+			#intronData = processor.buildIntronFig(json)
 			data = parser.get_all_users()
-			# ToDO: returns the index.html file in the iframe - the image displays in the iframe introns folder
-			return render_template('index.html', plot=mpld3_html, data=data)
+			return render_template('introns.html', intronData=json, data=data)
 		elif runtype == 'genomicContext':
 			args = seqs
 
@@ -136,7 +135,8 @@ def index():
 				stretch=0
 			)
 			genomicContext = Phylo.buildGenomicContext()
-			return jsonify(genomicContext)
+			data = parser.get_all_users()
+			return render_template('genomicContext.html', gcData=genomicContext, data=data)
 		elif runtype == 'domains':
 			args = seqs
 

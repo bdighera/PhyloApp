@@ -30,7 +30,7 @@
             <input type="file" id="file-upload" form="proteins" name="myfile"/>
   			<label class="dbuploadbtn" for="file-upload">Upload file</label>
                     <input type="submit" form="proteins"/>
-            <form id="proteins" action="{{ url_for('index') }}" method="get" name="name" enctype="multipart/form-data">
+            <form id="proteins" action="{{ url_for('index') }}" method="post" name="name" enctype="multipart/form-data">
             <input type="file" id="fupload" name="my" form="proteins"/>
 
 

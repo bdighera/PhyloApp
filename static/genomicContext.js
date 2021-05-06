@@ -17,19 +17,12 @@ var domains = [];
 var allDomains = [];
 
 var newData;
-$.get( "http://localhost:5000/genomicContext", function( data ) {
-	$( ".result" ).html( data );
-	newData = data;
-	sequenceData(data);		
-});
 
 function postSequences() {
     let postData = '';
-    alert("yeet");
     for(let sequence of deletedSequences){
         postData += sequence + ' ';
     }
-    alert(deletedSequences);
     $.post("http://localhost:5000/genomicContext", {'deleted_sequences':postData});
 }
 
@@ -416,6 +409,3 @@ function changeColor(newColor, domains) {
   }
 }
 
-function postSequences() {
-	alert(deletedSequences);
-}

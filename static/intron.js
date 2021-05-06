@@ -1,6 +1,6 @@
 var deletedSequences = [];
 
-var domainHeight = 48;
+
 var domainHeight = 48;
 var domainTop = 1;
 var domainStart = 26;
@@ -19,11 +19,6 @@ var intronWidthOffset = (intronWidth/2)-1;
 var intronHeightOffset = (intronHeight/2)-1;
 
 var exportButton = document.getElementById('exportButton');
-
-$.get( "http://localhost:5000/introns", function( data ) {
-	$( ".result" ).html( data );
-	sequenceData(data);		
-});
 
 function postSequences() {
     let postData = '';
