@@ -1,17 +1,11 @@
 var deletedSequences = [];
+let height = 12;
 
-$.get( "http://localhost:5000/domain", function( data ) {
-    $( ".result" ).html( data );
-    sequenceData(data);
-});
-
-function postSequences() {
-    let postData = '';
+let postData = '';
     for(let sequence of deletedSequences){
         postData += sequence + ' ';
     }
     alert(deletedSequences);
-    $.post("http://localhost:5000/domain", {'deleted_sequences':postData});
 }
 
 function sequenceData(data) {
@@ -65,18 +59,17 @@ function sequenceData(data) {
         let nameCanvas = document.createElement('canvas');
         nameCanvas.id = sequence.name + 'canvas';
         nameCanvas.width = maxWidth;
-        nameCanvas.height = sequence.domains[0].height;
+        nameCanvas.height = height;
         nameCanvas.className = "sequenceCanvasStyle";
         domainCell.appendChild(nameCanvas);
 
         if (nameCanvas.getContext) {
             var ctx = nameCanvas.getContext('2d');
             for(let domain of sequence.domains) {
-              let midHeight = domain.height/2;
+              let midHeight = height/2;
               let startLocation = domain.startLocation;
               let endLocation = domain.endLocation;
               let midWidth = startLocation + ((endLocation - startLocation)/2);
-              let height = domain.height;
 
               ctx.beginPath();
               ctx.moveTo(startLocation, midHeight);
