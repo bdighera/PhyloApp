@@ -12,9 +12,9 @@ def application():
 	api = Api(app)
 	app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Sequences.db'
 	db = SQLAlchemy(app)
-	
+
 	class SeqModel(db.Model):
-	
+
 		__tablename__ = 'Records'
 		id = db.Column(db.Text, primary_key=True)
 		accession = db.Column(db.Text, unique=True)
@@ -34,158 +34,136 @@ def application():
 		exonLength = db.Column(db.Text)
 		taxonomy = db.Column(db.Text)
 		commonName = db.Column(db.Text)
-	
-	
-	@app.route('/InitialFigure', methods=['GET'])
+
+	@app.route('/InitialFigure', methods=['GET', 'POST'])
 	def InitialFigure():
+		# ToDO: Intron collection is going to be knocked out for beta testing on Mac systems
+
 		if request.method == 'GET':
-	
-			if request.args.get("DisplaySeqs") == 'radio':
-	
-				if request.args['typeofrun'] == 'introns':
-					args = request.args['name']
-	
-					P = parser.argparseJSON(args)
-	
-					P.parseInput()
-					P.pullDBrecords()
-					data = P.serialize()
-	
-					Phylo = processor.PhyloTreeConstruction(
-	
-						proteinAccession=data['proteinAccession'],
-						proteinSeq=data['proteinSeq'],
-						proteinDescription=data['proteinDescription'],
-						GenomicContext=data['genomicContext'],
-						ParentDomains=data['parentDomains'],
-						Introns=data['introns'],
-						ExonLenghts=data['exonLength'],
-						commonNames=data['commonNames'],
-						GeneID=data['geneID'],
-						image_scaling=1,
-						stretch=0
-					)
-					introns = Phylo.buildIntrons()
-	
-					# Figure for Displaying Introns
-					df = pd.DataFrame.from_dict(introns)
-	
-					Seqs = df['Sequences']
-					labels = [Seqs[i]['name'] for i in range(len(Seqs))]
-					yticks = []
-					y = 10
-	
-					fig = plt.figure()
-					for i in range(len(Seqs)):
-						xList = []
-						for j in range(len(Seqs[i]['introns'])):
-							x = Seqs[i]['introns'][j]['realLocation']
-							color = Seqs[i]['introns'][j]['background']
-							# print(x,y)
-							plt.scatter(x, y, color=color, zorder=2, linestyle='-')
-							xList.append(x)
-	
-						x1 = max(xList)
-						x2 = 0
-						plt.plot([x1, x2], [y, y], linestyle='solid', zorder=1)
-						yticks.append(y)
-						y += 10
-	
-					plt.yticks(yticks, labels=labels)
-					plt.tight_layout()
-					mpld3.fig_to_html(fig=fig)
-					mpld3_html = mpld3.fig_to_html(fig=fig)
-	
-					return render_template('index.html', plot=mpld3_html)
-	
-				elif  request.args['typeofrun'] == 'genomicContext':
-					args = request.args['name']
-	
-					P = parser.argparseJSON(args)
-	
-					P.parseInput()
-					P.pullDBrecords()
-					data = P.serialize()
-	
-					Phylo = processor.PhyloTreeConstruction(
-	
-						proteinAccession=data['proteinAccession'],
-						proteinSeq=data['proteinSeq'],
-						proteinDescription=data['proteinDescription'],
-						GenomicContext=data['genomicContext'],
-						ParentDomains=data['parentDomains'],
-						Introns=data['introns'],
-						ExonLenghts=data['exonLength'],
-						commonNames=data['commonNames'],
-						GeneID=data['geneID'],
-						image_scaling=1,
-						stretch=0
-					)
-					genomicContext = Phylo.buildGenomicContext()
-					return jsonify(genomicContext)
-	
-				elif request.args['typeofrun'] == 'domains':
-					args = request.args['name']
-	
-					P = parser.argparseJSON(args)
-	
-					P.parseInput()
-					P.pullDBrecords()
-					data = P.serialize()
-	
-					Phylo = processor.PhyloTreeConstruction(
-	
-						proteinAccession=data['proteinAccession'],
-						proteinSeq=data['proteinSeq'],
-						proteinDescription=data['proteinDescription'],
-						GenomicContext=data['genomicContext'],
-						ParentDomains=data['parentDomains'],
-						Introns=data['introns'],
-						ExonLenghts=data['exonLength'],
-						commonNames=data['commonNames'],
-						GeneID=data['geneID'],
-						image_scaling=1,
-						stretch=0
-					)
-					domains = Phylo.buildDomains()
-					return jsonify(domains)
-	
-			elif request.args.get("CollectSeqs") == 'radio':
-				args = request.args['name']
-				P = parser.argparseJSON(args)
-				collector.collectSeqs(P.parseInput())
-	
-			else:
-				return{'THIS CODE':'IS NOT WORKING'}
-	
-	
-	
-	@app.route('/')
+
+			# File upload for collection of sequences
+			args = request.args['name']
+			print('running the following sequences: %s' % str(args))
+			P = parser.argparseJSON(args)
+			seqList = P.parseInput()
+			for seq in seqList:
+				status = collector.collectSeqs([seq])
+				print(status)
+
+			data = parser.get_all_users()
+			return render_template('records.html', data=data)
+		else:
+			return '<h1>ERROR</h1>'
+
+	@app.route('/', methods=['GET', 'POST'])
 	def index():
-		filename = os.path.join('../','static','images', 'orthologo.png')
-		return render_template("index.html", user_image=filename)
-	
-	
-	@app.route('/dB', methods=['GET'])
-	def dB():
 		if request.method == 'GET':
+			# GET method will happen with the refresh button and will also make new dB + table upon initializing program
 			try:
 				data = parser.get_all_users()
 				return render_template('records.html', data=data)
-	
+
 			except sqlite3.OperationalError:
-				os.remove('Sequences.db')
 				create = sqlite.Create()
 				create.NewTable()
 				data = parser.get_all_users()
-				
 				return render_template('records.html', data=data)
+		elif request.method == 'POST':
+			# POST Job will submit what the user inputs as sequences to submit from dB page
 
+			runtype = request.form.get('typeofrun')
+			seqs = ''
+			if request.form.getlist('entries'):
+				seqs = request.form.getlist('entries')
+			elif request.files['myfile']:
+				file = request.files['myfile']
+				seqs = str(file.read())
+			elif request.form.getlist('entries') and request.files['myfile']:
+				file = request.files['myfile']
+				db = request.form.getlist('entries')
+				seqs = db + file
 
+			if runtype == 'introns':
+				args = seqs
 
+				P = parser.argparseJSON(args)
 
+				P.parseInput()
+				P.pullDBrecords()
+				data = P.serialize()
 
+				Phylo = processor.PhyloTreeConstruction(
 
+					proteinAccession=data['proteinAccession'],
+					proteinSeq=data['proteinSeq'],
+					proteinDescription=data['proteinDescription'],
+					GenomicContext=data['genomicContext'],
+					ParentDomains=data['parentDomains'],
+					Introns=data['introns'],
+					ExonLenghts=data['exonLength'],
+					commonNames=data['commonNames'],
+					GeneID=data['geneID'],
+					image_scaling=1,
+					stretch=0
+				)
+				json = Phylo.buildIntrons()
+				# intronData = processor.buildIntronFig(json)
+				data = parser.get_all_users()
+				return render_template('introns.html', intronData=json, data=data)
+			elif runtype == 'genomicContext':
+				args = seqs
+
+				P = parser.argparseJSON(args)
+
+				P.parseInput()
+				P.pullDBrecords()
+				data = P.serialize()
+
+				Phylo = processor.PhyloTreeConstruction(
+
+					proteinAccession=data['proteinAccession'],
+					proteinSeq=data['proteinSeq'],
+					proteinDescription=data['proteinDescription'],
+					GenomicContext=data['genomicContext'],
+					ParentDomains=data['parentDomains'],
+					Introns=data['introns'],
+					ExonLenghts=data['exonLength'],
+					commonNames=data['commonNames'],
+					GeneID=data['geneID'],
+					image_scaling=1,
+					stretch=0
+				)
+				genomicContext = Phylo.buildGenomicContext()
+				data = parser.get_all_users()
+				return render_template('genomicContext.html', gcData=genomicContext, data=data)
+			elif runtype == 'domains':
+				args = seqs
+
+				P = parser.argparseJSON(args)
+
+				P.parseInput()
+				P.pullDBrecords()
+				data = P.serialize()
+
+				Phylo = processor.PhyloTreeConstruction(
+
+					proteinAccession=data['proteinAccession'],
+					proteinSeq=data['proteinSeq'],
+					proteinDescription=data['proteinDescription'],
+					GenomicContext=data['genomicContext'],
+					ParentDomains=data['parentDomains'],
+					Introns=data['introns'],
+					ExonLenghts=data['exonLength'],
+					commonNames=data['commonNames'],
+					GeneID=data['geneID'],
+					image_scaling=1,
+					stretch=0
+				)
+				domains = Phylo.buildDomains()
+				data = parser.get_all_users()
+				return render_template('domain.html', domainData=domains, data=data)
+		else:
+			return render_template("index.html", Title='HomePage - PhyloApp')
 
 	return app
 # if __name__ == '__main__':
