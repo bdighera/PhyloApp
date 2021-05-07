@@ -7,7 +7,9 @@ import os, sqlite3
 
 from src import parser, processor, collector, sqlite
 
-def application():
+def app(location, flasksvr):
+	print(type(location))
+	print(type(flasksvr))
 	app = Flask(__name__, static_url_path='/static')
 	api = Api(app)
 	app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Sequences.db'
