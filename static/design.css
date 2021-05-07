@@ -316,3 +316,10 @@ justify-content: flex-end;
 display:flex;
 flex-direction:row;
 }
+
+.sequenceNameStyle {
+        display: inline-block;
+       }
+      .sequenceCanvasStyle {
+        display: inline-block;
+      }

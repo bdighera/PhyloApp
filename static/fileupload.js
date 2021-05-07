@@ -19,8 +19,8 @@ function showFileName( event ) {
 }
 
 
-$(document).ready(function(){
-  $("#phylo").on("submit", function(){
-    $("#pageloader").fadeIn();
-  });//submit
-});//document ready
+// $(document).ready(function(){
+//   $("#phylo").on("submit", function(){
+//     $("#pageloader").fadeIn();
+//   });//submit
+// });//document ready

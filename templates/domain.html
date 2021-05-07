@@ -2,7 +2,6 @@
 {% block domain %}
     <script src="../static/domain.js"></script>
 <div id="demo">
-<h1>Phylogenetic Data Visualization</h1>
 </div>
 <table id="sequenceTable">
 	<thead>
@@ -13,16 +12,7 @@
 		</tr>
 	</thead>
 </table>
-<h1>{{ domainData }}</h1>
 <script>src=sequenceData({{ domainData | tojson }})</script>
-<button onclick=postSequences({{ domainData | tojson }})>Export</button>
-<!--
-<form onsubmit="submitSequences()">
-  <label for="fname">Sequences:</label><br>
-  <input type="text" id="sequences" name="sequences" value="XP_028685121.1 XP_028685120.1 XP_030856577.1"><br>
-  <input type="submit" value="Submit">
-</form>
--->
 {% endblock %}
 
  
