@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, json
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from jinja2 import environment
-import os, sqlite3
+import os, sqlite3, logging
 
 
 from src import parser, processor, collector, sqlite
@@ -166,6 +166,15 @@ def index():
 	else:
 		return render_template("index.html", Title='HomePage - PhyloApp')
 
+@app.errorhandler(500)
+def server_error(e):
+    logging.exception('An error occurred during a request.')
+    return """
+    An internal error occurred: <pre>{}</pre>
+    See logs for full stacktrace.
+    """.format(e), 500
+
+
 if __name__ == '__main__':
-	app.run(debug= True)
+	app.run(host='127.0.0.1', port=8080, debug= True)
 
