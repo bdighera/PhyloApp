@@ -37,7 +37,6 @@ class SeqModel(db.Model):
 
 @app.route('/InitialFigure', methods=['GET', 'POST'])
 def InitialFigure():
-	#ToDO: Intron collection is going to be knocked out for beta testing on Mac systems
 
 	if request.method == 'GET':
 
@@ -168,11 +167,11 @@ def index():
 
 @app.errorhandler(500)
 def server_error(e):
-    logging.exception('An error occurred during a request.')
-    return """
-    An internal error occurred: <pre>{}</pre>
-    See logs for full stacktrace.
-    """.format(e), 500
+	logging.exception('An error occurred during a request.')
+	return """
+	An internal error occurred: <pre>{}</pre>
+	See logs for full stacktrace.
+	""".format(e), 500
 
 
 if __name__ == '__main__':
