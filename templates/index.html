@@ -26,16 +26,20 @@
 <div class="apph2">
 		<h5>Welcome to </h5>
 		<hr class="my-4">
-		<h2> Phylo App</h2>
+		<h2>Orthotracker</h2>
 		<hr class="my-4">
 	</div>
   <form style="form" id="phylo" action= "{{ url_for('InitialFigure') }}" method="get" name="name" enctype="multipart/form-data">
   
 	  			<label class="labelforms"> <h1> Ortholog Finding Tool</h1><hr><p>Input your selections or upload a file!</p> </label>
 
-	  <div class="form-group">
-		<label class="labelforms">Protein FASTA Inputs</label>
-	  </div>
+{#	  <div class="form-group">#}
+{#		<label class="labelforms">Protein FASTA Inputs</label>#}
+{#	  </div>#}
+      <br>
+      <br>
+      <br>
+      <p><i>Add or upload a FASTA formatted sequence...</i></p>
 	  <div class="form-group">
 
 		  <input type="text" name="name" id="name" placeholder="Ex: XP_028685121.1">
