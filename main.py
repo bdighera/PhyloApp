@@ -36,6 +36,7 @@ class SeqModel(db.Model):
 	commonName = db.Column(db.Text)
 
 @app.route('/InitialFigure', methods=['GET', 'POST'])
+#TODO: Update the name of this to reflect collection of sequences.
 def InitialFigure():
 
 	if request.method == 'GET':
@@ -55,6 +56,7 @@ def InitialFigure():
 		return '<h1>ERROR</h1>'
 
 @app.route('/', methods=['GET', 'POST'])
+#TODO: Update the name of this to reflect the image displays
 def index():
 	if request.method == 'GET':
 		#GET method will happen with the refresh button and will also make new dB + table upon initializing program
