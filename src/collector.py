@@ -479,7 +479,6 @@ class SQLiteChecker():
         else:
             return True
 
-
 class SQliteRecordInput():
 
     def __init__(self, Seq, Accession, Description, ProteinID, CDS, Genomic, GeneID, GC, Domains, IntronPhase, ExonLength, Taxonomy, CommonName):

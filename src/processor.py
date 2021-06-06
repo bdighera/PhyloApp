@@ -497,6 +497,18 @@ class PhyloTreeConstruction(object):
 
         return GCMotifs
 
+    def buildTree(self):
+
+        treeObj = handler.treeOBjFileHandler()
+        treeObj.getRootedTreePath()
+
+        with open(treeObj.getRootedTreePath()) as nwkTreeFile:
+            nwkTree = nwkTreeFile.read()
+            t = Tree(nwkTree)
+
+        t.render(file_name='static/images/tree_img.svg', units='px')
+
+
 def buildIntronFig(json):
     '''
 

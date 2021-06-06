@@ -162,6 +162,33 @@ def index():
 			domains = Phylo.buildDomains()
 			data = parser.get_all_users()
 			return render_template('domain.html', domainData=domains, data=data)
+		elif runtype == 'tree':
+			args = seqs
+
+			P = parser.argparseJSON(args)
+
+			P.parseInput()
+			P.pullDBrecords()
+			data = P.serialize()
+
+			Phylo = processor.PhyloTreeConstruction(
+
+				proteinAccession=data['proteinAccession'],
+				proteinSeq=data['proteinSeq'],
+				proteinDescription=data['proteinDescription'],
+				GenomicContext=data['genomicContext'],
+				ParentDomains=data['parentDomains'],
+				Introns=data['introns'],
+				ExonLenghts=data['exonLength'],
+				commonNames=data['commonNames'],
+				GeneID=data['geneID'],
+				image_scaling=1,
+				stretch=0
+			)
+			Phylo.buildTree()
+			data = parser.get_all_users()
+			return render_template('tree.html', data=data)
+
 	else:
 		return render_template("index.html", Title='HomePage - PhyloApp')
 

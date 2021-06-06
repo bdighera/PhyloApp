@@ -12,6 +12,7 @@
           <a class="dropdown-item" href="#introns" role="tab" id="intron" data-toggle="tab" aria-controls="dropdownShoes">Introns</a>
           <a class="dropdown-item" href="#genomics" role="tab" id="genomic" data-toggle="tab" aria-controls="dropdownShoes">Genomic Context</a>
           <a class="dropdown-item" href="#domain" role="tab" id="domains" data-toggle="tab" aria-controls="dropdownShoes">Domains</a>
+          <a class="dropdown-item" href="#trees" role="tab" id="tree" data-toggle="tab" aria-controls="dropdownShoes">Phylogenetic Tree</a>
       </div>
     </li>
   </ul>
@@ -30,7 +31,7 @@
 	</div>
   <form style="form" id="phylo" action= "{{ url_for('InitialFigure') }}" method="get" name="name" enctype="multipart/form-data">
   
-	  			<label class="labelforms"> <h1> Ortho Log Finding Tool</h1><hr><p>Input your selections or upload a file!</p> </label>
+	  			<label class="labelforms"> <h1> Ortholog Finding Tool</h1><hr><p>Input your selections or upload a file!</p> </label>
 
 	  <div class="form-group">
 		<label class="labelforms">Protein FASTA Inputs</label>
@@ -96,6 +97,18 @@
 
 			</div>
     </div>
+        <div role="tabpanel" class="tab-pane fade" id="trees" aria-labelledby="tree">
+			<div class="dataoutputdiv">
+				<h2> Phylogenetic Tree</h2>
+				<p>Display Output</p>
+			</div>
+        <hr>
+			<div class="container">
+                {% block tree %}
+                    {% endblock %}
+
+			</div>
     </div>
+            </div>
 </div>
 {% endblock %}
