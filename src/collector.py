@@ -135,19 +135,38 @@ class SequenceCollector():
 
     def collectGenomicSeq(self):
         Entrez.email = 'bdighera@csu.fullerton.edu'
+        try:
 
-        proteinID = self.proteinID
+            proteinID = self.proteinID
 
-        elinkResult = Entrez.read(Entrez.elink(db='gene', dbfrom='protein', id=proteinID, api_key='4e3f380c489dcaacecf12c2c3483ebe24909'))
-        geneID = elinkResult[0]['LinkSetDb'][0]['Link'][0]['Id']
+            elinkResult = Entrez.read(Entrez.elink(db='gene', dbfrom='protein', id=proteinID, api_key='4e3f380c489dcaacecf12c2c3483ebe24909'))
+            geneID = elinkResult[0]['LinkSetDb'][0]['Link'][0]['Id']
 
-        generalEfetch= Entrez.read(Entrez.efetch(db='gene', id=geneID, rettype='fasta', retmode='xml', api_key='4e3f380c489dcaacecf12c2c3483ebe24909'), validate=False)
+            generalEfetch= Entrez.read(Entrez.efetch(db='gene', id=geneID, rettype='fasta', retmode='xml', api_key='4e3f380c489dcaacecf12c2c3483ebe24909'), validate=False)
 
-        accession = generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_accession'] + '.' + generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_version']
-        startseq = generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_seqs'][0]['Seq-loc_int']['Seq-interval']['Seq-interval_from']
-        endseq = generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_seqs'][0]['Seq-loc_int']['Seq-interval']['Seq-interval_to']
+            accession = generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_accession'] + '.' + generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_version']
+            startseq = generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_seqs'][0]['Seq-loc_int']['Seq-interval']['Seq-interval_from']
+            endseq = generalEfetch[0]['Entrezgene_locus'][0]['Gene-commentary_seqs'][0]['Seq-loc_int']['Seq-interval']['Seq-interval_to']
 
-        genomeEfetch = SeqIO.read(Entrez.efetch(db='nuccore', id=accession, seq_start=int(startseq), seq_stop=int(endseq), rettype='fasta', api_key='4e3f380c489dcaacecf12c2c3483ebe24909'),'fasta')
+            genomeEfetch = SeqIO.read(Entrez.efetch(db='nuccore', id=accession, seq_start=int(startseq), seq_stop=int(endseq), rettype='fasta', api_key='4e3f380c489dcaacecf12c2c3483ebe24909'),'fasta')
+
+        except KeyError:
+            print('Old Loci Detected... Scanning for updated loci')
+            uli = len(generalEfetch[0]['Entrezgene_locus']) - 1
+
+            accession = generalEfetch[0]['Entrezgene_locus'][uli]['Gene-commentary_accession'] + '.' + \
+                        generalEfetch[0]['Entrezgene_locus'][uli]['Gene-commentary_version']
+            startseq = generalEfetch[0]['Entrezgene_locus'][uli]['Gene-commentary_seqs'][0]['Seq-loc_int']['Seq-interval'][
+                'Seq-interval_from']
+            endseq = generalEfetch[0]['Entrezgene_locus'][uli]['Gene-commentary_seqs'][0]['Seq-loc_int']['Seq-interval'][
+                'Seq-interval_to']
+
+            genomeEfetch = SeqIO.read(
+                Entrez.efetch(db='nuccore', id=accession, seq_start=int(startseq), seq_stop=int(endseq), rettype='fasta',
+                              api_key='4e3f380c489dcaacecf12c2c3483ebe24909'), 'fasta')
+
+            return genomeEfetch, geneID
+
 
         return genomeEfetch, geneID
 
