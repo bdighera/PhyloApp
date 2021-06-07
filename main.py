@@ -165,6 +165,7 @@ def index():
 			data = parser.get_all_users()
 			return render_template('domain.html', domainData=domains, data=data)
 		elif runtype == 'tree':
+			#os.remove(path='static/images/tree_img.svg')
 			args = seqs
 
 			P = parser.argparseJSON(args)
@@ -187,6 +188,7 @@ def index():
 				image_scaling=1,
 				stretch=0
 			)
+			#TODO: Need to figure out why the image is not regenerating, maybe need to figure out how to drop it in dynamically?
 			Phylo.buildTree()
 			data = parser.get_all_users()
 			return render_template('tree.html', data=data)

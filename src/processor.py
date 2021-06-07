@@ -506,7 +506,7 @@ class PhyloTreeConstruction(object):
             nwkTree = nwkTreeFile.read()
             t = Tree(nwkTree)
 
-        t.render(file_name='static/images/tree_img.svg', units='px')
+        t.write(outfile='static/images/tree_img.svg', format=2)
 
 
 def buildIntronFig(json):
