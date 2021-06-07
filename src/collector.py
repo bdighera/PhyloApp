@@ -410,7 +410,7 @@ class GenomicContext():
                           api_key='4e3f380c489dcaacecf12c2c3483ebe24909'), 'gb')
 
         for seq_record in e_fetch:
-            domain_list = []
+            domain_list = {}
             accession_number = seq_record.id
 
             for i in range(len(seq_record.features)):
@@ -419,11 +419,10 @@ class GenomicContext():
                     domain_name = str(seq_record.features[i].qualifiers['region_name'][0])
                     domainNameList.append(domain_name)
 
-                    domain_list.append([domain_name, domain_location])
+                    domain_list[domain_name]= domain_location
 
             Complete_Domains.append(dict([(accession_number, domain_list)]))
 
-        rand_color = RandomColor()
         Domains = [domain for domain in set(domainNameList)]
 
         return Complete_Domains, Domains
