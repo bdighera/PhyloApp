@@ -6,6 +6,7 @@ from randomcolor import RandomColor
 from src import handler
 from ete3 import Tree
 import toytree, toyplot
+from collections import ChainMap
 
 class PhyloTreeConstruction(object):
 
@@ -266,9 +267,13 @@ class PhyloTreeConstruction(object):
 
 
         #Strip all the domains from the entire datastructure so that all domains are stored in a single list
-        GCdomains = itertools.chain(*[[parentGC[i][j]['domain'] for j in range(len(parentGC[i]))] for i in range(len(proteinAccessions))])
-        GCdomains = list(itertools.chain(*GCdomains))
-        GCdomains = list(itertools.chain(*GCdomains))[::2]
+        #GCdomains = itertools.chain(*[[parentGC[i][j]['domain'] for j in range(len(parentGC[i]))] for i in range(len(proteinAccessions))])
+        #GCdomains = list(itertools.chain(*GCdomains))
+        #GCdomains = list(itertools.chain(*GCdomains))[::2]
+
+        #Updated strip for all domains accounting for the conversion of list domain structure to more concise dictionary structure
+        GCdomains = [[parentGC[i][j]['domain'] for j in range(len(parentGC[i]))] for i in range(len(proteinAccessions))][0]
+        GCdomains = list(dict(ChainMap(*GCdomains)).keys())
 
 
         #Assign each domain a color, as key value pair (dict), which will be assigned during motif construction
@@ -304,6 +309,8 @@ class PhyloTreeConstruction(object):
                 real_start = [record[i]['gene_start_seq'] for i in range(len(record))]
                 real_end = [record[i]['gene_end_seq'] for i in range(len(record))]
                 numberofDomains = [record[i]['domain'] for i in range(len(record))]
+                seq = [record[i]['seq'] for i in range(len(record))]
+
 
                 flip = [record[i]['flip'] for i in range(len(record))]
 
@@ -331,13 +338,14 @@ class PhyloTreeConstruction(object):
                                                                    'foreground': 'Black',
                                                                    'background': 'White',
                                                                    'direction': '<',
+                                                                    'seq':seq[i],
                                                                    'geneName': geneName[i],
-                                                                     'domains': [
-                                                                         {'start': str(j[1].split(':')[0].replace('<', '')),
-                                                                          'color': GCcolors[j[0]], 'name': j[0],
-                                                                          'end': str(j[1].split(':')[1].replace('>', ''))}
+                                                                    'domains': [
+                                                         {'start': numberofDomains[i][j].split(':')[0].replace('<', ''),
+                                                          'color': GCcolors[j], 'name': j,
+                                                          'end': numberofDomains[i][j].split(':')[1].replace('>', '')}
 
-                                                                         for j in numberofDomains[i]]})
+                                                         for j in numberofDomains[i]]})
 
 
 
@@ -354,6 +362,7 @@ class PhyloTreeConstruction(object):
                                                              'background': 'White',
                                                                 'direction': '<',
                                                              'geneName': geneName[i],
+                                                                'seq': seq[i],
                                                              'domains': [{
                                                                              'size': None,
                                                                              'color': None,
@@ -374,12 +383,13 @@ class PhyloTreeConstruction(object):
                                                                    'background': 'White',
                                                                    'direction': '<',
                                                                    'geneName': geneName[i],
-                                                                     'domains': [
-                                                                         {'start': str(j[1].split(':')[0].replace('<', '')),
-                                                                          'color': GCcolors[j[0]], 'name': j[0],
-                                                                          'end': str(j[1].split(':')[1].replace('>', ''))}
+                                                                    'seq': seq[i],
+                                                                    'domains': [
+                                                         {'start': numberofDomains[i][j].split(':')[0].replace('<', ''),
+                                                          'color': GCcolors[j], 'name': j,
+                                                          'end': numberofDomains[i][j].split(':')[1].replace('>', '')}
 
-                                                                         for j in numberofDomains[i]]})
+                                                         for j in numberofDomains[i]]})
 
 
 
@@ -396,6 +406,7 @@ class PhyloTreeConstruction(object):
                                                              'background': 'White',
                                                             'direction': '<',
                                                              'geneName': geneName[i],
+                                                            'seq': seq[i],
                                                              'domains': [{
                                                                              'size': None,
                                                                              'color': None,
@@ -416,12 +427,13 @@ class PhyloTreeConstruction(object):
                                                                    'background': 'White',
                                                                    'direction': '>',
                                                                    'geneName': geneName[i],
+                                                                    'seq': seq[i],
                                                                     'domains': [
-                                                                         {'start': str(j[1].split(':')[0].replace('<','')),
-                                                                          'color': GCcolors[j[0]], 'name': j[0],
-                                                                          'end': str(j[1].split(':')[1].replace('>', ''))}
+                                                         {'start': numberofDomains[i][j].split(':')[0].replace('<', ''),
+                                                          'color': GCcolors[j], 'name': j,
+                                                          'end': numberofDomains[i][j].split(':')[1].replace('>', '')}
 
-                                                                        for j in numberofDomains[i]]})
+                                                         for j in numberofDomains[i]]})
 
 
 
@@ -438,6 +450,7 @@ class PhyloTreeConstruction(object):
                                                              'background': 'White',
                                                             'direction': '>',
                                                              'geneName': geneName[i],
+                                                                'seq': seq[i],
                                                              'domains': [{
                                                                              'size': None,
                                                                              'color': None,
@@ -445,8 +458,8 @@ class PhyloTreeConstruction(object):
 
                         elif coding_direction[i] == '+' and flip[i] == False:
 
-                            if numberofDomains[i] != []:
                                 if numberofDomains[i] != []:
+
                                     recordMotifs.append({'arbitrarystartLocation': int(start_gene_location[i]),
                                                          'artitraryendLocation': int(end_gene_location[i]),
                                                          'startLocation': real_start[i],
@@ -459,12 +472,14 @@ class PhyloTreeConstruction(object):
                                                                        'background': 'White',
                                                                        'direction': '>',
                                                                        'geneName': geneName[i],
-                                                                         'domains': [
-                                                                             {'start': str(j[1].split(':')[0].replace('<', '')),
-                                                                              'color': GCcolors[j[0]], 'name': j[0],
-                                                                              'end': str(j[1].split(':')[1].replace('>', ''))}
+                                                                        'seq': seq[i],
+                                                                        'domains': [
+                                                             {'start': numberofDomains[i][j].split(':')[0].replace('<',''),
+                                                              'color': GCcolors[j], 'name': j,
+                                                              'end': numberofDomains[i][j].split(':')[1].replace('>',
+                                                                                                                 '')}
 
-                                                                             for j in numberofDomains[i]]})
+                                                             for j in numberofDomains[i]]})
 
 
 
@@ -482,6 +497,7 @@ class PhyloTreeConstruction(object):
                                                                        'background': 'White',
                                                                        'direction': '>',
                                                                         'geneName': geneName[i],
+                                                                        'seq': seq[i],
                                                                         'domains': [{
                                                                                        'size': None,
                                                                                        'color': None,
@@ -491,10 +507,12 @@ class PhyloTreeConstruction(object):
 
                 GCMotifs['Sequences'].append({'name':leaf, 'motifs':recordMotifs})
 
-            except IndexError:
-                print('Genomic Context Index Error at Sequence: %s' % leaf)
+            except IndexError as e:
+                print('Genomic Context IndexError at Sequence: %s, Error Traceback: %s' % (leaf, e))
             except TypeError:
                 pass
+            except KeyError as e:
+                print('Genomic Context KeyError at Sequence: %s, Error Traceback: %s' % (leaf, e))
 
         return GCMotifs
 
