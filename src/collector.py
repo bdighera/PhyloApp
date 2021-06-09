@@ -7,6 +7,8 @@ from src import handler
 import uuid
 
 from src import parser
+
+#This is the main function for coordinating the collection of sequences.
 def collectSeqs(accession):
 
     timer = 6
@@ -86,6 +88,7 @@ def collectSeqs(accession):
     except IndexError:
         return 'IndexError'
 
+#This class is used to store and manipulate each of the sequences.
 class SequenceCollector():
 
     def __init__(self, proteinRecord):
@@ -317,6 +320,7 @@ class GenomicContext():
         gene_start_list = []
         gene_end_list = []
         gene_id_list = []
+        seq_list = []
         gene_direction_list = []
         protein_accession_dict = {}
         i = -1
@@ -324,7 +328,7 @@ class GenomicContext():
         for gb_gene in gb_fetch['GBSeq_feature-table']:
 
             if gb_gene['GBFeature_key'] == 'CDS':
-
+                name = ''
                 for protein_info in gb_gene['GBFeature_quals']:
 
                     if protein_info['GBQualifier_name'] == 'gene':
@@ -334,6 +338,13 @@ class GenomicContext():
                         protein_accession = protein_info['GBQualifier_value']
 
                         protein_accession_dict[name] = protein_accession
+
+        for gb_gene in gb_fetch['GBSeq_feature-table']:
+            for gb_info in gb_gene['GBFeature_quals']:
+                if gb_info['GBQualifier_name'] == 'transcription':
+                    if protein_accession_dict[name]:
+                        seq = list(gb_info.values())[1]
+                        seq_list.append(seq)
 
         for gb_gene in gb_fetch['GBSeq_feature-table']:
 
@@ -346,6 +357,7 @@ class GenomicContext():
 
                         try:
                             if protein_accession_dict[name]:
+
 
                                 gene_name_list.append(name)
                                 i += 1
@@ -393,7 +405,8 @@ class GenomicContext():
                 'coding_direction':gene_direction_list[i],
                 'protein_accession':protein_accession_dict[gene_name_list[i]],
                 'domain': list(completeDomains[0].values())[0],
-                'gene_id':gene_id_list[i]
+                'gene_id':gene_id_list[i],
+                'seq':seq_list[i]
 
             })
 

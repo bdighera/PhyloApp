@@ -180,7 +180,6 @@ def get_all_users():
     conn.close()
     return content
 
-
 def accessionExtractor(search):
 
     p = re.compile('[NX]P_\d+.\d')

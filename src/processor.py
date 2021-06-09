@@ -5,6 +5,7 @@ import pandas as pd
 from randomcolor import RandomColor
 from src import handler
 from ete3 import Tree
+import toytree, toyplot
 
 class PhyloTreeConstruction(object):
 
@@ -506,7 +507,12 @@ class PhyloTreeConstruction(object):
             nwkTree = nwkTreeFile.read()
             t = Tree(nwkTree)
 
-        t.write(outfile='static/images/tree_img.svg', format=2)
+
+        os.remove(path='static/images/tree_img.html')
+        rtre = toytree.tree(nwkTree, tree_format=1)
+        canvas, axes, mark = rtre.draw(width=400, height=300)
+        toyplot.html.render(canvas, "static/images/tree_img.html")
+
 
 
 def buildIntronFig(json):
