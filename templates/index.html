@@ -13,6 +13,7 @@
           <a class="dropdown-item" href="#genomics" role="tab" id="genomic" data-toggle="tab" aria-controls="dropdownShoes">Genomic Context</a>
           <a class="dropdown-item" href="#domain" role="tab" id="domains" data-toggle="tab" aria-controls="dropdownShoes">Domains</a>
           <a class="dropdown-item" href="#trees" role="tab" id="tree" data-toggle="tab" aria-controls="dropdownShoes">Phylogenetic Tree</a>
+          <a class="dropdown-item" href="#MSAs" role="tab" id="MSA" data-toggle="tab" aria-controls="dropdownShoes">Multiple Sequencing Alignment</a>
       </div>
     </li>
   </ul>
@@ -109,6 +110,19 @@
         <hr>
 			<div class="container">
                 {% block tree %}
+                    {% endblock %}
+
+			</div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="MSAs" aria-labelledby="MSA">
+			<div class="dataoutputdiv">
+				<h2>Multiple Sequencing Alignment</h2>
+				<p>Display Output</p>
+			</div>
+        <hr>
+			<div class="container">
+                {% block MSA %}
                     {% endblock %}
 
 			</div>

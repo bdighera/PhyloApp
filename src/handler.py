@@ -131,16 +131,22 @@ class treeOBjFileHandler():
         accession_pattern = re.compile('[XN][P][_ ]\d+.\d')
 
         recordList = descriptionRecords
-
         accessionList = []
 
-        for record in recordList:
-            accession_expression = re.search(accession_pattern, '%s' % (record))
+        if type(recordList) == list:
+            for record in recordList:
+                accession_expression = re.search(accession_pattern, '%s' % (record))
+                accession_expression_out = accession_expression.group()
+
+                accessionList.append(accession_expression_out.replace(' ', '_'))
+
+            return accessionList
+
+        if type(recordList) == str:
+            accession_expression = re.search(accession_pattern, recordList)
             accession_expression_out = accession_expression.group()
-
-            accessionList.append(accession_expression_out.replace(' ', '_'))
-
-        return accessionList
+            accession = accession_expression_out.replace(' ', '_')
+            return accession
 
     def fix_coding_direction(self, workingRecord, geneID):
         '''

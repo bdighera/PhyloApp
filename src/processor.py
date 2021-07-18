@@ -7,6 +7,8 @@ from src import handler
 from ete3 import Tree
 import toytree, toyplot
 from collections import ChainMap
+from Bio import pairwise2, SeqIO
+from Bio.pairwise2 import format_alignment
 
 class PhyloTreeConstruction(object):
 
@@ -74,7 +76,7 @@ class PhyloTreeConstruction(object):
         with open(in_file, 'a') as msaprotein_writeFile:
 
             for i in range(len(protein_description)):
-                descLine = str('>'+self.proteinAccessions[i]+'_'+self.proteinDescs[i]+'_'+self.commonNames[i])
+                descLine = str('>'+self.proteinDescs[i]+'_'+self.commonNames[i])
                 protein = '\n'+ str(descLine.replace(' ','_')) + '\n' + str(protein_sequence[i])
                 msaprotein_writeFile.write(protein)
                 self.msa.append(str(protein_sequence[i]))
@@ -83,7 +85,9 @@ class PhyloTreeConstruction(object):
                                                      infile=in_file,
                                                      outfile=out_file, verbose=True, auto=True, force=True)
         clustalomega_cline()
-        MSA.msa_FileCorrection()
+
+        self.MSA = SeqIO.parse(out_file, 'fasta')
+        return self.MSA
 
     def constructTreeObj(self):
 
@@ -118,6 +122,9 @@ class PhyloTreeConstruction(object):
 
         proteinAccessions = self.proteinAccessions
         parentDomains = self.parentDomains
+
+        commonNames = {self.proteinAccessions[i]:self.commonNames[i] for i in range(len(self.commonNames))}
+        proteinDescs = {self.proteinAccessions[i]:self.proteinDescs[i] for i in range(len(self.proteinDescs))}
 
         treeObj = handler.treeOBjFileHandler()
         treeObj.getRootedTreePath()
@@ -162,7 +169,7 @@ class PhyloTreeConstruction(object):
                                                 'name':domainName[i]})
 
 
-            domainMotifs.append({'domains':leafMotifs, 'name':leaf})
+            domainMotifs.append({'domains':leafMotifs, 'name':leaf, 'commonNames':commonNames[leaf], 'proteinDescriptions':proteinDescs[leaf] })
 
         return {'Sequences':domainMotifs}
 
@@ -171,8 +178,14 @@ class PhyloTreeConstruction(object):
         proteinAccessions = self.proteinAccessions
         introns = self.Introns
         exonLengths = self.exonLengths
+        commonNames = {self.proteinAccessions[i]:self.commonNames[i] for i in range(len(self.commonNames))}
+        proteinDescs = {self.proteinAccessions[i]:self.proteinDescs[i] for i in range(len(self.proteinDescs))}
+
+
 
         treeObj = handler.treeOBjFileHandler()
+        MSA = {treeObj.getProteinAccession(i.description): str(i.seq) for i in self.MSA}
+
         treeObj.getRootedTreePath()
 
         with open(treeObj.getRootedTreePath()) as nwkTreeFile:
@@ -216,7 +229,6 @@ class PhyloTreeConstruction(object):
 
                     intronPhase = int(intronPhases[i]) % 3
 
-
                     if intronPhase == 0:
                         recordMotifs.append({'startLocation': exonLocation[i] - 1,
                                              'endLocation': exonLocation[i] + 1,
@@ -248,9 +260,10 @@ class PhyloTreeConstruction(object):
                                                            'foreground': 'Grey',
                                                            'realLocation': exonLocation[i]})
 
-                intronMotifs.append({'name':leaf, 'id':'000'+str(count), 'introns':recordMotifs, 'len':MSASeqlen})
+                intronMotifs.append({'name':leaf, 'id':'000'+str(count),
+                                     'introns':recordMotifs, 'len':MSASeqlen,
+                                     'MSA':MSA[leaf], 'commonName':commonNames[leaf], 'proteinDescription':proteinDescs[leaf]})
                 count +=1
-
 
         return {'Sequences':intronMotifs}
 
@@ -273,8 +286,19 @@ class PhyloTreeConstruction(object):
 
         #Updated strip for all domains accounting for the conversion of list domain structure to more concise dictionary structure
         GCdomains = [[parentGC[i][j]['domain'] for j in range(len(parentGC[i]))] for i in range(len(proteinAccessions))][0]
-        GCdomains = list(dict(ChainMap(*GCdomains)).keys())
 
+        #ToDo: validate that this work around is making domains come out properly
+        GCdomains = []
+        for record in parentGC:
+            for line in record:
+                if line['domain'] != {}:
+                    for item in list(line['domain'].keys()):
+                        GCdomains.append(item)
+
+        GCdomains = list(set(GCdomains))
+
+        #ToDO: Figure out why this below code is restricting the domains in the list to raise KeyError below.
+        #GCdomains = list(dict(ChainMap(*GCdomains)).keys())
 
         #Assign each domain a color, as key value pair (dict), which will be assigned during motif construction
         rand_color = RandomColor()
@@ -309,6 +333,7 @@ class PhyloTreeConstruction(object):
                 real_start = [record[i]['gene_start_seq'] for i in range(len(record))]
                 real_end = [record[i]['gene_end_seq'] for i in range(len(record))]
                 numberofDomains = [record[i]['domain'] for i in range(len(record))]
+
                 seq = [record[i]['seq'] for i in range(len(record))]
 
 
@@ -511,8 +536,8 @@ class PhyloTreeConstruction(object):
                 print('Genomic Context IndexError at Sequence: %s, Error Traceback: %s' % (leaf, e))
             except TypeError:
                 pass
-            except KeyError as e:
-                print('Genomic Context KeyError at Sequence: %s, Error Traceback: %s' % (leaf, e))
+            # except KeyError as e:
+            #     print('Genomic Context KeyError at Sequence: %s, Error Traceback: %s' % (leaf, e))
 
         return GCMotifs
 
@@ -530,8 +555,6 @@ class PhyloTreeConstruction(object):
         rtre = toytree.tree(nwkTree, tree_format=1)
         canvas, axes, mark = rtre.draw(width=400, height=300)
         toyplot.html.render(canvas, "static/images/tree_img.html")
-
-
 
 def buildIntronFig(json):
     '''
@@ -575,3 +598,20 @@ def buildIntronFig(json):
     mpld3_html = mpld3.fig_to_html(fig=fig)
     return mpld3_html
 
+def MSA(seq1, seq2, type='global'):
+    '''
+
+    :param seq1: Sequence #1 coming from front end structure that is aligning with the second sequence
+    :param seq2: Sequence #2 coming from front end structure that is algining with the first sequence
+    :return: multiple sequencing alignment object used to calculate the proximity
+    '''
+
+    if type == 'global':
+        alignments = pairwise2.align.globalxx(seq1, seq2)
+        product = format_alignment(*alignments[0])
+        return product
+
+    if type == 'local':
+        alignments = pairwise2.align.localxx(seq1, seq2)
+        product = format_alignment(*alignments[0])
+        return product

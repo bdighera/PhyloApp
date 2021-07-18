@@ -1,0 +1,26 @@
+{% extends 'records.html' %}
+{% block MSA %}
+<body>
+<input type="button" onclick="selectAll()" value="Select All"/>
+<input type="button" onclick="UnSelectAll()" value="Unselect All"/>
+{{ msa }}
+
+
+<select form="proteins" class="dbform-select" name="typeofrun" required>
+  				<option value="introns">Introns</option>
+  				<option value="genomicContext">Genomic Context</option>
+  				<option value="domains">Domains</option>
+                <option value="tree">Phylogenetic Tree</option>
+	  </select>
+
+<input type="submit" form="proteins"/>
+<form id="msa_subset" action="{{ url_for('index') }}" method="post">
+    {% for col in msa %}
+        <tr>
+				<td><label><input type="checkbox" name="entries" value={{col}}></label></td>
+                <td>{{col}}</td>
+            </tr>
+    {% endfor %}
+</form>
+</body>
+{% endblock %}

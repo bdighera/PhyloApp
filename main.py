@@ -110,8 +110,10 @@ def index():
 				stretch=0
 			)
 			json = Phylo.buildIntrons()
+			#Deprecated code - makes intron figure using mpld3
 			#intronData = processor.buildIntronFig(json)
 			data = parser.get_all_users()
+
 			return render_template('introns.html', intronData=json, data=data)
 		elif runtype == 'genomicContext':
 			args = seqs
@@ -138,6 +140,16 @@ def index():
 			)
 			genomicContext = Phylo.buildGenomicContext()
 			data = parser.get_all_users()
+
+
+			#ToDO: Lump of code is responsible for getting the alignment between two seqs -  need to move to seperate endpoint
+			# seq1 = genomicContext['Sequences'][0]['motifs'][0]['seq']
+			# seq2 = genomicContext['Sequences'][1]['motifs'][1]['seq']
+			# alignment = processor.MSA(seq1, seq2)
+			#return '<h1>%s</h1' % str(alignment)
+
+
+
 			return render_template('genomicContext.html', gcData=genomicContext, data=data)
 		elif runtype == 'domains':
 			args = seqs
@@ -164,6 +176,7 @@ def index():
 			)
 			domains = Phylo.buildDomains()
 			data = parser.get_all_users()
+
 			return render_template('domain.html', domainData=domains, data=data)
 		elif runtype == 'tree':
 			#os.remove(path='static/images/tree_img.svg')
@@ -193,9 +206,48 @@ def index():
 			Phylo.buildTree()
 			data = parser.get_all_users()
 			return render_template('tree.html', data=data)
+		elif runtype == 'MSA':
+			args = seqs
+
+			P = parser.argparseJSON(args)
+
+			P.parseInput()
+			P.pullDBrecords()
+			data = P.serialize()
+
+			Phylo = processor.PhyloTreeConstruction(
+
+				proteinAccession=data['proteinAccession'],
+				proteinSeq=data['proteinSeq'],
+				proteinDescription=data['proteinDescription'],
+				GenomicContext=data['genomicContext'],
+				ParentDomains=data['parentDomains'],
+				Introns=data['introns'],
+				ExonLenghts=data['exonLength'],
+				commonNames=data['commonNames'],
+				GeneID=data['geneID'],
+				image_scaling=1,
+				stretch=0
+			)
+
+			data = parser.get_all_users()
+
+			msa = Phylo.collectMultipleSequencingAlignment()
+			msa = {i.id:str(i.seq) for i in msa}
+
+
+			return render_template('MSA.html', data=data, msa=msa)
+
 
 	else:
 		return render_template("index.html", Title='HomePage - PhyloApp')
+
+@app.route('/', methods=['GET', 'POST'])
+def genomicContextAlignment():
+	if request.method == 'POST':
+		pass
+	if request.method == 'GET':
+		pass
 
 @app.errorhandler(500)
 def server_error(e):
@@ -204,6 +256,9 @@ def server_error(e):
 	An internal error occurred: <pre>{}</pre>
 	See logs for full stacktrace.
 	""".format(e), 500
+
+
+
 
 
 if __name__ == '__main__':
