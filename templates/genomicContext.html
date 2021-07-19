@@ -1,26 +1,34 @@
-{% extends 'records.html' %}
-{% block genomicContext %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .sequence {
+        display:flex;
+        flex-direction:row; 
+      }
+      .reverseSequence {
+        display:flex;
+        flex-direction:row-reverse;
+        justify-content: flex-end;
+      }
+      .rowDiv {
+        display:flex;
+        flex-direction:row;
+      }
+    </style>
+    <script src="../static/jquery-3.6.0.min.js"></script>
     <script src="../static/genomicContext.js"></script>
-<div>
-<table id="sequenceTable">
-
-
-</table>
- <table id="legend">
-
-
-</table>
-<script>
-
-    data ={{ gcData | tojson }};
-    newData=data;
-    sequenceData(data)
-
-
-</script>
-</div>
-
-{% endblock %}
-
- 
-                                                                 
+  </head>
+  <body>
+    <div id="demo">
+      <h1>Phylogenetic Data Visualization</h1>
+      <h2>Select two motifs to compare them.</h2>
+      <button onclick=compareMotifs()>Compare Motifs</button>
+    </div>
+    <table id="sequenceTable">
+    </table>
+    <table id="legend">
+    </table>
+    <button  onclick=postSequences()>Export</button>
+  </body>
+</html>

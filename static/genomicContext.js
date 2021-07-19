@@ -15,15 +15,36 @@ var domainCount = 0;
 var legend = [];
 var domains = [];
 var allDomains = [];
+var selectedMotifs = [];
+var highlightedMotifs = 0;
 
 var newData;
+$.get( "http://localhost:5000/genomicContext", function( data ) {
+	$( ".result" ).html( data );
+	newData = data;
+	sequenceData(data);		
+});
 
 function postSequences() {
     let postData = '';
     for(let sequence of deletedSequences){
         postData += sequence + ' ';
     }
+    alert(deletedSequences);
     $.post("http://localhost:5000/genomicContext", {'deleted_sequences':postData});
+}
+
+function compareMotifs() {
+  if(selectedMotifs.length == 2){
+    let postData = '';
+    for(let motif of selectedMotifs){
+      postData += motif + '\n';
+    }
+    alert(postData);
+    $.post("http://localhost:5000/genomicContextCompare", {'compared_motifs':postData});
+  }else{
+    alert("Please highlight two motifs");
+  }
 }
 
 function sequenceData(data) {
@@ -35,7 +56,6 @@ function sequenceData(data) {
 	}
 	displayLegend();
 }
-
 
 class DomainColor {
 	constructor(domainName, domainColor, motifId) {
@@ -258,10 +278,27 @@ class MotifDivNode extends DivNode {
     this.sequenceName = sequenceName;
 
     this.motifName = this.sequenceName + this.motif.geneName;
+    const motifName = [this.sequenceName,this.motif.geneName];
 
     this.canvas.height = motifHeight;
     this.canvas.width = motifWidth;	
     this.canvas.id = this.motifName;
+
+    this.div.addEventListener('click', function (event) {
+      if(this.style.backgroundColor != 'yellow' && highlightedMotifs < 2) {
+        highlightedMotifs += 1;
+        this.style.backgroundColor = 'yellow';
+        selectedMotifs.push(motifName);
+        
+      } else if(this.style.backgroundColor == 'yellow') {
+        const removedMotifName = selectedMotifs.indexOf(motifName);
+        if(removedMotifName > -1) {
+          selectedMotifs.splice(removedMotifName,1);
+        }
+        highlightedMotifs -=1;
+        this.style.backgroundColor = 'transparent';
+      }
+    });
 
     this.div.id = this.motifName + 'div';
     this.div.style.order = this.order;
@@ -371,7 +408,7 @@ function displayLegend() {
 		legendNameDiv.style.textAlign="right";
 		legendNameDiv.innerHTML += item.name;	
 		legendNameCell.appendChild(legendNameDiv);
-
+/*
     let legendSwatchCell = legendRow.insertCell();
     let legendSwatchDiv = document.createElement("div");
     var  legendSwatchCanvas = document.createElement("canvas");
@@ -383,17 +420,17 @@ function displayLegend() {
     legendSwatchCtx.fillRect(0,0,100,50);
     legendSwatchDiv.appendChild(legendSwatchCanvas);
     legendSwatchCell.appendChild(legendSwatchDiv);	
-
+*/
 		let legendColorCell = legendRow.insertCell();
 		let changeColorDiv = document.createElement("input");
-		changeColorDiv.type = "text";
+		changeColorDiv.type = "color";
+    changeColorDiv.value = item.color;
 		changeColorDiv.name = item.name;
-		//changeColorDiv.value = item.color;
 		changeColorDiv.addEventListener('change', function() {
-      var newLegendSwatchCanvas = document.getElementById(item.color);
-      var newLegendSwatchCtx = newLegendSwatchCanvas.getContext("2d");
-      newLegendSwatchCtx.fillStyle = changeColorDiv.value;
-      newLegendSwatchCtx.fillRect(0,0,100,50);
+//      var newLegendSwatchCanvas = document.getElementById(item.color);
+//      var newLegendSwatchCtx = newLegendSwatchCanvas.getContext("2d");
+//      newLegendSwatchCtx.fillStyle = changeColorDiv.value;
+//      newLegendSwatchCtx.fillRect(0,0,100,50);
       changeColor(changeColorDiv.value, item.motifIds)
     });
 		legendColorCell.appendChild(changeColorDiv);
