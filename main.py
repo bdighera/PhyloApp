@@ -237,7 +237,6 @@ def index():
 			seq1 = next(iter(msa))
 			seq2 = next(iter(msa))
 			output = processor.MSA(seq1, seq2, type='global')
-			print(output)
 
 
 			return render_template('MSA.html', data=data, msa=msa)
