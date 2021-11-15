@@ -1,5 +1,5 @@
 from Bio.Align.Applications import ClustalOmegaCommandline
-import itertools, os, subprocess, sys, math, dendropy, pprint, ast, uuid
+import itertools, os, subprocess, sys, math, dendropy, pprint, ast, uuid, re
 import matplotlib.pyplot as plt, mpld3
 import pandas as pd
 from randomcolor import RandomColor
@@ -609,9 +609,19 @@ def MSA(seq1, seq2, type='global'):
     if type == 'global':
         alignments = pairwise2.align.globalxx(seq1, seq2)
         product = format_alignment(*alignments[0])
-        return product
+
+        expression = '=\d+'
+        score = re.findall(expression, product)
+        score = score[0].strip('=')
+
+        return score
 
     if type == 'local':
         alignments = pairwise2.align.localxx(seq1, seq2)
         product = format_alignment(*alignments[0])
-        return product
+
+        expression = '=\d+'
+        score = re.findall(expression, product)
+        score = score[0].strip('=')
+
+        return score

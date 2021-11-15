@@ -15,23 +15,28 @@ var domainCount = 0;
 var legend = [];
 var domains = [];
 var allDomains = [];
-var selectedMotifs = [];
-var highlightedMotifs = 0;
 
 var newData;
-$.get( "http://localhost:5000/genomicContext", function( data ) {
-	$( ".result" ).html( data );
-	newData = data;
-	sequenceData(data);		
-});
 
 function postSequences() {
     let postData = '';
+    alert("yeet");
     for(let sequence of deletedSequences){
         postData += sequence + ' ';
     }
     alert(deletedSequences);
     $.post("http://localhost:5000/genomicContext", {'deleted_sequences':postData});
+}
+
+function sequenceData(data) {
+	let sequences = data.Sequences;
+	var sequenceId = 0;
+	for(let sequence of sequences) {
+    var newSequence = new Sequence(sequence, sequenceId);
+		sequenceId += 1;
+	}
+	displayLegend();
+
 }
 
 function compareMotifs() {
@@ -47,15 +52,6 @@ function compareMotifs() {
   }
 }
 
-function sequenceData(data) {
-	let sequences = data.Sequences;
-	var sequenceId = 0;
-	for(let sequence of sequences) {
-    var newSequence = new Sequence(sequence, sequenceId);
-		sequenceId += 1;
-	}
-	displayLegend();
-}
 
 class DomainColor {
 	constructor(domainName, domainColor, motifId) {
@@ -63,17 +59,14 @@ class DomainColor {
 		this.color = domainColor;
 		this.motifIds = [motifId];
 	}
-
 	addToLegend() {
 		domains.push(this.name);
 		legend.push(this);
 	}
-
 	addMotifId(motifId) {
 		this.motifIds.push(motifId);
 	}
 }
-
 class Domain {
 	constructor(data, sequenceId, motifId, domainId) {
 		this.name = data.name;
@@ -82,7 +75,6 @@ class Domain {
 		this.motifId = motifId;
 		this.domainId = domainId;
 	}
-
 	addColor(){
 		let fullId = [this.sequenceId, this.motifId, this.domainId];
 		if(domains.includes(this.name, 0)) {
@@ -94,78 +86,64 @@ class Domain {
 		}
 	}
 }
-
 class Sequence {
 	constructor(data, id) {
     this.id = id;
 		this.sequenceName = data.name;
 		this.motifs = data.motifs;
-
     var genomicContextTable = document.getElementById('sequenceTable');
-
     this.sequenceRow = genomicContextTable.insertRow();
-    
+
     this.sequenceDiv = document.createElement("div");
     this.sequenceDiv.id = this.sequenceName + "div";
     this.sequenceDiv.className = "sequence";
-
     this.addOptions();
-    this.addSequence(); 
-	  this.sequenceCell.appendChild(this.sequenceDiv);	
+    this.addSequence();
+	  this.sequenceCell.appendChild(this.sequenceDiv);
 	}
-
   addOptions(){
     this.optionsCell = this.sequenceRow.insertCell();
-	  
-    let sequenceNameDiv = document.createElement("div");
-	  sequenceNameDiv.innerHTML += this.sequenceName;	
 
+    let sequenceNameDiv = document.createElement("div");
+	  sequenceNameDiv.innerHTML += this.sequenceName;
 	  let reverseDiv = document.createElement("input");
 	  reverseDiv.type = "checkbox";
 	  reverseDiv.name = this.sequenceName;
 	  reverseDiv.addEventListener('change', onClickReverse);
-
     let deleteDiv = document.createElement("input");
     deleteDiv.type = "checkbox";
     deleteDiv.name = this.sequenceName;
     deleteDiv.addEventListener('change', onClickDelete);
-
     this.optionsCell.appendChild(sequenceNameDiv);
     this.optionsCell.appendChild(reverseDiv);
     this.optionsCell.appendChild(deleteDiv);
   }
-
   addSequence(){
-    this.sequenceCell = this.sequenceRow.insertCell(); 
+    this.sequenceCell = this.sequenceRow.insertCell();
 	  var motifId = 0;
 	  for(let motif of this.motifs) {
       let newMotif = new MotifDivNode(this.sequenceDiv, motifId, motif, this.id, this.sequenceName);
 		  motifId += 1;
 	  }
-
     let maxOrder = motifId*2;
     let startDiv = new EmptyDivNode(this.sequenceDiv, 0, maxOrder);
     let endDiv = new EmptyDivNode(this.sequenceDiv, maxOrder, maxOrder);
   }
 }
-
 function addDomain(ctx, domain, motifName, sequenceId, motifId, domainId, domainLength) {
 	let start = domainId * domainLength;
-
 	var newDomain = new Domain(domain, sequenceId, motifId, domainId);
 	newDomain.addColor();
 	allDomains.push(newDomain);
 	domainCount += 1;
-  
+
 	ctx.fillStyle = domain.color;
   ctx.fillRect(start + domainStart, domainTop, domainLength, domainHeight);
-
   // Domain name text
   //ctx.font = "9px Helvetica";
   //ctx.fillStyle = "#000";
   //ctx.fillText(domain.name, start + domainStart, 40, domainLength);
 }
-
 function direction(ctx, direction) {
   if (direction == ">") {
     ctx.fillStyle = "black";
@@ -181,30 +159,25 @@ function direction(ctx, direction) {
     ctx.fill();
   }
 }
-
 function domainBox(ctx) {
   ctx.strokeRect(domainStart, motifTop, domainWidth, motifBottom);
 }
-
 function editMotif(motifId, motif, ids) {
 	var canvas = document.getElementById(motifId);
 	var ctx = canvas.getContext('2d');
 	ctx.clearRect(0,0, motifWidth, motifHeight);
-
 	let motifName = motifId;
 	domainBox(ctx);
-	direction(ctx, motif.direction);	
-
-  var domainLength = domainWidth/motif.domains.length	
+	direction(ctx, motif.direction);
+  var domainLength = domainWidth/motif.domains.length
 	var domainId = 0;
 	for (let domain of motif.domains) {
 		if (domain.name != null) {
 			let start = domainId * domainLength;
 			let end = 20;
-  
+
 			ctx.fillStyle = domain.color;
   		ctx.fillRect(start + domainStart, domainTop, domainLength, domainHeight);
-
       // Domain Name Text
   		//ctx.font = "9px Helvetica";
   		//ctx.fillStyle = "#000";
@@ -216,22 +189,18 @@ function editMotif(motifId, motif, ids) {
   ctx.fillStyle = "#000";
   ctx.fillText(motif.geneName, 26, 31, domainWidth);
 }
-
 function onClickReverse() {
 	let sequenceId = this.name + "div"
 	let sequenceDiv = document.getElementById(sequenceId);
-
 	if (this.checked) {
 		sequenceDiv.className = "reverseSequence";
 	} else {
 		sequenceDiv.className = "sequence";
 	}
 }
-
 function onClickDelete() {
 	let sequenceId = this.name + "div"
 	let sequenceDiv = document.getElementById(sequenceId);
-
 	if (this.checked) {
 		sequenceDiv.style.opacity = "0.25";
 		deletedSequences.push(this.name);
@@ -243,7 +212,6 @@ function onClickDelete() {
 		}
 	}
 }
-
 class DivNode {
 	constructor(order, sequence) {
     this.div = document.createElement("div");
@@ -252,60 +220,35 @@ class DivNode {
 		this.div.style.order = parseInt(order);
 		this.sequence = sequence;
 	}
-
 	getOrder() {
 		return parseInt(this.div.style.order);
 	}
-
 	incrementOrder() {
 		this.div.style.order = this.getOrder() + 2;
 	}
-
 	decrementOrder() {
 		this.div.style.order = this.getOrder() - 2;
 	}
 }
-
 class MotifDivNode extends DivNode {
 	constructor(sequence, order, motif, sequenceId, sequenceName) {
 		super(sequence, order);
-	
+
     this.motifId = order;
     this.order = 1+(2*order);
 		this.motif = motif;
 		this.canvas = document.createElement('canvas');
 		this.context = this.canvas.getContext("2d");
     this.sequenceName = sequenceName;
-
     this.motifName = this.sequenceName + this.motif.geneName;
-    const motifName = [this.sequenceName,this.motif.geneName];
-
     this.canvas.height = motifHeight;
-    this.canvas.width = motifWidth;	
+    this.canvas.width = motifWidth;
     this.canvas.id = this.motifName;
-
-    this.div.addEventListener('click', function (event) {
-      if(this.style.backgroundColor != 'yellow' && highlightedMotifs < 2) {
-        highlightedMotifs += 1;
-        this.style.backgroundColor = 'yellow';
-        selectedMotifs.push(motifName);
-        
-      } else if(this.style.backgroundColor == 'yellow') {
-        const removedMotifName = selectedMotifs.indexOf(motifName);
-        if(removedMotifName > -1) {
-          selectedMotifs.splice(removedMotifName,1);
-        }
-        highlightedMotifs -=1;
-        this.style.backgroundColor = 'transparent';
-      }
-    });
-
     this.div.id = this.motifName + 'div';
     this.div.style.order = this.order;
-    this.div.appendChild(this.canvas);	
-
+    this.div.appendChild(this.canvas);
     domainBox(this.context);
-    direction(this.context, this.motif.direction);	
+    direction(this.context, this.motif.direction);
     this.domainLength = domainWidth/(this.motif.domains.length);
     var domainId = 0;
     var domainList = this.motif.geneName + " domains:\n";
@@ -316,11 +259,10 @@ class MotifDivNode extends DivNode {
         domainList += '\t' + domain.name + '\n';
       }
     }
-
-    if (domainId == 0) { 
+    if (domainId == 0) {
       domainList += '\tnone';
     }
-   
+
     this.div.title = domainList;
     this.context.font = "24px Helvetica";
     this.context.fillStyle = "#000";
@@ -329,10 +271,9 @@ class MotifDivNode extends DivNode {
     sequence.appendChild(this.div);
 	}
 }
-
 class EmptyDivNode extends DivNode {
 	constructor(sequence, order, maxOrder) {
-		super(sequence, order);   
+		super(sequence, order);
     this.sequence = sequence;
     this.order = order;
     this.maxOrder = maxOrder;
@@ -342,7 +283,6 @@ class EmptyDivNode extends DivNode {
     this.div.style.alignItems="center";
     this.div.style.justifyContent="center";
     var motifDivs = sequence.childNodes;
-
     this.leftButton = document.createElement("input");
     this.leftButton.type = "button";
     this.leftButton.value = "←";
@@ -350,7 +290,6 @@ class EmptyDivNode extends DivNode {
       this.moveLeft();
     });
     this.div.appendChild(this.leftButton);
-
     this.delDivButton = document.createElement("input");
     this.delDivButton.type = "button";
     this.delDivButton.value = "-";
@@ -358,7 +297,6 @@ class EmptyDivNode extends DivNode {
       this.div.remove();
     });
     this.div.appendChild(this.delDivButton);
-
     this.addDivButton = document.createElement("input");
     this.addDivButton.type = "button";
     this.addDivButton.value = "+";
@@ -366,7 +304,6 @@ class EmptyDivNode extends DivNode {
       let newNode = new EmptyDivNode(sequence, parseInt(this.div.style.order), this.maxOrder)
     });
     this.div.appendChild(this.addDivButton);
-
     this.rightButton = document.createElement("input");
     this.rightButton.type = "button";
     this.rightButton.value = "→";
@@ -374,21 +311,19 @@ class EmptyDivNode extends DivNode {
       this.moveRight();
     });
     this.div.appendChild(this.rightButton);
-
     sequence.appendChild(this.div);
 	}
-
 	moveLeft(){
     let otherNode = this.sequence.childNodes[this.order];
-    
+
     if(this.sequence.className == "sequence" && this.div.style.order > 0){
 		  this.decrementOrder();
     } else if (this.sequence.className == "reverseSequence" && this.div.style.order < this.maxOrder){
       this.incrementOrder();
     }
-	}	
-	
-	moveRight() {	
+	}
+
+	moveRight() {
     let otherNode = this.sequence.childNodes[this.order];
     if(this.sequence.className == "sequence" && this.div.style.order < this.maxOrder) {
 		  this.incrementOrder();
@@ -397,46 +332,41 @@ class EmptyDivNode extends DivNode {
     }
 	}
 }
-
 function displayLegend() {
 	for(let item of legend) {
     var legendTable = document.getElementById('legend');
 		let legendRow = legendTable.insertRow();
-
 		let legendNameCell = legendRow.insertCell();
 		let legendNameDiv = document.createElement("div");
 		legendNameDiv.style.textAlign="right";
-		legendNameDiv.innerHTML += item.name;	
+		legendNameDiv.innerHTML += item.name;
 		legendNameCell.appendChild(legendNameDiv);
-/*
     let legendSwatchCell = legendRow.insertCell();
     let legendSwatchDiv = document.createElement("div");
     var  legendSwatchCanvas = document.createElement("canvas");
     legendSwatchCanvas.height = "25";
-    legendSwatchCanvas.width = "50";	
+    legendSwatchCanvas.width = "50";
     legendSwatchCanvas.id = item.color;
 		var legendSwatchCtx = legendSwatchCanvas.getContext("2d");
     legendSwatchCtx.fillStyle = item.color;
     legendSwatchCtx.fillRect(0,0,100,50);
     legendSwatchDiv.appendChild(legendSwatchCanvas);
-    legendSwatchCell.appendChild(legendSwatchDiv);	
-*/
+    legendSwatchCell.appendChild(legendSwatchDiv);
 		let legendColorCell = legendRow.insertCell();
 		let changeColorDiv = document.createElement("input");
-		changeColorDiv.type = "color";
-    changeColorDiv.value = item.color;
+		changeColorDiv.type = "text";
 		changeColorDiv.name = item.name;
+		//changeColorDiv.value = item.color;
 		changeColorDiv.addEventListener('change', function() {
-//      var newLegendSwatchCanvas = document.getElementById(item.color);
-//      var newLegendSwatchCtx = newLegendSwatchCanvas.getContext("2d");
-//      newLegendSwatchCtx.fillStyle = changeColorDiv.value;
-//      newLegendSwatchCtx.fillRect(0,0,100,50);
+      var newLegendSwatchCanvas = document.getElementById(item.color);
+      var newLegendSwatchCtx = newLegendSwatchCanvas.getContext("2d");
+      newLegendSwatchCtx.fillStyle = changeColorDiv.value;
+      newLegendSwatchCtx.fillRect(0,0,100,50);
       changeColor(changeColorDiv.value, item.motifIds)
     });
 		legendColorCell.appendChild(changeColorDiv);
 	}
 }
-
 function changeColor(newColor, domains) {
 	for(let domain of domains) {
 		let motif = newData.Sequences[domain[0]].motifs[domain[1]];
@@ -446,3 +376,6 @@ function changeColor(newColor, domains) {
   }
 }
 
+function postSequences() {
+	alert(deletedSequences);
+}

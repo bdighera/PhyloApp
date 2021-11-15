@@ -1,34 +1,27 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      .sequence {
-        display:flex;
-        flex-direction:row; 
-      }
-      .reverseSequence {
-        display:flex;
-        flex-direction:row-reverse;
-        justify-content: flex-end;
-      }
-      .rowDiv {
-        display:flex;
-        flex-direction:row;
-      }
-    </style>
-    <script src="../static/jquery-3.6.0.min.js"></script>
+{% extends 'records.html' %}
+{% block genomicContext %}
     <script src="../static/genomicContext.js"></script>
-  </head>
-  <body>
-    <div id="demo">
-      <h1>Phylogenetic Data Visualization</h1>
-      <h2>Select two motifs to compare them.</h2>
-      <button onclick=compareMotifs()>Compare Motifs</button>
-    </div>
-    <table id="sequenceTable">
-    </table>
-    <table id="legend">
-    </table>
-    <button  onclick=postSequences()>Export</button>
-  </body>
-</html>
+<div>
+
+
+
+
+{#    <input type='button' id="button1" value="Answer" onclick=compareMotifs()/>#}
+
+{#<form id="proteins" action="{{ url_for('gcAlignment') }}" method="post" name="name" enctype="multipart/form-data">#}
+{##}
+{#    <input type='button' id="button1" value="Answer" onclick='return compareMotifs()'/>#}
+{##}
+{##}
+{##}
+{#</form>#}
+
+
+
+    <table id="sequenceTable"></table>
+    <table id="legend"></table>
+<script>sequenceData({{ gcData | tojson }})</script>
+<button onclick=compareMotifs()>Compare Motifs</button>
+</div>
+
+{% endblock %}
