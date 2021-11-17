@@ -1,27 +1,46 @@
-{% extends 'records.html' %}
-{% block genomicContext %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .sequence {
+        display:flex;
+        flex-direction:row; 
+      }
+      .reverseSequence {
+        display:flex;
+        flex-direction:row-reverse;
+        justify-content: flex-end;
+      }
+      .rowDiv {
+        display:flex;
+        flex-direction:row;
+      }
+    </style>
+    <script src="../static/jquery-3.6.0.min.js"></script>
     <script src="../static/genomicContext.js"></script>
-<div>
-
-
-
-
-{#    <input type='button' id="button1" value="Answer" onclick=compareMotifs()/>#}
-
-{#<form id="proteins" action="{{ url_for('gcAlignment') }}" method="post" name="name" enctype="multipart/form-data">#}
-{##}
-{#    <input type='button' id="button1" value="Answer" onclick='return compareMotifs()'/>#}
-{##}
-{##}
-{##}
-{#</form>#}
-
-
-
-    <table id="sequenceTable"></table>
-    <table id="legend"></table>
-<script>sequenceData({{ gcData | tojson }})</script>
-<button onclick=compareMotifs()>Compare Motifs</button>
-</div>
-
-{% endblock %}
+  </head>
+  <body>
+    <div id="demo">
+      <h1>Phylogenetic Data Visualization</h1>
+      <h2>Select two motifs to compare them.</h2>
+      <button onclick=compareMotifs()>Compare Motifs</button>
+      <button onclick="window.print()">Print This Page</button>
+    </div>
+    <table id="sequenceTable">
+    </table>
+    <div style="overflow: hidden;">
+     <div style="float: left; margin-right:50px;">
+      <h2 align="right">Genes</h2>
+      <table id="geneLegend">
+      </table>
+     </div>
+     <div style="float: left; margin-left: 50px;"> 
+      <h2 align="left">Domains</h2>
+      <table id="legend">
+      </table>
+     </div>
+    </div>
+    <script>sequenceData({{ gcData | tojson }})</script>
+    <button  onclick=postSequences()>Export</button>
+  </body>
+</html>

@@ -1,0 +1,697 @@
+{
+  "Sequences": [
+    {
+      "motifs": [
+        {
+          "arbitrarystartLocation": 2910, 
+          "artitraryendLocation": 2990, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": null, 
+              "name": null, 
+              "size": null
+            }
+          ], 
+          "endLocation": 448539, 
+          "foreground": "Black", 
+          "geneName": "Dhdh", 
+          "height": 12, 
+          "length": 10901, 
+          "shape": "[]", 
+          "startLocation": 459440, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3010, 
+          "artitraryendLocation": 3090, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#cca635", 
+              "end": "131", 
+              "name": "Tub_N", 
+              "start": "4"
+            }, 
+            {
+              "color": "#cdbdfc", 
+              "end": "443", 
+              "name": "Tub", 
+              "start": "195"
+            }
+          ], 
+          "endLocation": 493953, 
+          "foreground": "Black", 
+          "geneName": "Tulp2", 
+          "height": 12, 
+          "length": 37279, 
+          "shape": "[]", 
+          "startLocation": 456674, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3110, 
+          "artitraryendLocation": 3190, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": "#ab0ed6", 
+              "end": "319", 
+              "name": "EF-hand_7", 
+              "start": "245"
+            }
+          ], 
+          "endLocation": 462503, 
+          "foreground": "Black", 
+          "geneName": "Nucb1", 
+          "height": 12, 
+          "length": 30858, 
+          "shape": "[]", 
+          "startLocation": 493361, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3210, 
+          "artitraryendLocation": 3290, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": "#796de8", 
+              "end": "165", 
+              "name": "Required for localization in the endoplasmic reticulum. /evidence=ECO:0000250", 
+              "start": "0"
+            }, 
+            {
+              "color": "#7fffa5", 
+              "end": "375", 
+              "name": "3 X approximate repeats", 
+              "start": "278"
+            }, 
+            {
+              "color": "#acf73b", 
+              "end": "417", 
+              "name": "Interaction with SMAD7. /evidence=ECO:0000250", 
+              "start": "318"
+            }, 
+            {
+              "color": "#e27f80", 
+              "end": "462", 
+              "name": "Interaction with KMT2A/MLL1. /evidence=ECO:0000250", 
+              "start": "362"
+            }, 
+            {
+              "color": "#d8db15", 
+              "end": "490", 
+              "name": "Interaction with SMARCB1. /evidence=ECO:0000250", 
+              "start": "442"
+            }, 
+            {
+              "color": "#f9d8c0", 
+              "end": "526", 
+              "name": "PP1c_bdg", 
+              "start": "458"
+            }
+          ], 
+          "endLocation": 494231, 
+          "foreground": "Black", 
+          "geneName": "Ppp1r15a", 
+          "height": 12, 
+          "length": 3075, 
+          "shape": "[]", 
+          "startLocation": 497306, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3410, 
+          "artitraryendLocation": 3490, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#0ad0fc", 
+              "end": "256", 
+              "name": "NADB_Rossmann", 
+              "start": "0"
+            }, 
+            {
+              "color": "#e592d2", 
+              "end": "251", 
+              "name": "fabG", 
+              "start": "7"
+            }
+          ], 
+          "endLocation": 533266, 
+          "foreground": "Black", 
+          "geneName": "Hsd17b14", 
+          "height": 12, 
+          "length": 9798, 
+          "shape": "[]", 
+          "startLocation": 523468, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3510, 
+          "artitraryendLocation": 3590, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#27f475", 
+              "end": "329", 
+              "name": "PRK13357", 
+              "start": "0"
+            }, 
+            {
+              "color": "#ef949d", 
+              "end": "319", 
+              "name": "BCAT_beta_family", 
+              "start": "23"
+            }
+          ], 
+          "endLocation": 554186, 
+          "foreground": "Black", 
+          "geneName": "Bcat2", 
+          "height": 12, 
+          "length": 19601, 
+          "shape": "[]", 
+          "startLocation": 534585, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3610, 
+          "artitraryendLocation": 3690, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": "#f47e77", 
+              "end": "167", 
+              "name": "FGF", 
+              "start": "47"
+            }
+          ], 
+          "endLocation": 577673, 
+          "foreground": "Black", 
+          "geneName": "Fgf21", 
+          "height": 12, 
+          "length": 1243, 
+          "shape": "[]", 
+          "startLocation": 578916, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3710, 
+          "artitraryendLocation": 3790, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#73f473", 
+              "end": "354", 
+              "name": "Glyco_transf_11", 
+              "start": "38"
+            }
+          ], 
+          "endLocation": 584530, 
+          "foreground": "Black", 
+          "geneName": "Fut1", 
+          "height": 12, 
+          "length": 3418, 
+          "shape": "[]", 
+          "startLocation": 581112, 
+          "width": null
+        }
+      ], 
+      "name": "NP_954532.1"
+    }, 
+    {
+      "motifs": [
+        {
+          "arbitrarystartLocation": 2910, 
+          "artitraryendLocation": 2990, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#73f473", 
+              "end": "353", 
+              "name": "Glyco_transf_11", 
+              "start": "36"
+            }
+          ], 
+          "endLocation": 410921, 
+          "foreground": "Black", 
+          "geneName": "FUT1", 
+          "height": 12, 
+          "length": 7347, 
+          "shape": "[]", 
+          "startLocation": 418268, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3010, 
+          "artitraryendLocation": 3090, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": "#f47e77", 
+              "end": "159", 
+              "name": "FGF", 
+              "start": "46"
+            }
+          ], 
+          "endLocation": 421240, 
+          "foreground": "Black", 
+          "geneName": "FGF21", 
+          "height": 12, 
+          "length": 2806, 
+          "shape": "[]", 
+          "startLocation": 418434, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3110, 
+          "artitraryendLocation": 3190, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#ef949d", 
+              "end": "342", 
+              "name": "BCAT_beta_family", 
+              "start": "46"
+            }
+          ], 
+          "endLocation": 457974, 
+          "foreground": "Black", 
+          "geneName": "BCAT2", 
+          "height": 12, 
+          "length": 15965, 
+          "shape": "[]", 
+          "startLocation": 473939, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3210, 
+          "artitraryendLocation": 3290, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#0ad0fc", 
+              "end": "102", 
+              "name": "NADB_Rossmann", 
+              "start": "0"
+            }
+          ], 
+          "endLocation": 475924, 
+          "foreground": "Black", 
+          "geneName": "HSD17B14", 
+          "height": 12, 
+          "length": 23674, 
+          "shape": "[]", 
+          "startLocation": 499598, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3310, 
+          "artitraryendLocation": 3390, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#e0bf64", 
+              "end": "152", 
+              "name": "PH_PEPP1_2_3", 
+              "start": "48"
+            }, 
+            {
+              "color": "#a4b529", 
+              "end": "153", 
+              "name": "PH", 
+              "start": "54"
+            }
+          ], 
+          "endLocation": 500002, 
+          "foreground": "Black", 
+          "geneName": "PLEKHA4", 
+          "height": 12, 
+          "length": 31530, 
+          "shape": "[]", 
+          "startLocation": 531532, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3410, 
+          "artitraryendLocation": 3490, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": "#33bf4d", 
+              "end": "60", 
+              "name": "Required for localization in the endoplasmic reticulum", 
+              "start": "0"
+            }, 
+            {
+              "color": "#a1fca3", 
+              "end": "510", 
+              "name": "4 X 34 AA approximate repeats", 
+              "start": "336"
+            }, 
+            {
+              "color": "#107299", 
+              "end": "510", 
+              "name": "Interaction with SMAD7. /evidence=ECO:0000269|PubMed:14718519", 
+              "start": "336"
+            }, 
+            {
+              "color": "#ea9dc2", 
+              "end": "555", 
+              "name": "Interaction with KMT2A/MLL1", 
+              "start": "482"
+            }, 
+            {
+              "color": "#ffc5b7", 
+              "end": "583", 
+              "name": "Interaction with SMARCB1", 
+              "start": "535"
+            }, 
+            {
+              "color": "#f9d8c0", 
+              "end": "608", 
+              "name": "PP1c_bdg", 
+              "start": "548"
+            }
+          ], 
+          "endLocation": 538968, 
+          "foreground": "Black", 
+          "geneName": "PPP1R15A", 
+          "height": 12, 
+          "length": 3637, 
+          "shape": "[]", 
+          "startLocation": 535331, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3510, 
+          "artitraryendLocation": 3590, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#cca635", 
+              "end": "241", 
+              "name": "Tub_N", 
+              "start": "26"
+            }, 
+            {
+              "color": "#cdbdfc", 
+              "end": "519", 
+              "name": "Tub", 
+              "start": "278"
+            }
+          ], 
+          "endLocation": 543877, 
+          "foreground": "Black", 
+          "geneName": "TULP2", 
+          "height": 12, 
+          "length": 17777, 
+          "shape": "[]", 
+          "startLocation": 561654, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3610, 
+          "artitraryendLocation": 3690, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": "#77f3f9", 
+              "end": "51", 
+              "name": "O-glycosylated at one site", 
+              "start": "41"
+            }, 
+            {
+              "color": "#72dd5f", 
+              "end": "321", 
+              "name": "Binds to GNAI2 and GNAI3. /evidence=ECO:0000250", 
+              "start": "227"
+            }, 
+            {
+              "color": "#ab0ed6", 
+              "end": "319", 
+              "name": "EF-hand_7", 
+              "start": "245"
+            }, 
+            {
+              "color": "#0247f4", 
+              "end": "333", 
+              "name": "GBA. /evidence=ECO:0000269|PubMed:30194280", 
+              "start": "302"
+            }
+          ], 
+          "endLocation": 586282, 
+          "foreground": "Black", 
+          "geneName": "NUCB1", 
+          "height": 12, 
+          "length": 23060, 
+          "shape": "[]", 
+          "startLocation": 563222, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3710, 
+          "artitraryendLocation": 3790, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": null, 
+              "name": null, 
+              "size": null
+            }
+          ], 
+          "endLocation": 607879, 
+          "foreground": "Black", 
+          "geneName": "DHDH", 
+          "height": 12, 
+          "length": 12179, 
+          "shape": "[]", 
+          "startLocation": 595700, 
+          "width": null
+        }
+      ], 
+      "name": "NP_065955.2"
+    }, 
+    {
+      "motifs": [
+        {
+          "arbitrarystartLocation": 2910, 
+          "artitraryendLocation": 2990, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#73f473", 
+              "end": "353", 
+              "name": "Glyco_transf_11", 
+              "start": "37"
+            }
+          ], 
+          "endLocation": 418494, 
+          "foreground": "Black", 
+          "geneName": "FUT1", 
+          "height": 12, 
+          "length": 3122, 
+          "shape": "[]", 
+          "startLocation": 421616, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3010, 
+          "artitraryendLocation": 3090, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": null, 
+              "name": null, 
+              "size": null
+            }
+          ], 
+          "endLocation": 427907, 
+          "foreground": "Black", 
+          "geneName": "FGF21", 
+          "height": 12, 
+          "length": 4227, 
+          "shape": "[]", 
+          "startLocation": 423680, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3110, 
+          "artitraryendLocation": 3190, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": "#27f475", 
+              "end": "352", 
+              "name": "PRK13357", 
+              "start": "0"
+            }, 
+            {
+              "color": "#ef949d", 
+              "end": "342", 
+              "name": "BCAT_beta_family", 
+              "start": "46"
+            }
+          ], 
+          "endLocation": 455204, 
+          "foreground": "Black", 
+          "geneName": "BCAT2", 
+          "height": 12, 
+          "length": 18731, 
+          "shape": "[]", 
+          "startLocation": 473935, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3210, 
+          "artitraryendLocation": 3290, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": null, 
+              "name": null, 
+              "size": null
+            }
+          ], 
+          "endLocation": 476883, 
+          "foreground": "Black", 
+          "geneName": "HSD17B14", 
+          "height": 12, 
+          "length": 23100, 
+          "shape": "[]", 
+          "startLocation": 499983, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3310, 
+          "artitraryendLocation": 3390, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": null, 
+              "name": null, 
+              "size": null
+            }
+          ], 
+          "endLocation": 500002, 
+          "foreground": "Black", 
+          "geneName": "PLEKHA4", 
+          "height": 12, 
+          "length": 27657, 
+          "shape": "[]", 
+          "startLocation": 527659, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3410, 
+          "artitraryendLocation": 3490, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": null, 
+              "name": null, 
+              "size": null
+            }
+          ], 
+          "endLocation": 534855, 
+          "foreground": "Black", 
+          "geneName": "PPP1R15A", 
+          "height": 12, 
+          "length": 3948, 
+          "shape": "[]", 
+          "startLocation": 530907, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3510, 
+          "artitraryendLocation": 3590, 
+          "background": "White", 
+          "direction": ">", 
+          "domains": [
+            {
+              "color": null, 
+              "name": null, 
+              "size": null
+            }
+          ], 
+          "endLocation": 537590, 
+          "foreground": "Black", 
+          "geneName": "TULP2", 
+          "height": 12, 
+          "length": 14283, 
+          "shape": "[]", 
+          "startLocation": 551873, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3610, 
+          "artitraryendLocation": 3690, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": null, 
+              "name": null, 
+              "size": null
+            }
+          ], 
+          "endLocation": 577091, 
+          "foreground": "Black", 
+          "geneName": "NUCB1", 
+          "height": 12, 
+          "length": 23334, 
+          "shape": "[]", 
+          "startLocation": 553757, 
+          "width": null
+        }, 
+        {
+          "arbitrarystartLocation": 3710, 
+          "artitraryendLocation": 3790, 
+          "background": "White", 
+          "direction": "<", 
+          "domains": [
+            {
+              "color": "#f981a3", 
+              "end": "326", 
+              "name": "MviM", 
+              "start": "4"
+            }
+          ], 
+          "endLocation": 595603, 
+          "foreground": "Black", 
+          "geneName": "DHDH", 
+          "height": 12, 
+          "length": 13809, 
+          "shape": "[]", 
+          "startLocation": 581794, 
+          "width": null
+        }
+      ], 
+      "name": "XP_035139940.1"
+    }
+  ]
+}
