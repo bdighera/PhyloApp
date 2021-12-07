@@ -93,7 +93,8 @@ class Domain {
 			var thing = legend.find( ({name}) => name === this.name);
 			thing.addMotifId(fullId);
       this.color = thing.color;
-      newData.Sequences[this.sequenceId].motifs[this.motifId].domains[this.domainId].color = thing.color;
+      //TODO: Make newData more stable so it doesn't die in the browser.
+      //newData.Sequences[this.sequenceId].motifs[this.motifId].domains[this.domainId].color = thing.color;
 		} else {
 			let newDomain = new DomainColor(this.name, this.color, fullId);
 			newDomain.addToLegend();
@@ -325,6 +326,7 @@ class MotifDivNode extends DivNode {
 		this.context = this.canvas.getContext("2d");
     this.sequenceName = sequenceName;
     this.geneName = this.motif.geneName;
+    this.sequence = this.motif.seq
 
     this.motifName = this.sequenceName + this.geneName;
     const motifName = [this.sequenceName,this.geneName];
@@ -355,9 +357,9 @@ class MotifDivNode extends DivNode {
           }
         }
         highlightedMotifs += 1;
-        selectedMotifs.push(_this.geneName.toUpperCase());
+        selectedMotifs.push(_this.sequence.toUpperCase());
       } else if(this.style.backgroundColor == 'yellow' || this.style.backgroundColor == 'green') {
-        const removedMotifName = selectedMotifs.indexOf(_this.geneName.toUpperCase());
+        const removedMotifName = selectedMotifs.indexOf(_this.sequence.toUpperCase());
         colorStack.push(this.style.backgroundColor);
         if(removedMotifName > -1) {
           selectedMotifs.splice(removedMotifName,1);
