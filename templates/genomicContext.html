@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html>
+{% extends 'records.html' %}
+{% block genomicContext %}
   <head>
     <style>
-      .sequence {
-        display:flex;
-        flex-direction:row; 
-      }
-      .reverseSequence {
-        display:flex;
-        flex-direction:row-reverse;
-        justify-content: flex-end;
-      }
-      .rowDiv {
-        display:flex;
-        flex-direction:row;
-      }
     </style>
     <script src="../static/jquery-3.6.0.min.js"></script>
     <script src="../static/genomicContext.js"></script>
@@ -43,4 +30,4 @@
     <script>sequenceData({{ gcData | tojson }})</script>
     <button  onclick=postSequences()>Export</button>
   </body>
-</html>
+{% endblock %}
