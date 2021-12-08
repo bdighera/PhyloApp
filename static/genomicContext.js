@@ -49,6 +49,7 @@ function compareMotifs() {
 function sequenceData(data) {
 	let sequences = data.Sequences;
 	var sequenceId = 0;
+  newData = data
 	for(let sequence of sequences) {
     var newSequence = new Sequence(sequence, sequenceId);
 		sequenceId += 1;
@@ -93,8 +94,7 @@ class Domain {
 			var thing = legend.find( ({name}) => name === this.name);
 			thing.addMotifId(fullId);
       this.color = thing.color;
-      //TODO: Make newData more stable so it doesn't die in the browser.
-      //newData.Sequences[this.sequenceId].motifs[this.motifId].domains[this.domainId].color = thing.color;
+      newData.Sequences[this.sequenceId].motifs[this.motifId].domains[this.domainId].color = thing.color;
 		} else {
 			let newDomain = new DomainColor(this.name, this.color, fullId);
 			newDomain.addToLegend();
