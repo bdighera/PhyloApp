@@ -30,7 +30,7 @@ function postSequences() {
         postData += sequence + ' ';
     }
     alert(deletedSequences);
-    $.post("http://localhost:5000/genomicContext", {'deleted_sequences':postData});
+    $.post("http://localhost:8080/genomicContext", {'deleted_sequences':postData});
 }
 
 function compareMotifs() {
@@ -40,7 +40,7 @@ function compareMotifs() {
       postData += motif + '\n';
     }
     alert(postData);
-    $.post("http://localhost:5000/genomicContextCompare", {'compared_motifs':postData});
+    $.post("http://localhost:8080/GCAlignment", {'compared_motifs':postData});
   }else{
     alert("Please highlight two motifs");
   }
