@@ -143,14 +143,11 @@ def index():
 
 
 			#ToDO: Lump of code is responsible for getting the alignment between two seqs -  need to move to seperate endpoint
-			# seq1 = genomicContext['Sequences'][0]['motifs'][0]['seq']
-			# seq2 = genomicContext['Sequences'][1]['motifs'][1]['seq']
-			# alignment = processor.MSA(seq1, seq2)
-			#return '<h1>%s</h1' % str(alignment)
+			seq1 = genomicContext['Sequences'][0]['motifs'][0]['seq']
+			seq2 = genomicContext['Sequences'][1]['motifs'][1]['seq']
+			alignment = processor.MSA(seq1, seq2)
 
-
-
-			return render_template('genomicContext.html', gcData=genomicContext, data=data)
+			return render_template('genomicContext.html', gcData=genomicContext, data=data, alignment=alignment)
 		elif runtype == 'domains':
 			args = seqs
 
@@ -245,12 +242,15 @@ def index():
 	else:
 		return render_template("index.html", Title='HomePage - PhyloApp')
 
-@app.route('/', methods=['GET', 'POST'])
-def genomicContextAlignment():
+@app.route('/GCAlignment', methods=['GET', 'POST'])
+def GCAlignment():
 	if request.method == 'POST':
-		pass
+		data = request.get_data()
+		print('here')
+		return jsonify(data)
 	if request.method == 'GET':
-		pass
+		data = request.get_data()
+		return jsonify(data)
 
 @app.errorhandler(500)
 def server_error(e):
