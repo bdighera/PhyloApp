@@ -35,9 +35,9 @@ function postSequences() {
 
 function compareMotifs() {
   if(selectedMotifs.length == 2){
-    let postData = '';
+    let postData = [];
     for(let motif of selectedMotifs){
-      postData += motif + '\n';
+      postData.push(motif);
     }
     alert(postData);
     $.post("http://localhost:8080/GCAlignment", {'compared_motifs':postData});
