@@ -251,8 +251,11 @@ def index():
 @app.route('/GCAlignment', methods=['POST'])
 def GCAlignment():
 	if request.method == 'POST':
-		compared_motifs = request.form.getlist('compared_motifs')
-		return render_template('genomicContext.html',gcData=genomicContext, data=data, alignment=jsonify({'sequence':compared_motifs[0]}))
+		compared_motifs = request.form['compared_motifs']
+		# Parse to make it a real list.
+		compared_motifs = compared_motifs[2:-2].split("\",\"")
+		print(compared_motifs)
+		return render_template('genomicContext.html',gcData=genomicContext, data=data, alignment=jsonify({'sequence':compared_motifs}))
 
 @app.errorhandler(500)
 def server_error(e):
