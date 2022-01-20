@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, jsonify, json, session
+from flask import Flask, render_template, request, jsonify, json, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
+from flask_cors import CORS
 from jinja2 import environment
 import os, sqlite3, logging
 
@@ -9,14 +10,16 @@ import os, sqlite3, logging
 from src import parser, processor, collector, sqlite
 
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
+CORS(app)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Sequences.db'
 db = SQLAlchemy(app)
 
-#global variables
-data = ''
+#global vars
 genomicContext = ''
+data = ''
+
 
 class SeqModel(db.Model):
 
@@ -64,6 +67,7 @@ def InitialFigure():
 #TODO: Update the name of this to reflect the image displays
 def index():
 	if request.method == 'GET':
+
 		#GET method will happen with the refresh button and will also make new dB + table upon initializing program
 		try:
 			data = parser.get_all_users()
@@ -76,18 +80,18 @@ def index():
 			return render_template('records.html', data=data)
 	elif request.method == 'POST':
 		#POST Job will submit what the user inputs as sequences to submit from dB page
-
 		runtype = request.form.get('typeofrun')
-		seqs = ''
-		if request.form.getlist('entries'):
-			seqs = request.form.getlist('entries')
-		elif request.files['myfile']:
-			file = request.files['myfile']
-			seqs = str(file.read())
-		elif request.form.getlist('entries') and request.files['myfile']:
-			file = request.files['myfile']
-			db = request.form.getlist('entries')
-			seqs = db + file
+		seqs=''
+		if runtype:
+			if request.form.getlist('entries'):
+				seqs = request.form.getlist('entries')
+			elif request.files['myfile']:
+				file = request.files['myfile']
+				seqs = str(file.read())
+			elif request.form.getlist('entries') and request.files['myfile']:
+				file = request.files['myfile']
+				db = request.form.getlist('entries')
+				seqs = db + file
 
 		if runtype == 'introns':
 			args = seqs
@@ -97,7 +101,7 @@ def index():
 			P.parseInput()
 			P.pullDBrecords()
 			data = P.serialize()
-			
+
 
 			Phylo = processor.PhyloTreeConstruction(
 
@@ -243,16 +247,18 @@ def index():
 
 
 			return render_template('MSA.html', data=data, msa=msa)
-
-
-	else:
-		return render_template("index.html", Title='HomePage - PhyloApp')
+		else:
+			return '<h1>ERROR</h1>'
 
 @app.route('/GCAlignment', methods=['POST'])
-def GCAlignment():
+def GCAlign():
 	if request.method == 'POST':
-		compared_motifs = request.form.getlist('compared_motifs')
-		return render_template('genomicContext.html',gcData=genomicContext, data=data, alignment=jsonify({'sequence':compared_motifs[0]}))
+		response = dict(request.get_json(force=True))['compared_motifs']
+		seq1 = response[0]
+		seq2 = response[1]
+		score = processor.MSA(seq1=seq1, seq2=seq2)
+		print(score)
+		return jsonify({'score':score})
 
 @app.errorhandler(500)
 def server_error(e):
@@ -262,11 +268,7 @@ def server_error(e):
 	See logs for full stacktrace.
 	""".format(e), 500
 
-
-
-
-
 if __name__ == '__main__':
-	app.run(host='127.0.0.1', port=8080, debug= True)
+	app.run(host='127.0.0.1', port=8080, debug= True, threaded=True)
 
 
