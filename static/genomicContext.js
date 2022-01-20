@@ -39,8 +39,10 @@ function compareMotifs() {
     for(let motif of selectedMotifs){
       postData.push(motif);
     }
-    alert(postData);
-    $.post("http://localhost:8080/GCAlign", {'compared_motifs':postData});
+
+    postData = JSON.stringify(postData);
+    $.post("http://localhost:8080/GCAlignment", {'compared_motifs':postData});
+
   }else{
     alert("Please highlight two motifs");
   }

@@ -253,12 +253,14 @@ def index():
 @app.route('/GCAlignment', methods=['POST'])
 def GCAlign():
 	if request.method == 'POST':
+
 		response = dict(request.get_json(force=True))['compared_motifs']
 		seq1 = response[0]
 		seq2 = response[1]
 		score = processor.MSA(seq1=seq1, seq2=seq2)
 		print(score)
 		return jsonify({'score':score})
+
 
 @app.errorhandler(500)
 def server_error(e):
