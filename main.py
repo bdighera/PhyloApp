@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from jinja2 import environment
 import os, sqlite3, logging
+import time
 
 
 
@@ -13,6 +14,10 @@ app = Flask(__name__, static_url_path='/static')
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Sequences.db'
 db = SQLAlchemy(app)
+
+#Stand-in variable for the calculation of sequence alignment for genomic
+#  context. This can be deleted once the calculations are implemented.
+calc = 4
 
 #global variables
 data = ''
@@ -39,6 +44,7 @@ class SeqModel(db.Model):
 	exonLength = db.Column(db.Text)
 	taxonomy = db.Column(db.Text)
 	commonName = db.Column(db.Text)
+
 
 @app.route('/InitialFigure', methods=['GET', 'POST'])
 #TODO: Update the name of this to reflect collection of sequences.
@@ -248,14 +254,22 @@ def index():
 	else:
 		return render_template("index.html", Title='HomePage - PhyloApp')
 
-@app.route('/GCAlignment', methods=['POST'])
+@app.route('/GCAlignment', methods=['POST', 'GET'])
 def GCAlignment():
+	global calc
 	if request.method == 'POST':
 		compared_motifs = request.form['compared_motifs']
 		# Parse to make it a real list.
 		compared_motifs = compared_motifs[2:-2].split("\",\"")
 		print(compared_motifs)
+		# Calc is a stand-in for the calculated result of the sequence alignment.
+		calc = 28
+		time.sleep(5)
 		return render_template('genomicContext.html',gcData=genomicContext, data=data, alignment=jsonify({'sequence':compared_motifs}))
+	if request.method == 'GET':
+		time.sleep(2)
+		return str(calc)
+
 
 @app.errorhandler(500)
 def server_error(e):

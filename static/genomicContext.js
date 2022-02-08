@@ -33,17 +33,38 @@ function postSequences() {
     $.post("http://localhost:8080/genomicContext", {'deleted_sequences':postData});
 }
 
-function compareMotifs() {
-  if(selectedMotifs.length == 2){
-    let postData = [];
-    for(let motif of selectedMotifs){
-      postData.push(motif);
+function postGCAlignment(postData) {
+  $.post("http://localhost:8080/GCAlignment", {'compared_motifs':postData});
+}
+
+function getGCAlignment() { 
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:8080/GCAlignment",
+    success: function(response){
+      alert(response);
     }
-    postData = JSON.stringify(postData);
-    $.post("http://localhost:8080/GCAlignment", {'compared_motifs':postData});
-  }else{
-    alert("Please highlight two motifs");
-  }
+  });
+}
+
+function compareMotifs() {
+  const myPromise = new Promise(() => {
+    setTimeout(() => {
+      let postData = [];
+      if(selectedMotifs.length == 2){
+        for(let motif of selectedMotifs){
+          postData.push(motif);
+        }
+        postData = JSON.stringify(postData);
+      }else{
+        alert("Please highlight two motifs");
+      }
+      postGCAlignment(postData)
+    }, 0);
+  });
+
+  myPromise
+    .then(getGCAlignment())
 }
 
 function sequenceData(data) {
