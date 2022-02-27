@@ -257,19 +257,8 @@ def index():
 
 @app.route('/GCAlignment', methods=['POST', 'GET'])
 def GCAlignment():
-	global calc
-	if request.method == 'POST':
-		compared_motifs = request.form['compared_motifs']
-		# Parse to make it a real list.
-		compared_motifs = compared_motifs[2:-2].split("\",\"")
-		print(compared_motifs)
-		# Calc is a stand-in for the calculated result of the sequence alignment.
-		calc = 28
-		time.sleep(5)
-		return render_template('genomicContext.html',gcData=genomicContext, data=data, alignment=jsonify({'sequence':compared_motifs}))
-	if request.method == 'GET':
-		time.sleep(2)
-		return str(calc)
+	print(request.data)
+	return 'hello world'
 
 @app.errorhandler(500)
 def server_error(e):
