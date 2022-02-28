@@ -101,9 +101,9 @@ label {
 }
 
 td {
-        width: 150px;
-        text-align: center;
-        border: 1px solid black;
+        width: 500px;
+        text-align: left;
+        border: 1px lightgray;
         padding: 5px;
 		
 		
@@ -120,7 +120,7 @@ td {
     overflow: auto;
 	min-height: 800px;
     height: auto;
-    width: 1200px;
+    width: 100%;
 	background-color:#fff; 
 }
 
@@ -157,7 +157,6 @@ input:focus + label {
 	padding-right: 15px;
 	padding-left: 15px;
 
-	
 	
 }
 

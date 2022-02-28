@@ -1,9 +1,9 @@
 {% extends 'records.html' %}
 {% block MSA %}
 <body>
+<script src="../static/msa.js" type="text/javascript"></script>
 <input type="button" onclick="selectAll()" value="Select All"/>
 <input type="button" onclick="UnSelectAll()" value="Unselect All"/>
-{{ msa }}
 
 
 <select form="proteins" class="dbform-select" name="typeofrun" required>
@@ -14,13 +14,102 @@
 	  </select>
 
 <input type="submit" form="proteins"/>
+<style>
+    .msa {  color: white;  padding: 10px;  font-family: Arial; margin: 0; display: inline-block; font-size: 24lpt;}
+    .R {background-color: forestgreen;}
+    .H {background-color: firebrick;}
+    .K {background-color: goldenrod;}
+    .D {background-color: cornflowerblue;}
+    .E {background-color: mediumpurple;}
+    .S {background-color: orange;}
+    .T {background-color: hotpink;}
+    .N {background-color: purple;}
+    .Q {background-color: deepskyblue;}
+    .C {background-color: darkgrey;}
+    .G {background-color: blueviolet;}
+    .P {background-color: mediumvioletred;}
+    .A {background-color: coral;}
+    .V {background-color: yellowgreen;}
+    .I {background-color: black;}
+    .L {background-color: maroon;}
+    .M {background-color: mediumaquamarine;}
+    .F {background-color: orangered;}
+    .Y {background-color: navy;}
+    .W {background-color: darkolivegreen;}
+    .SP {background-color: papayawhip}
+
+</style>
+
+
+
 <form id="msa_subset" action="{{ url_for('index') }}" method="post">
-    {% for col in msa %}
+    <table>
         <tr>
-				<td><label><input type="checkbox" name="entries" value={{col}}></label></td>
-                <td>{{col}}</td>
-            </tr>
+            <th>Identifier</th>
+            <th>Sequence</th>
+        </tr>
+    {% for key, value in msa.items() %}
+         <tr>
+				<td><label><input type="checkbox" name="entries" value={{key}}></label>{{ key }}</td>
+                <td colspan="1">
+                {% for letter in value  %}
+                    {% if 'R' in letter %}
+                        <span class="msa R" >{{ letter }}</span>
+                    {% elif 'H' in letter %}
+                        <span class="msa H">{{ letter }}</span>
+                    {% elif 'K' in letter %}
+                        <span class="msa K">{{ letter }}</span>
+                    {% elif 'D' in letter %}
+                        <span class="msa D">{{ letter }}</span>
+                    {% elif 'E' in letter %}
+                        <span class="msa E">{{ letter }}</span>
+                    {% elif 'S' in letter %}
+                        <span class="msa S">{{ letter }}</span>
+                    {% elif 'T' in letter %}
+                        <span class="msa T">{{ letter }}</span>
+                    {% elif 'N' in letter %}
+                        <span class="msa N">{{ letter }}</span>
+                    {% elif 'Q' in letter %}
+                        <span class="msa Q">{{ letter }}</span>
+                    {% elif 'C' in letter %}
+                        <span class="msa C">{{ letter }}</span>
+                    {% elif 'G' in letter %}
+                        <span class="msa G">{{ letter }}</span>
+                    {% elif 'P' in letter %}
+                        <span class="msa P">{{ letter }}</span>
+                    {% elif 'A' in letter %}
+                        <span class="msa A">{{ letter }}</span>
+                    {% elif 'V' in letter %}
+                        <span class="msa V">{{ letter }}</span>
+                    {% elif 'I' in letter %}
+                        <span class="msa I">{{ letter }}</span>
+                    {% elif 'L' in letter %}
+                        <span class="msa L">{{ letter }}</span>
+                    {% elif 'M' in letter %}
+                        <span class="msa M">{{ letter }}</span>
+                    {% elif 'F' in letter %}
+                        <span class="msa F">{{ letter }}</span>
+                    {% elif 'Y' in letter %}
+                        <span class="msa Y">{{ letter }}</span>
+                    {% elif 'W' in letter %}
+                        <span class="msa W">{{ letter }}</span>
+                    {% elif '-' in letter %}
+                        <span class="msa SP">{{ letter }}</span>
+                    {% endif %}
+                 {% endfor %}</td>
+{#                {% if 'H' in key %}#}
+{#                    #}
+{#                {% elif 'R' in key %}#}
+{#                    <td colspan="20"><span class='msa R'>{{ "value" }}'>{{ value }}</span></td>#}
+{#                {% else %}#}
+{#                    <td colspan="20"><span class='msa N'>{{ "value" }}'>{{ value }}</span></td>#}
+{#                {% endif %}#}
+                <script>formatMSA("{{ value }}")</script>
+        </tr>
+         </table>
     {% endfor %}
 </form>
+
 </body>
 {% endblock %}
+
