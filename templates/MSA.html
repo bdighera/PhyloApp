@@ -15,43 +15,49 @@
 
 <input type="submit" form="proteins"/>
 <style>
-    .msa {  color: white;  padding: 10px;  font-family: Arial; margin: 0; display: inline-block; font-size: 24lpt;}
-    .R {background-color: forestgreen;}
-    .H {background-color: firebrick;}
-    .K {background-color: goldenrod;}
-    .D {background-color: cornflowerblue;}
-    .E {background-color: mediumpurple;}
-    .S {background-color: orange;}
-    .T {background-color: hotpink;}
-    .N {background-color: purple;}
-    .Q {background-color: deepskyblue;}
-    .C {background-color: darkgrey;}
-    .G {background-color: blueviolet;}
-    .P {background-color: mediumvioletred;}
-    .A {background-color: coral;}
-    .V {background-color: yellowgreen;}
-    .I {background-color: black;}
-    .L {background-color: maroon;}
-    .M {background-color: mediumaquamarine;}
-    .F {background-color: orangered;}
-    .Y {background-color: navy;}
-    .W {background-color: darkolivegreen;}
-    .SP {background-color: papayawhip}
+    .msa {  color: white;  padding: 10px;  font-family: Arial; margin: 0; display: inline-block; font-size: 24pt;}
+    .R {background-color: forestgreen; white-space: nowrap;}
+    .H {background-color: firebrick; white-space: nowrap;}
+    .K {background-color: goldenrod; white-space: nowrap;}
+    .D {background-color: cornflowerblue; white-space: nowrap;}
+    .E {background-color: mediumpurple; white-space: nowrap;}
+    .S {background-color: orange; white-space: nowrap;}
+    .T {background-color: hotpink; white-space: nowrap;}
+    .N {background-color: purple; white-space: nowrap;}
+    .Q {background-color: deepskyblue; white-space: nowrap;}
+    .C {background-color: darkgrey; white-space: nowrap;}
+    .G {background-color: blueviolet; white-space: nowrap;}
+    .P {background-color: mediumvioletred; white-space: nowrap;}
+    .A {background-color: coral; white-space: nowrap;}
+    .V {background-color: yellowgreen; white-space: nowrap;}
+    .I {background-color: black; white-space: nowrap;}
+    .L {background-color: maroon; white-space: nowrap;}
+    .M {background-color: mediumaquamarine; white-space: nowrap;}
+    .F {background-color: orangered; white-space: nowrap;}
+    .Y {background-color: navy; white-space: nowrap;}
+    .W {background-color: darkolivegreen; white-space: nowrap;}
+    .SP {background-color: papayawhip; white-space: nowrap;}
+
+    .slideContainer {
+    overflow-x: scroll;
+    white-space: nowrap;
+    width: 100%;
+    }
 
 </style>
 
 
 
-<form id="msa_subset" action="{{ url_for('index') }}" method="post">
-    <table>
-        <tr>
+<form id="msa_subset" action="{{ url_for('msa') }}" method="post" class="slideContainer">
+
+    <tr class="msa">
             <th>Identifier</th>
             <th>Sequence</th>
         </tr>
     {% for key, value in msa.items() %}
-         <tr>
-				<td><label><input type="checkbox" name="entries" value={{key}}></label>{{ key }}</td>
-                <td colspan="1">
+        <tr>
+				<br><td><label><input type="checkbox" name="msa_entries"></label>{{ key }}</td>
+                <td>
                 {% for letter in value  %}
                     {% if 'R' in letter %}
                         <span class="msa R" >{{ letter }}</span>
@@ -97,16 +103,8 @@
                         <span class="msa SP">{{ letter }}</span>
                     {% endif %}
                  {% endfor %}</td>
-{#                {% if 'H' in key %}#}
-{#                    #}
-{#                {% elif 'R' in key %}#}
-{#                    <td colspan="20"><span class='msa R'>{{ "value" }}'>{{ value }}</span></td>#}
-{#                {% else %}#}
-{#                    <td colspan="20"><span class='msa N'>{{ "value" }}'>{{ value }}</span></td>#}
-{#                {% endif %}#}
                 <script>formatMSA("{{ value }}")</script>
         </tr>
-         </table>
     {% endfor %}
 </form>
 

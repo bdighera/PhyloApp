@@ -257,6 +257,10 @@ def GCAlignment():
 	print(request.data)
 	return 'hello world'
 
+@app.route('/GCAlignment', methods=['POST', 'GET'])
+def msa():
+	pass
+
 @app.errorhandler(500)
 def server_error(e):
 	logging.exception('An error occurred during a request.')
