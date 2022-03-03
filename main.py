@@ -246,7 +246,7 @@ def index():
 			data = parser.get_all_users()
 
 			msa = Phylo.collectMultipleSequencingAlignment()
-			msa = {i.id:str(i.seq) for i in msa}
+			msa = {str(i.id).split('_')[0]+'_'+str(i.id).split('_')[1]+' '+str(i.id).split('_')[-1]:str(i.seq) for i in msa}
 
 			return render_template('MSA.html', data=data, msa=msa)
 		else:
