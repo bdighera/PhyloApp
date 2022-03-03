@@ -124,6 +124,11 @@ td {
 	background-color:#fff; 
 }
 
+.msaContainer {
+    width: auto;
+    white-space: nowrap;
+}
+
 .apph2 {
 margin:10px auto;
 	
