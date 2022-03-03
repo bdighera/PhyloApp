@@ -15,97 +15,87 @@
 
 <input type="submit" form="proteins"/>
 <style>
-    .msa {  color: white;  padding: 10px;  font-family: Arial; margin: 0; display: inline-block; font-size: 24pt;}
-    .R {background-color: forestgreen; white-space: nowrap;}
-    .H {background-color: firebrick; white-space: nowrap;}
-    .K {background-color: goldenrod; white-space: nowrap;}
-    .D {background-color: cornflowerblue; white-space: nowrap;}
-    .E {background-color: mediumpurple; white-space: nowrap;}
-    .S {background-color: orange; white-space: nowrap;}
-    .T {background-color: hotpink; white-space: nowrap;}
-    .N {background-color: purple; white-space: nowrap;}
-    .Q {background-color: deepskyblue; white-space: nowrap;}
-    .C {background-color: darkgrey; white-space: nowrap;}
-    .G {background-color: blueviolet; white-space: nowrap;}
-    .P {background-color: mediumvioletred; white-space: nowrap;}
-    .A {background-color: coral; white-space: nowrap;}
-    .V {background-color: yellowgreen; white-space: nowrap;}
-    .I {background-color: black; white-space: nowrap;}
-    .L {background-color: maroon; white-space: nowrap;}
-    .M {background-color: mediumaquamarine; white-space: nowrap;}
-    .F {background-color: orangered; white-space: nowrap;}
-    .Y {background-color: navy; white-space: nowrap;}
-    .W {background-color: darkolivegreen; white-space: nowrap;}
-    .SP {background-color: papayawhip; white-space: nowrap;}
+    .msa {color: white;  padding: 10px;  font-family: "Courier New", monospace; margin: 0; display: inline-block; font-size: 18pt;}
+    .polar {background-color: forestgreen;}
+    .posCharge {background-color: firebrick;}
+    .negCharge {background-color: magenta;}
+    .hydrophob {background-color: cornflowerblue;}
+    .cys {background-color: hotpink;}
+    .gly {background-color: orange;}
+    .pro {background-color: goldenrod;}
+    .aromatic {background-color: cyan;}
+    .gap {background-color: white; color: black;}
 
-    .slideContainer {
-    overflow-x: scroll;
-    white-space: nowrap;
-    width: 100%;
+
+    .identifier{
+        font-family: "Courier New", monospace;
+        font-size:24pt;
     }
+
 
 </style>
 
 
 
-<form id="msa_subset" action="{{ url_for('msa') }}" method="post" class="slideContainer">
-
-    <tr class="msa">
-            <th>Identifier</th>
-            <th>Sequence</th>
+<form id="msa_subset" action="{{ url_for('msa') }}" method="post">
+<table>
+        <tr class="msa">
+            <th id="accession">Accession Number</th>
+            <th id="seq">Sequence</th>
         </tr>
     {% for key, value in msa.items() %}
         <tr>
-				<br><td><label><input type="checkbox" name="msa_entries"></label>{{ key }}</td>
-                <td>
+				<br><td headers="accession" style="text-align:left" ><label  class="identifier"><input type="checkbox" name="msa_entries"></label>{{ key }}</td>
+                <td headers="seq" style="text-align:left">
                 {% for letter in value  %}
                     {% if 'R' in letter %}
-                        <span class="msa R" >{{ letter }}</span>
+                        <span class="msa posCharge" >{{ letter }}</span>
                     {% elif 'H' in letter %}
-                        <span class="msa H">{{ letter }}</span>
+                        <span class="msa aromatic">{{ letter }}</span>
                     {% elif 'K' in letter %}
-                        <span class="msa K">{{ letter }}</span>
+                        <span class="msa posCharge">{{ letter }}</span>
                     {% elif 'D' in letter %}
-                        <span class="msa D">{{ letter }}</span>
+                        <span class="msa negCharge">{{ letter }}</span>
                     {% elif 'E' in letter %}
-                        <span class="msa E">{{ letter }}</span>
+                        <span class="msa negCharge">{{ letter }}</span>
                     {% elif 'S' in letter %}
-                        <span class="msa S">{{ letter }}</span>
+                        <span class="msa polar">{{ letter }}</span>
                     {% elif 'T' in letter %}
-                        <span class="msa T">{{ letter }}</span>
+                        <span class="msa polar">{{ letter }}</span>
                     {% elif 'N' in letter %}
-                        <span class="msa N">{{ letter }}</span>
+                        <span class="msa polar">{{ letter }}</span>
                     {% elif 'Q' in letter %}
-                        <span class="msa Q">{{ letter }}</span>
+                        <span class="msa polar">{{ letter }}</span>
                     {% elif 'C' in letter %}
-                        <span class="msa C">{{ letter }}</span>
+                        <span class="msa cys">{{ letter }}</span>
                     {% elif 'G' in letter %}
-                        <span class="msa G">{{ letter }}</span>
+                        <span class="msa gly">{{ letter }}</span>
                     {% elif 'P' in letter %}
-                        <span class="msa P">{{ letter }}</span>
+                        <span class="msa pro">{{ letter }}</span>
                     {% elif 'A' in letter %}
-                        <span class="msa A">{{ letter }}</span>
+                        <span class="msa hydrophob">{{ letter }}</span>
                     {% elif 'V' in letter %}
-                        <span class="msa V">{{ letter }}</span>
+                        <span class="msa hydrophob">{{ letter }}</span>
                     {% elif 'I' in letter %}
-                        <span class="msa I">{{ letter }}</span>
+                        <span class="msa hydrophob">{{ letter }}</span>
                     {% elif 'L' in letter %}
-                        <span class="msa L">{{ letter }}</span>
+                        <span class="msa hydrophob">{{ letter }}</span>
                     {% elif 'M' in letter %}
-                        <span class="msa M">{{ letter }}</span>
+                        <span class="msa hydrophob">{{ letter }}</span>
                     {% elif 'F' in letter %}
-                        <span class="msa F">{{ letter }}</span>
+                        <span class="msa hydrophob">{{ letter }}</span>
                     {% elif 'Y' in letter %}
-                        <span class="msa Y">{{ letter }}</span>
+                        <span class="msa aromatic">{{ letter }}</span>
                     {% elif 'W' in letter %}
-                        <span class="msa W">{{ letter }}</span>
+                        <span class="msa hydrophob">{{ letter }}</span>
                     {% elif '-' in letter %}
-                        <span class="msa SP">{{ letter }}</span>
+                        <span class="msa gap">{{ letter }}</span>
                     {% endif %}
                  {% endfor %}</td>
                 <script>formatMSA("{{ value }}")</script>
         </tr>
     {% endfor %}
+</table>
 </form>
 
 </body>
