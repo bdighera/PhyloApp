@@ -254,7 +254,7 @@ def index():
 
 @app.route('/GCAlignment', methods=['POST', 'GET'])
 def GCAlignment():
-	print(request.data)
+	print(request.form.get('compared_motifs'))
 	return 'hello world'
 
 @app.route('/GCAlignment', methods=['POST', 'GET'])
