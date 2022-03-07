@@ -15,7 +15,7 @@
 
 <input type="submit" form="proteins"/>
 <style>
-    .msa {color: white;  padding: 10px;  font-family: "Courier New", monospace; margin: 0; display: inline-block; font-size: 18pt;}
+    .msa {color: white;  padding: 1px;  font-family: "Courier New", monospace; margin: 0; display: inline-block; font-size: 9pt;}
     .polar {background-color: forestgreen;}
     .posCharge {background-color: firebrick;}
     .negCharge {background-color: magenta;}
@@ -45,7 +45,7 @@
         </tr>
     {% for key, value in msa.items() %}
         <tr>
-				<br><td headers="accession" style="text-align:left" ><label  class="identifier"><input type="checkbox" name="msa_entries"></label>{{ key }}</td>
+				<br><td headers="accession" style="text-align:left; font-family: 'Courier New', monospace;" ><label  class="identifier"><input type="checkbox" name="msa_entries"></label>{{ key }}</td>
                 <td headers="seq" style="text-align:left">
                 {% for letter in value  %}
                     {% if 'R' in letter %}
