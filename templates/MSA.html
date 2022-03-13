@@ -45,7 +45,7 @@
         </tr>
     {% for key, value in msa.items() %}
         <tr>
-				<br><td headers="accession" style="text-align:left; font-family: 'Courier New', monospace;" ><label  class="identifier"><input type="checkbox" name="msa_entries"></label>{{ key }}</td>
+				<td headers="accession" style="text-align:left; font-family: 'Courier New', monospace;" ><label  class="identifier"><input type="checkbox" name="msa_entries"></label>{{ key }}</td>
                 <td headers="seq" style="text-align:left">
                 {% for letter in value  %}
                     {% if 'R' in letter %}
