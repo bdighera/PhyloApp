@@ -614,7 +614,7 @@ def MSA(seq1, seq2, type='global'):
         score = re.findall(expression, product)
         score = score[0].strip('=')
 
-        return score
+        return product
 
     if type == 'local':
         alignments = pairwise2.align.localxx(seq1, seq2)

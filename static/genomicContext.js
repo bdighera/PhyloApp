@@ -33,14 +33,12 @@ function postSequences() {
     $.post("http://localhost:8080/genomicContext", {'deleted_sequences':postData});
 }
 
-function postGCAlignment(postData) {
-  $.post("http://localhost:8080/GCAlignment", {'compared_motifs':postData});
-}
 
-function getGCAlignment() { 
+function postGCAlignment(postData) {
   $.ajax({
-    type: "GET",
-    url: "http://localhost:8080/GCAlignment",
+    type: "POST",
+    url: "http://localhost:8080/",
+      data:{'compared_motifs':postData},
     success: function(response){
       alert(response);
     }
@@ -63,8 +61,6 @@ function compareMotifs() {
     }, 0);
   });
 
-  myPromise
-    .then(getGCAlignment())
 }
 
 function sequenceData(data) {

@@ -1,29 +1,33 @@
-from flask import Flask, render_template, request, jsonify, json, redirect, url_for
+from flask import Flask, render_template, request, jsonify, json, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from flask_cors import CORS
+import secrets
 from jinja2 import environment
 import os, sqlite3, logging
-import time
-
+from time import sleep
+from flask_session import Session
 
 
 from src import parser, processor, collector, sqlite
 
 
 app = Flask(__name__)
+app.secret_key = secrets.token_urlsafe(16)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 CORS(app)
 api = Api(app)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Sequences.db'
 db = SQLAlchemy(app)
+
 
 #Stand-in variable for the calculation of sequence alignment for genomic
 #  context. This can be deleted once the calculations are implemented.
 calc = 4
 
-#global variables
-genomicContext = ''
-data = ''
+
 
 
 class SeqModel(db.Model):
@@ -84,7 +88,20 @@ def index():
 			create.NewTable()
 			data = parser.get_all_users()
 			return render_template('records.html', data=data)
+
+
+
 	elif request.method == 'POST':
+		msa = request.form.get('compared_motifs')
+		if msa:
+			msa = msa.replace('"', '')
+			seq1 = msa.split(',')[0]
+			seq2 = msa.split(',')[1]
+			alignment = processor.MSA(seq1, seq2)
+			print(alignment)
+			return alignment
+
+
 		#POST Job will submit what the user inputs as sequences to submit from dB page
 		runtype = request.form.get('typeofrun')
 		seqs=''
@@ -252,12 +269,8 @@ def index():
 		else:
 			return '<h1>ERROR</h1>'
 
-@app.route('/GCAlignment', methods=['POST', 'GET'])
-def GCAlignment():
-	print(request.form.get('compared_motifs'))
-	return 'hello world'
 
-@app.route('/GCAlignment', methods=['POST', 'GET'])
+@app.route('/msa', methods=['POST', 'GET'])
 def msa():
 	pass
 
