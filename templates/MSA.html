@@ -1,19 +1,14 @@
 {% extends 'records.html' %}
 {% block MSA %}
-<body>
+
 <script src="../static/msa.js" type="text/javascript"></script>
 <input type="button" onclick="selectAll()" value="Select All"/>
 <input type="button" onclick="UnSelectAll()" value="Unselect All"/>
 
 
-<select form="proteins" class="dbform-select" name="typeofrun" required>
-  				<option value="introns">Introns</option>
-  				<option value="genomicContext">Genomic Context</option>
-  				<option value="domains">Domains</option>
-                <option value="tree">Phylogenetic Tree</option>
-	  </select>
+<input type="submit" form="msaRun"/>
+            <form id="msaRun" action="{{ url_for('index') }}" method="post" name="name" enctype="application/x-www-form-urlencoded">
 
-<input type="submit" form="proteins"/>
 <style>
     .msa {color: white;  padding: 1px;  font-family: "Courier New", monospace; margin: 0; display: inline-block; font-size: 9pt;}
     .polar {background-color: forestgreen;}
@@ -45,7 +40,7 @@
         </tr>
     {% for key, value in msa.items() %}
         <tr>
-				<td headers="accession" style="text-align:left; font-family: 'Courier New', monospace;" ><label  class="identifier"><input type="checkbox" name="msa_entries"></label>{{ key }}</td>
+				<td headers="accession" style="text-align:left; font-family: 'Courier New', monospace;" ><label  class="identifier"><input type="checkbox" name="msa_entries" value="{{ key }}"></label>{{ key }}</td>
                 <td headers="seq" style="text-align:left">
                 {% for letter in value  %}
                     {% if 'R' in letter %}
@@ -98,6 +93,5 @@
 </table>
 </form>
 
-</body>
 {% endblock %}
 

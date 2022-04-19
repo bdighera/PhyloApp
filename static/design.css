@@ -51,8 +51,8 @@ td {
 	min-height: 500px;
 	border: 3px outset #000;
 	background-color: white;
-	justify-content: center; 
-	
+	justify-content: center;
+
 }
 
 .loading  {
@@ -61,18 +61,18 @@ td {
 	margin-right: auto;
 	width: 40%;
 	height: 100%;
-	justify-content: center; 
-	
+	justify-content: center;
+
 }
 .graph {
-	
+
 	padding: 25px;
 	margin:50px auto;
 	background-color: white;
 	width: auto;
 	height: auto;
-	border: 3px outset #000;	
-	justify-content: center; 
+	border: 3px outset #000;
+	justify-content: center;
 }
 
 .header {
@@ -88,8 +88,8 @@ width: auto;
 .logo {
 
 	posistion: absolute;
-	margin-bottom: auto; 
-	
+	margin-bottom: auto;
+
 }
 
 label, input {
@@ -100,13 +100,13 @@ label {
     margin-bottom: 30px;
 }
 
-td {
+.records_td {
         width: 500px;
         text-align: left;
         border: 1px lightgray;
         padding: 5px;
-		
-		
+
+
       }
 
 .form-select {

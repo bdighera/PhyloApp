@@ -23,13 +23,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Sequences.db'
 db = SQLAlchemy(app)
 
 
-#Stand-in variable for the calculation of sequence alignment for genomic
-#  context. This can be deleted once the calculations are implemented.
-calc = 4
-
-
-
-
 class SeqModel(db.Model):
 
 	__tablename__ = 'Records'
@@ -172,14 +165,6 @@ def index():
 			genomicContext = Phylo.buildGenomicContext()
 			data = parser.get_all_users()
 
-
-			#ToDO: Lump of code is responsible for getting the alignment between two seqs -  need to move to seperate endpoint
-			#Below has been moved to a seperate endpoint
-			# seq1 = genomicContext['Sequences'][0]['motifs'][0]['seq']
-			# seq2 = genomicContext['Sequences'][1]['motifs'][1]['seq']
-			# alignment = processor.MSA(seq1, seq2)
-
-
 			return render_template('genomicContext.html', gcData=genomicContext, data=data)
 		elif runtype == 'domains':
 			args = seqs
@@ -266,6 +251,41 @@ def index():
 			msa = {str(i.id).split('_')[0]+'_'+str(i.id).split('_')[1]+' '+str(i.id).split('_')[-1]:str(i.seq) for i in msa}
 
 			return render_template('MSA.html', data=data, msa=msa)
+
+		figs = request.form.getlist('msa_entries')
+		if figs:
+			figs_seqs = [i.split(' ')[0] for i in figs]
+			P = parser.argparseJSON(figs_seqs)
+
+			P.parseInput()
+			P.pullDBrecords()
+			data = P.serialize()
+
+			Phylo = processor.PhyloTreeConstruction(
+
+				proteinAccession=data['proteinAccession'],
+				proteinSeq=data['proteinSeq'],
+				proteinDescription=data['proteinDescription'],
+				GenomicContext=data['genomicContext'],
+				ParentDomains=data['parentDomains'],
+				Introns=data['introns'],
+				ExonLenghts=data['exonLength'],
+				commonNames=data['commonNames'],
+				GeneID=data['geneID'],
+				image_scaling=1,
+				stretch=0
+			)
+
+			gc = Phylo.buildGenomicContext()
+			domains = Phylo.buildDomains()
+			introns = Phylo.buildIntrons()
+			print(gc)
+			print(domains)
+			print(introns)
+
+			return render_template('genomicContext.html', data=data, genomicContext=gc, domains=domains, introns=introns)
+
+
 		else:
 			return '<h1>ERROR</h1>'
 
@@ -283,6 +303,6 @@ def server_error(e):
 	""".format(e), 500
 
 if __name__ == '__main__':
-	app.run(host='127.0.0.1', port=8080, debug= True, threaded=True)
+	app.run(host='127.0.0.1', port=8080, debug=True, threaded=True)
 
 
