@@ -2,8 +2,8 @@
 {% block MSA %}
 
 <script src="../static/msa.js" type="text/javascript"></script>
-<input type="button" onclick="selectAll()" value="Select All"/>
-<input type="button" onclick="UnSelectAll()" value="Unselect All"/>
+<input type="button" onclick="selectAllMSA()" value="Select All"/>
+<input type="button" onclick="UnSelectAllMSA()" value="Unselect All"/>
 
 
 <input type="submit" form="msaRun"/>
@@ -24,7 +24,7 @@
 
     .identifier{
         font-family: "Courier New", monospace;
-        font-size:24pt;
+        font-size:1pt;
     }
 
 
@@ -38,9 +38,9 @@
             <th id="accession">Accession Number</th>
             <th id="seq">Sequence</th>
         </tr>
-    {% for key, value in msa.items() %}
+    {% for key, value in msa.items() %} 
         <tr>
-				<td headers="accession" style="text-align:left; font-family: 'Courier New', monospace;" ><label  class="identifier"><input type="checkbox" name="msa_entries" value="{{ key }}"></label>{{ key }}</td>
+				<td headers="accession" style="text-align:left; font-family: 'Courier New', monospace; " ><label  class="identifier"><input type="checkbox" name="msa_entries" value="{{ key }}"></label>{{ key }}</td>
                 <td headers="seq" style="text-align:left">
                 {% for letter in value  %}
                     {% if 'R' in letter %}
@@ -90,7 +90,28 @@
                 <script>formatMSA("{{ value }}")</script>
         </tr>
     {% endfor %}
+
+    
+
 </table>
+<script type="text/javascript">
+    function selectAllMSA() {
+        var items = document.getElementsByName('msa_entries');
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].type == 'checkbox')
+                items[i].checked = true;
+        }
+    }
+
+    function UnSelectAllMSA() {
+        var items = document.getElementsByName('msa_entries');
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].type == 'checkbox')
+                items[i].checked = false;
+        }
+    }			
+</script>
+
 </form>
 
 {% endblock %}
