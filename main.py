@@ -45,6 +45,14 @@ class SeqModel(db.Model):
 	taxonomy = db.Column(db.Text)
 	commonName = db.Column(db.Text)
 
+@app.route('/deleteRow', methods=['GET', 'POST'])
+#TODO: Delete a row from the records table.
+def DeleteRow():
+	print("hi")
+	if request.method == 'DELETE' :
+		for id in request.args['delete']:
+			parser.deleteRow(id)
+	
 
 @app.route('/InitialFigure', methods=['GET', 'POST'])
 #TODO: Update the name of this to reflect collection of sequences.
@@ -85,6 +93,21 @@ def index():
 
 
 	elif request.method == 'POST':
+		print(request.form.get('action'))
+		if(request.form.get('action') == 'Delete'):
+			#msa = request.form.get('compared_motifs')
+			#if msa:
+				#msa = msa.replace('"', '')
+				#print(msa)
+			rowIds = request.form.getlist('rowId')
+			entrieIds = request.form.getlist('entries')
+			
+			for entrie in entrieIds:
+				rowId = request.form.get(entrie)
+				parser.deleteRow(rowId)
+			
+			data = parser.get_all_users()
+			return render_template('records.html', data=data )
 		msa = request.form.get('compared_motifs')
 		if msa:
 			msa = msa.replace('"', '')

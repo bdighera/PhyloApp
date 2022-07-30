@@ -15,7 +15,6 @@
         <th>CDS Accession</th>
         <th>Gene ID</th>
         <th>Taxonomy</th>
-        <!--<th>Delete Row</th> -->
 
     </tr>
     </thead>
@@ -32,8 +31,11 @@
 	  </select>
             <input type="file" id="file-upload" form="proteins" name="myfile"/>
   			<label class="dbuploadbtn" for="file-upload">Upload file</label>
-                    <input type="submit" form="proteins"/>
+                    <input name="action" type="submit" form="proteins"/>
+                    <input name="action" type="submit" value="Delete" form="proteins"/>
             <form id="proteins" action="{{ url_for('index') }}" method="post" name="name" enctype="multipart/form-data">
+            
+
             <input type="file" id="fupload" name="my" form="proteins"/>
 
 
@@ -41,15 +43,14 @@
         <tr>
 
 
-				<td class="records_td"><label><input type="checkbox" name="entries" value={{col[0]}}>{{col[0]}}</label></td>
-                <td class="records_td">{{col[1]}}</td>
+				<td class="records_td"><label><input type="checkbox" name="entries" value={{col[1]}}>{{col[1]}}</label><input type="hidden" id="{{col[1]}}" name="{{col[1]}}" value="{{col[0]}}"></td>
                 <td class="records_td">{{col[2]}}</td>
                 <td class="records_td">{{col[3]}}</td>
                 <td class="records_td">{{col[4]}}</td>
                 <td class="records_td">{{col[5]}}</td>
                 <td class="records_td">{{col[6]}}</td>
-                <!--<td><input type="button" value="Delete" onclick="deleteRow(rowIndex)"></td> -->
-
+                <td class="records_td">{{col[7]}}</td>
+                
 
 
             </tr>

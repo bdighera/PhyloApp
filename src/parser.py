@@ -136,6 +136,8 @@ class SQLiteChecker():
 
         return dataList
 
+        
+
     def validateRecords(self):
 
         C = self.connect.cursor()
@@ -150,6 +152,12 @@ class SQLiteChecker():
                 return False
             else:
                 return True
+
+def deleteRow(rowIndex):
+    conn = sqlite3.connect('Sequences.db')
+    rows = conn.execute('''DELETE FROM Records WHERE UUID= (?)''', (rowIndex,))
+    conn.commit()
+    conn.close()
 
 def JSONtofile(data, filename):
     #clear previous output from file
@@ -167,7 +175,8 @@ def get_all_users():
     conn.row_factory = sqlite3.Row # This enables column access by name: row['column_name']
     db = conn.cursor()
 
-    rows = db.execute('''SELECT ProteinAccession,
+    rows = db.execute('''SELECT UUID,
+                                ProteinAccession,
                                 CommonName,
                                 ProteinID,
                                 ProteinDescription,
