@@ -124,6 +124,9 @@ def index():
 		if runtype:
 			if request.form.getlist('entries'):
 				seqs = request.form.getlist('entries')
+			elif request.form.getlist("msa_entries"):
+				seqs = request.form.getlist('msa_entries')
+				seqs = [i.split(" ")[0] for i in seqs]
 			elif request.files['myfile']:
 				file = request.files['myfile']
 				seqs = str(file.read())

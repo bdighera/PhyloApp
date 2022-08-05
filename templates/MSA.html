@@ -5,9 +5,15 @@
 <input type="button" onclick="selectAllMSA()" value="Select All"/>
 <input type="button" onclick="UnSelectAllMSA()" value="Unselect All"/>
 
+<select form="msaRun" class="dbform-select" name="typeofrun" required>
+    <option value="introns">Introns</option>
+    <option value="genomicContext">Genomic Context</option>
+    <option value="domains">Domains</option>
+    <option value="tree">Phylogenetic Tree</option>
+</select>
 
-<input type="submit" form="msaRun"/>
-            <form id="msaRun" action="{{ url_for('index') }}" method="post" name="name" enctype="application/x-www-form-urlencoded">
+<input name="action" type="submit" form="msaRun"/>
+            <form id="msaRun" action="{{ url_for('index') }}" method="post" name="msa_name" enctype="multipart/form-data">
 
 <style>
     .msa {color: white;  padding: 1px;  font-family: "Courier New", monospace; margin: 0; display: inline-block; font-size: 9pt;}
