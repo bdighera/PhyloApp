@@ -91,21 +91,22 @@ def index():
 			return render_template('records.html', data=data)
 
 
-
+#Gets Method
 	elif request.method == 'POST':
-		print(request.form.get('action'))
 		if(request.form.get('action') == 'Delete'):
-			#msa = request.form.get('compared_motifs')
-			#if msa:
-				#msa = msa.replace('"', '')
-				#print(msa)
 			rowIds = request.form.getlist('rowId')
 			entrieIds = request.form.getlist('entries')
-			
+			msa_entrieIds = request.form.getlist('msa_entries')
+#Finds Row and deletes
 			for entrie in entrieIds:
 				rowId = request.form.get(entrie)
 				parser.deleteRow(rowId)
-			
+			for msa_entrie in msa_entrieIds:
+				x=msa_entrie.split()
+				entrie=x[0]
+				rowId = request.form.get(entrie)
+				parser.deleteRow(rowId)
+
 			data = parser.get_all_users()
 			return render_template('records.html', data=data )
 		msa = request.form.get('compared_motifs')
@@ -114,7 +115,6 @@ def index():
 			seq1 = msa.split(',')[0]
 			seq2 = msa.split(',')[1]
 			alignment = processor.MSA(seq1, seq2)
-			print(alignment)
 			return alignment
 
 

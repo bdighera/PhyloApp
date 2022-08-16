@@ -13,6 +13,7 @@
 </select>
 
 <input name="action" type="submit" form="msaRun"/>
+<input name='action' type ='submit' form='msaRun' value='Delete'/>
             <form id="msaRun" action="{{ url_for('index') }}" method="post" name="msa_name" enctype="multipart/form-data">
 
 <style>
@@ -41,13 +42,23 @@
 <form id="msa_subset" action="{{ url_for('msa') }}" method="post">
 <table>
         <tr class="msa">
+            <th id='uuid'>UUID</th>
             <th id="accession">Accession Number</th>
             <th id="seq">Sequence</th>
         </tr>
+        
+
+        {% for col in data %}
+        <tr>
+
+				<td class="records_td"><input type="hidden" id="{{col[1]}}" name="{{col[1]}}" value="{{col[0]}}"></td>
+
+            </tr>
+        {% endfor %}
     {% for key, value in msa.items() %} 
         <tr>
-				<td headers="accession" style="text-align:left; font-family: 'Courier New', monospace; " ><label  class="identifier"><input type="checkbox" name="msa_entries" value="{{ key }}"></label>{{ key }}</td>
-                <td headers="seq" style="text-align:left">
+            <td headers="accession" style="text-align:left; font-family: 'Courier New', monospace; " ><label  class="identifier"><input type="checkbox" name="msa_entries" value="{{ key }}"></label>{{ key }}</td>
+            <td headers="seq" style="text-align:left">
                 {% for letter in value  %}
                     {% if 'R' in letter %}
                         <span class="msa posCharge" >{{ letter }}</span>
