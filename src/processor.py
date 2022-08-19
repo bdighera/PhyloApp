@@ -9,6 +9,7 @@ import toytree, toyplot
 from collections import ChainMap
 from Bio import pairwise2, SeqIO
 from Bio.pairwise2 import format_alignment
+import platform
 
 class PhyloTreeConstruction(object):
 
@@ -81,14 +82,22 @@ class PhyloTreeConstruction(object):
                 msaprotein_writeFile.write(protein)
                 self.msa.append(str(protein_sequence[i]))
 
-        clustalomega_cline = ClustalOmegaCommandline(cmd=os.path.join('execs', "clustalo-1.2.0"),
-                                                     infile=in_file,
-                                                     outfile=out_file, verbose=True, auto=True, force=True)
-        clustalomega_cline()
+        if platform.system() != 'Linux': #Mac pathway
+            clustalomega_cline = ClustalOmegaCommandline(cmd=os.path.join('execs','Mac', "clustalo-1.2.0"),
+                                                         infile=in_file,
+                                                         outfile=out_file, verbose=True, auto=True, force=True)
+            clustalomega_cline()
 
-        self.MSA = SeqIO.parse(out_file, 'fasta')
-        return self.MSA
+            self.MSA = SeqIO.parse(out_file, 'fasta')
+            return self.MSA
+        if platform.system() == 'Linux':
+            clustalomega_cline = ClustalOmegaCommandline(cmd=os.path.join('execs','Linux', "clustalo-1.2.0"),
+                                                         infile=in_file,
+                                                         outfile=out_file, verbose=True, auto=True, force=True)
+            clustalomega_cline()
 
+            self.MSA = SeqIO.parse(out_file, 'fasta')
+            return self.MSA
     def constructTreeObj(self):
 
         tree = handler.treeOBjFileHandler()
