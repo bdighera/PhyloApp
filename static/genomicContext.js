@@ -279,7 +279,7 @@ function editMotif(motifId, motif) {
   ctx.fillStyle = "#000";
   ctx.fillText(motif.geneName, 26, 31, domainWidth);
 }
-
+//TODO: Call a function for reversing the motif arrow direction.
 function onClickReverse() {
 	let sequenceId = this.name + "div"
 	let sequenceDiv = document.getElementById(sequenceId);
@@ -566,3 +566,21 @@ function changeColor(newColor, domains) {
 		editMotif(motifId, motif);
   }
 }
+
+//TODO: Complete the implementation to reverse arrow directions in sequences
+function changeArrowDirection(sequenceId) {
+  let sequence = newData.Sequences[sequenceId]
+  let motifs = sequence.motifs
+  for(let motif of motifs) {
+    let motifId = motif.geneName
+    if (motif.direction == ">") {
+      motif.direction = "<"
+      //If the above line doesn't work, the line below should.
+		  //newData.Sequences[sequenceId].motifs[motifId].direction = "<" ;
+		  editMotif(motifId, motif)
+    } else if (motif.direction == "<") {
+
+    }
+  }
+}
+
