@@ -225,12 +225,17 @@ function direction(ctx, direction) {
     ctx.lineTo(motifEnd - arrowWidth, motifTop);
     ctx.lineTo(motifEnd - arrowWidth, motifBottom);
     ctx.fill();
+    // Erase the other arrow if it exists.
+    ctx.clearRect(motifStart, motifTop, arrowWidth, motifHeight);
   } else if (direction == "<") {
     ctx.fillStyle = "black";
     ctx.moveTo(motifStart, motifHeight / 2);
     ctx.lineTo(motifStart + arrowWidth, motifTop);
     ctx.lineTo(motifStart + arrowWidth, motifBottom);
     ctx.fill();
+    // Erase the other arrow if it exists.
+    ctx.clearRect(domainEnd, motifTop, arrowWidth, motifHeight);
+
   }
 }
 
@@ -255,6 +260,7 @@ function editGene(motifId, motif, chosenColor) {
 
 function editMotif(motifId, motif) {
 	var canvas = document.getElementById(motifId);
+  console.log("motifId:".concat(motifId));
 	var ctx = canvas.getContext('2d');
 	ctx.clearRect(0,0, motifWidth, motifHeight);
 
@@ -283,6 +289,7 @@ function editMotif(motifId, motif) {
 function onClickReverse() {
 	let sequenceId = this.name + "div"
 	let sequenceDiv = document.getElementById(sequenceId);
+  changeArrowDirection(this.name);
 
 	if (this.checked) {
 		sequenceDiv.className = "reverseSequence";
@@ -506,7 +513,6 @@ function displayLegend() {
   var legendTable = document.getElementById('geneLegend');
   for(let item of geneLegend) {
 		let legendRow = legendTable.insertRow();
-
 		let legendNameCell = legendRow.insertCell();
 		let legendNameDiv = document.createElement("div");
 		legendNameDiv.style.textAlign="right";
@@ -527,7 +533,6 @@ function displayLegend() {
   var legendTable = document.getElementById('legend');
 	for(let item of legend) {
 		let legendRow = legendTable.insertRow();
-
 		let legendColorCell = legendRow.insertCell();
 		let changeColorDiv = document.createElement("input");
 		changeColorDiv.type = "color";
@@ -543,12 +548,10 @@ function displayLegend() {
 		legendNameDiv.style.textAlign="left";
 		legendNameDiv.innerHTML += item.name;	
 		legendNameCell.appendChild(legendNameDiv);
-
 	}
 }
 
 function changeGeneColor(newColor, domains) {
-
 	for(let domain of domains) {
 		let motif = newData.Sequences[domain[0]].motifs[domain[1]];
 		let motifId = newData.Sequences[domain[0]].name + newData.Sequences[domain[0]].motifs[domain[1]].geneName;
@@ -556,7 +559,6 @@ function changeGeneColor(newColor, domains) {
 		editGene(motifId, motif, newColor);
   }
 }
-  
 
 function changeColor(newColor, domains) {
 	for(let domain of domains) {
@@ -566,3 +568,24 @@ function changeColor(newColor, domains) {
 		editMotif(motifId, motif);
   }
 }
+
+function changeArrowDirection(sequenceId) {
+  for(var i = 0; i < newData.Sequences.length; i++) {
+    if(newData.Sequences[i].name == sequenceId){
+      let motifs = newData.Sequences[i].motifs;
+      var motifCount = 0;
+      for(let motif of motifs) {
+        var motifId = newData.Sequences[i].name.concat(motif.geneName);
+        console.log(motifId);
+        if (motif.direction == ">") {
+          motif.direction = "<";
+          editMotif(motifId, motif);
+        } else if (motif.direction == "<") {
+          motif.direction = ">"
+          editMotif(motifId, motif);
+        }
+      }
+    }
+  }
+}
+
